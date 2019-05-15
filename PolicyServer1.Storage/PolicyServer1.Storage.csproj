@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>PolicyServer1.Storage</AssemblyName>
+    <RootNamespace>PolicyServer1</RootNamespace>
+    <PackageTags>Authorization;Roles;Permissions;PolicyServer</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+</Project>

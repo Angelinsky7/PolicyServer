@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>PolicyServer1</PackageId>
+    <PackageTags>Authorization;Roles;Permissions;PolicyServer</PackageTags>
+    <Description>Authorization framework for ASP.Net Core</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\InMemory\" />
+    <Folder Include="Stores\Default\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PolicyServer1.Infrastructure\PolicyServer1.Infrastructure.csproj" />
+    <ProjectReference Include="..\PolicyServer1.Storage\PolicyServer1.Storage.csproj" />
+  </ItemGroup>
+
+</Project>

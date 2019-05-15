@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Entityframework support for PolicyServer for ASP.Net Core</Description>
+    <PackageTags>Authorization;Roles;Permissions;PolicyServer;EntityFramework</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PolicyServer1.EntityFramework.Storage\PolicyServer1.EntityFramework.Storage.csproj" />
+    <ProjectReference Include="..\PolicyServer1\PolicyServer1.csproj" />
+  </ItemGroup>
+
+</Project>
