@@ -3,10 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageTags>Authorization;Roles;Permissions;PolicyServer;EntityFramework</PackageTags>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="8.1.0" />
+    <PackageReference Include="AutoMapper" Version="8.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.4" />
   </ItemGroup>
 
@@ -14,4 +15,8 @@
     <ProjectReference Include="..\PolicyServer1.Storage\PolicyServer1.Storage.csproj" />
   </ItemGroup>
 
+  <Target Name="PostBuildRelease" AfterTargets="Pack" Condition="'$(NuGetSourceReleasePolicy)' != '' And '$(Configuration)' == 'Release'">
+    <Exec Command="$(NuGetPath)nuget.exe push &quot;$(OutputPath)$(PackageId).$(PackageVersion).nupkg&quot; -Source &quot;$(NuGetSourceReleasePolicy)&quot; -ApiKey &quot;$(NugetApiKeyPolicyServer)&quot; -Verbosity Detailed" />
+  </Target>
+  
 </Project>

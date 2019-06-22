@@ -4,11 +4,16 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>Entityframework support for PolicyServer for ASP.Net Core</Description>
     <PackageTags>Authorization;Roles;Permissions;PolicyServer;EntityFramework</PackageTags>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PolicyServer1.EntityFramework.Storage\PolicyServer1.EntityFramework.Storage.csproj" />
     <ProjectReference Include="..\PolicyServer1\PolicyServer1.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuildRelease" AfterTargets="Pack" Condition="'$(NuGetSourceReleasePolicy)' != '' And '$(Configuration)' == 'Release'">
+    <Exec Command="$(NuGetPath)nuget.exe push &quot;$(OutputPath)$(PackageId).$(PackageVersion).nupkg&quot; -Source &quot;$(NuGetSourceReleasePolicy)&quot; -ApiKey &quot;$(NugetApiKeyPolicyServer)&quot; -Verbosity Detailed" />
+  </Target>
 
 </Project>

@@ -9,9 +9,10 @@ namespace Microsoft.AspNetCore.Builder {
 
         public static IApplicationBuilder UsePolicyServer(this IApplicationBuilder app) {
 
-            app.UseMiddleware<PolicyServerMiddleware>();
-            //app.UseMiddleware<PolicyClientMiddleware>();
+            app.UseMiddleware<BaseUrlMiddleware>();
 
+            app.UseMiddleware<PolicyServerMiddleware>();
+           
             return app;
         }
 

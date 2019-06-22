@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageTags>Authorization;Roles;Permissions;PolicyServer</PackageTags>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,5 +11,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
+
+  <Target Name="PostBuildRelease" AfterTargets="Pack" Condition="'$(NuGetSourceReleasePolicy)' != '' And '$(Configuration)' == 'Release'">
+    <Exec Command="$(NuGetPath)nuget.exe push &quot;$(OutputPath)$(PackageId).$(PackageVersion).nupkg&quot; -Source &quot;$(NuGetSourceReleasePolicy)&quot; -ApiKey &quot;$(NugetApiKeyPolicyServer)&quot; -Verbosity Detailed" />
+  </Target>
 
 </Project>

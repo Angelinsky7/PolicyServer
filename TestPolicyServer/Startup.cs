@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,15 @@ namespace TestPolicyServer1 {
             //services.AddDbContext<PolicyDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
+
+            services.Configure<ForwardedHeadersOptions>(opt => {
+                opt.ForwardedHeaders = ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                //TODO(demarco): Need to clarify that !!!
+                Console.WriteLine("KnownNetworks: " + String.Join(", ", opt.KnownNetworks));
+                Console.WriteLine("KnownProxies:" + String.Join(", ", opt.KnownProxies));
+                opt.KnownNetworks.Clear();
+                opt.KnownProxies.Clear();
+            });
 
             //TODO(demarco): Change to protect api with identity server....
             //services.AddAuthentication("Cookies").AddCookie("Cookies");
@@ -60,9 +70,21 @@ namespace TestPolicyServer1 {
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+            app.UseForwardedHeaders();
+
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UsePathBase("/policy");
+
+            app.Use((context, next) => {
+                Console.WriteLine("Headers: " + String.Join(", ", context.Request.Headers));
+                Console.WriteLine("Host is " + context.Request.Host);
+                Console.WriteLine("PathBase is " + context.Request.PathBase.Value);
+                Console.WriteLine("Path is " + context.Request.Path.Value);
+                return next();
+            });
 
             app.UseAuthentication();
 

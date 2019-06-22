@@ -5,6 +5,7 @@
     <PackageId>PolicyServer1</PackageId>
     <PackageTags>Authorization;Roles;Permissions;PolicyServer</PackageTags>
     <Description>Authorization framework for ASP.Net Core</Description>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,5 +28,9 @@
     <ProjectReference Include="..\PolicyServer1.Infrastructure\PolicyServer1.Infrastructure.csproj" />
     <ProjectReference Include="..\PolicyServer1.Storage\PolicyServer1.Storage.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuildRelease" AfterTargets="Pack" Condition="'$(NuGetSourceReleasePolicy)' != '' And '$(Configuration)' == 'Release'">
+    <Exec Command="$(NuGetPath)nuget.exe push &quot;$(OutputPath)$(PackageId).$(PackageVersion).nupkg&quot; -Source &quot;$(NuGetSourceReleasePolicy)&quot; -ApiKey &quot;$(NugetApiKeyPolicyServer)&quot; -Verbosity Detailed" />
+  </Target>
 
 </Project>

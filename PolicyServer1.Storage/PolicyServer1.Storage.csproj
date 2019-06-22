@@ -5,10 +5,15 @@
     <AssemblyName>PolicyServer1.Storage</AssemblyName>
     <RootNamespace>PolicyServer1</RootNamespace>
     <PackageTags>Authorization;Roles;Permissions;PolicyServer</PackageTags>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Services\" />
   </ItemGroup>
+
+  <Target Name="PostBuildRelease" AfterTargets="Pack" Condition="'$(NuGetSourceReleasePolicy)' != '' And '$(Configuration)' == 'Release'">
+    <Exec Command="$(NuGetPath)nuget.exe push &quot;$(OutputPath)$(PackageId).$(PackageVersion).nupkg&quot; -Source &quot;$(NuGetSourceReleasePolicy)&quot; -ApiKey &quot;$(NugetApiKeyPolicyServer)&quot; -Verbosity Detailed" />
+  </Target>
 
 </Project>
