@@ -10,8 +10,8 @@ namespace PolicyServer1.Services {
 
         Task<EvaluatorRequest> EvaluateAsync(EvaluatorRequest request);
 
-        Task<IEnumerable<Resource>> GetResources(EvaluatorRequest request, Permission permission);
-        Task<IEnumerable<Scope>> GetScopes(EvaluatorRequest request, Permission permission);
+        //Task<IEnumerable<Resource>> GetResources(EvaluatorRequest request, Permission permission);
+        //Task<IEnumerable<Scope>> GetScopes(EvaluatorRequest request, Permission permission);
 
     }
 }

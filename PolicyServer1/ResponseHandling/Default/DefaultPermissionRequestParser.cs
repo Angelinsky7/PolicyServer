@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
+using PolicyServer1.Infrastructure;
 
 namespace PolicyServer1.ResponseHandling.Default {
     public class DefaultPermissionRequestParser : IPermissionRequestParser {
@@ -18,7 +20,7 @@ namespace PolicyServer1.ResponseHandling.Default {
         private readonly IClientStore _clientStore;
         private readonly ILogger _logger;
 
-        private readonly ICollection<String> _listOfReponseMode = new List<String> { "decision", "permissions" };
+        private readonly Dictionary<String, PermissionRequestReponseMode> _listOfReponseMode = Enum.GetValues(typeof(PermissionRequestReponseMode)).Cast<Enum>().ToDictionary(p => EnumStringHelper.GetStringValue(p), p => (PermissionRequestReponseMode)p);
 
         public DefaultPermissionRequestParser(
             PolicyServerOptions options,
@@ -53,10 +55,10 @@ namespace PolicyServer1.ResponseHandling.Default {
             //    });
             //}
 
-            if (!_listOfReponseMode.Contains(reponseMode)) {
+            if (!_listOfReponseMode.ContainsKey(reponseMode)) {
                 return Task.FromResult(new PermissionRequest {
                     IsError = true,
-                    Error = $"response mode must be one of this : {String.Join(", ", _listOfReponseMode)}"
+                    Error = $"response mode must be one of this : {String.Join(", ", _listOfReponseMode.Keys)}"
                 });
             }
 
@@ -67,7 +69,7 @@ namespace PolicyServer1.ResponseHandling.Default {
                 ClientId = cliendIdFromQuery,
                 AudienceId = clientId,
                 User = context.User,
-                ResponseMode = reponseMode == "decision" ? PermissionRequestReponseMode.Decision : PermissionRequestReponseMode.Permissions,
+                ResponseMode = _listOfReponseMode[reponseMode],
                 Permissions = permissions
             });
         }

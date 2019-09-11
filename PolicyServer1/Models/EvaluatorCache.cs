@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace PolicyServer1.Models {
     public class EvaluatorCache {
@@ -31,6 +32,10 @@ namespace PolicyServer1.Models {
             }
             throw new InvalidOperationException();
         }
+
+#pragma warning disable IDE1006 // Naming Styles
+        internal Dictionary<Policy, Nullable<Boolean>> _AnalyseCache => _policyResult.ToDictionary(p => p.Key, p => p.Value);
+#pragma warning restore IDE1006 // Naming Styles
 
     }
 }

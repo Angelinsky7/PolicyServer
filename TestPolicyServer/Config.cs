@@ -75,7 +75,8 @@ namespace TestPolicyServer {
 
                     Options = new ClientOption {
                         PolicyEnforcement = PolicyEnforcement.Enforcing,
-                        DecisionStrategy = DecisionStrategy.Unanimous
+                        DecisionStrategy = DecisionStrategy.Unanimous,
+                        AnalyseModeEnabled = true
                     },
 
                     Scopes = scopes,

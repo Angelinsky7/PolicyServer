@@ -10,8 +10,10 @@ namespace PolicyServer1.Models {
         public ClaimsPrincipal User { get; set; }
         public IEnumerable<String> Permissions { get; set; }
 
-        public EvaluatorResult Result { get; set; } = new EvaluatorResult();
+        public EvaluatorResult Results { get; set; } = new EvaluatorResult();
         public EvaluatorCache Cache { get; set; } = new EvaluatorCache();
+
+        public ICollection<ResouceScopeResult> ResourceScopeResults { get; set; } = new HashSet<ResouceScopeResult>();
 
     }
 }

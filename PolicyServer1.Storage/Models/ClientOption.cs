@@ -8,5 +8,7 @@ namespace PolicyServer1.Models {
         public PolicyEnforcement PolicyEnforcement { get; set; }
         public DecisionStrategy DecisionStrategy { get; set; }
 
+        public Boolean AnalyseModeEnabled { get; set; }
+
     }
 }

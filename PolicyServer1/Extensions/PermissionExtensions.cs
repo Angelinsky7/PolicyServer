@@ -40,7 +40,7 @@ namespace PolicyServer1.Models {
                     break;
             }
 
-            request.Result.AddPermissionResult(permission, new PermissionDecision {
+            request.Results.AddPermissionResult(permission, new PermissionDecision {
                 Result = permissionDecision.Value,
                 Policies = policyResult
             });

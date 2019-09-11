@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
+using PolicyServer1.Infrastructure;
 using PolicyServer1.Models;
 
 namespace PolicyServer1.ResponseHandling.Models {
@@ -17,8 +18,12 @@ namespace PolicyServer1.ResponseHandling.Models {
     }
 
     public enum PermissionRequestReponseMode {
+        [EnumStringValue("decision")]
         Decision,
-        Permissions
+        [EnumStringValue("permissions")]
+        Permissions,
+        [EnumStringValue("analyse")]
+        Analyse
     }
 
 }
