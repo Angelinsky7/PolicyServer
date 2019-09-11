@@ -13,43 +13,63 @@ using System.Threading.Tasks;
 namespace PolicyServer1.Client.Services.Caching {
     public class CachingPolicyClientService<T> : IPolicyClientService where T : IPolicyClientService {
 
-        private readonly PolicyClientOptions _options;
-        private readonly T _inner;
-        private readonly ICache<PolicyResult> _cache;
-        private readonly ILogger _logger;
+        //private readonly PolicyClientOptions _options;
+        //private readonly T _inner;
+        //private readonly ICache<PolicyResult> _cache;
+        //private readonly ILogger _logger;
 
-        public String Authority => _inner.Authority;
+        //public String Authority => _inner.Authority;
 
 
-        public CachingPolicyClientService(
-            PolicyClientOptions options,
-            T inner,
-            ICache<PolicyResult> cache,
-            ILogger<CachingPolicyClientService<T>> logger
-        ) {
-            _options = options;
-            _inner = inner;
-            _cache = cache;
-            _logger = logger;
-        }
+        //public CachingPolicyClientService(
+        //    PolicyClientOptions options,
+        //    T inner,
+        //    ICache<PolicyResult> cache,
+        //    ILogger<CachingPolicyClientService<T>> logger
+        //) {
+        //    _options = options;
+        //    _inner = inner;
+        //    _cache = cache;
+        //    _logger = logger;
+        //}
+
+        //public Task<Boolean> HasPermissionAsync(ClaimsPrincipal user, String permissionName) {
+        //    return _inner.HasPermissionAsync(user, permissionName);
+        //}
+        //public Task<Boolean> HasRoleAsync(ClaimsPrincipal user, String roleName) {
+        //    return _inner.HasRoleAsync(user, roleName);
+        //}
+
+        //public async Task<PolicyResult> GetPolicyAsync(HttpContext context) {
+        //    PolicyResult result = await _cache.GetAsync(
+        //        context.User.Identity.Name,
+        //        _options.Caching.LocalUserPermissionExpiration,
+        //        () => _inner.GetPolicyAsync(context),
+        //        _logger
+        //    );
+
+        //    return result;
+        //}
+        public String Authority => throw new NotImplementedException();
+
+        //public Task<EvaluationTest> GetDecisionAsync(HttpContext context) {
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<EvaluationResult> GetPermissionsAsync(HttpContext context) {
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<PolicyResult> GetPolicyAsync(HttpContext context) {
+        //    throw new NotImplementedException();
+        //}
 
         public Task<Boolean> HasPermissionAsync(ClaimsPrincipal user, String permissionName) {
-            return _inner.HasPermissionAsync(user, permissionName);
+            throw new NotImplementedException();
         }
+
         public Task<Boolean> HasRoleAsync(ClaimsPrincipal user, String roleName) {
-            return _inner.HasRoleAsync(user, roleName);
+            throw new NotImplementedException();
         }
-
-        public async Task<PolicyResult> GetPolicyAsync(HttpContext context) {
-            PolicyResult result = await _cache.GetAsync(
-                context.User.Identity.Name,
-                _options.Caching.LocalUserPermissionExpiration,
-                () => _inner.GetPolicyAsync(context),
-                _logger
-            );
-
-            return result;
-        }
-
     }
 }

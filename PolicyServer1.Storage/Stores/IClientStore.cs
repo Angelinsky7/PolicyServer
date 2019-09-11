@@ -6,15 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PolicyServer1.Stores {
-    public interface IClientStore {
+    public interface IClientStore : IStore<Client, Guid> {
 
-        Task<Client> GetAsync(Int32 clientId);
+        //Task<Client> GetAsync(Int32 clientId);
         Task<Client> GetFromClientIdAsync(String clientId);
 
-        Task<Int32> CreateAsync(Models.Client newClient);
-        Task UpdateAsync(Int32 clientId, Models.Client client);
-        Task RemoveAsync(Int32 cliendId);
-        Task RemoveClientIdAsync(String cliendId);
+        //Task<Int32> CreateAsync(Models.Client newClient);
+        //Task UpdateAsync(Int32 clientId, Models.Client client);
+        //Task RemoveAsync(Int32 cliendId);
+        Task<Client> RemoveClientIdAsync(String cliendId);
         
     }
 }

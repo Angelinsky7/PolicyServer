@@ -41,7 +41,7 @@ namespace Microsoft.Extensions.DependencyInjection {
         public static IPolicyServerBuilder AddDefaultEndpoints(this IPolicyServerBuilder builder) {
             builder.Services.AddTransient<IEndpointRouter, EndpointRouter>();
 
-            builder.AddEndpoint<PolicyEndpoint>(EndpointNames.Policy, ProtocolRoutePaths.Policy.EnsureLeadingSlash());
+            //builder.AddEndpoint<PolicyEndpoint>(EndpointNames.Policy, ProtocolRoutePaths.Policy.EnsureLeadingSlash());
             builder.AddEndpoint<PermissionEndpoint>(EndpointNames.Permission, ProtocolRoutePaths.Permission.EnsureLeadingSlash());
             builder.AddEndpoint<DiscoveryEndpoint>(EndpointNames.Discovery, ProtocolRoutePaths.DiscoveryConfiguration.EnsureLeadingSlash());
 
@@ -49,14 +49,14 @@ namespace Microsoft.Extensions.DependencyInjection {
         }
 
         public static IPolicyServerBuilder AddRequestParsers(this IPolicyServerBuilder builder) {
-            builder.Services.AddTransient<IPolicyRequestParser, DefaultPolicyRequestParser>();
+            //builder.Services.AddTransient<IPolicyRequestParser, DefaultPolicyRequestParser>();
             builder.Services.AddTransient<IPermissionRequestParser, DefaultPermissionRequestParser>();
 
             return builder;
         }
 
         public static IPolicyServerBuilder AddResponseGenerators(this IPolicyServerBuilder builder) {
-            builder.Services.AddTransient<IPolicyResponseGenerator, DefaultPolicyResponseGenerator>();
+            //builder.Services.AddTransient<IPolicyResponseGenerator, DefaultPolicyResponseGenerator>();
             builder.Services.AddTransient<IPermissionResponseGenerator, DefaultPermissionResponseGenerator>();
             builder.Services.AddTransient<IDiscoveryResponseGenerator, DefaultDiscoveryResponseGenerator>();
 
@@ -71,7 +71,8 @@ namespace Microsoft.Extensions.DependencyInjection {
         }
 
         public static IPolicyServerBuilder AddServices(this IPolicyServerBuilder builder) {
-            builder.Services.AddTransient<IPolicyService, DefaultPolicyService>();
+            //builder.Services.AddTransient<IPolicyService, DefaultPolicyService>();
+            builder.Services.AddTransient<IEvaluatorService, DefaultEvaluatorService>();
 
             return builder;
         }

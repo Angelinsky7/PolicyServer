@@ -18,6 +18,8 @@ namespace PolicyServer1.ResponseHandling.Default {
         private readonly IClientStore _clientStore;
         private readonly ILogger _logger;
 
+        private readonly ICollection<String> _listOfReponseMode = new List<String> { "decision", "permissions" };
+
         public DefaultPermissionRequestParser(
             PolicyServerOptions options,
             IClientStore clientStore,
@@ -30,20 +32,31 @@ namespace PolicyServer1.ResponseHandling.Default {
 
         public Task<PermissionRequest> ParseAsync(HttpContext context) {
             NameValueCollection query = context.Request.Query.AsNameValueCollection();
-            String cliendIdFromQuery = query.Get("clientId");
+
+            String cliendIdFromQuery = query.Get("client_id");
+            String reponseMode = query.Get("response_mode");
+            IEnumerable<String> permissions = query.GetValues("permission");
+
             String clientId = context.User.FindFirst(_options.ClientIdentifier)?.Value;
 
-            if (String.IsNullOrEmpty(clientId)) {
-                return Task.FromResult(new PermissionRequest {
-                    IsError = true,
-                    Error = "clientId is mandatory"
-                });
-            }
+            //if (String.IsNullOrEmpty(clientId)) {
+            //    return Task.FromResult(new PermissionRequest {
+            //        IsError = true,
+            //        Error = "clientId is mandatory"
+            //    });
+            //}
 
-            if(cliendIdFromQuery != clientId) {
+            //if (cliendIdFromQuery != clientId) {
+            //    return Task.FromResult(new PermissionRequest {
+            //        IsError = true,
+            //        Error = "clientId from query and from token are not the same"
+            //    });
+            //}
+
+            if (!_listOfReponseMode.Contains(reponseMode)) {
                 return Task.FromResult(new PermissionRequest {
                     IsError = true,
-                    Error = "clientId from query and from token are not the same"
+                    Error = $"response mode must be one of this : {String.Join(", ", _listOfReponseMode)}"
                 });
             }
 
@@ -51,8 +64,11 @@ namespace PolicyServer1.ResponseHandling.Default {
 
             return Task.FromResult(new PermissionRequest {
                 IsError = false,
-                ClientId = clientId,
-                User = context.User
+                ClientId = cliendIdFromQuery,
+                AudienceId = clientId,
+                User = context.User,
+                ResponseMode = reponseMode == "decision" ? PermissionRequestReponseMode.Decision : PermissionRequestReponseMode.Permissions,
+                Permissions = permissions
             });
         }
     }

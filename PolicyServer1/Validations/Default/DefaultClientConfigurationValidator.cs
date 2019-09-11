@@ -32,14 +32,16 @@ namespace PolicyServer1.Validations.Default {
         }
 
         protected virtual Task ValidatePolicyAsync(ConfigurationValidationContext<Client> context) {
-            if (context.Item.Policy == null) {
-                context.SetError($"Policy is required, but no policy is configured.");
-                return Task.CompletedTask;
-            }
-            ConfigurationValidationContext<Policy> policyContext = new ConfigurationValidationContext<Policy>(context.Item.Policy);
-            _policyConfigurationValidator.ValidateAsync(policyContext);
+            //TODO(demarco): Rework this part please !
+            
+            //if (context.Item.Policy == null) {
+            //    context.SetError($"Policy is required, but no policy is configured.");
+            //    return Task.CompletedTask;
+            //}
+            //ConfigurationValidationContext<Policy> policyContext = new ConfigurationValidationContext<Policy>(context.Item.Policy);
+            //_policyConfigurationValidator.ValidateAsync(policyContext);
 
-            if (!policyContext.IsValid) { context.SetError(policyContext.ErrorMessage); }
+            //if (!policyContext.IsValid) { context.SetError(policyContext.ErrorMessage); }
             return Task.CompletedTask;
         }
 

@@ -53,7 +53,7 @@ namespace IdentityServerAspNetIdentity {
                 new Client {
                     ClientId = "mvc",
                     ClientName = "MVC Client",
-                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    AllowedGrantTypes = GrantTypes.Code,
                     //AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
                     ClientSecrets = {
                         new Secret("secret".Sha256())

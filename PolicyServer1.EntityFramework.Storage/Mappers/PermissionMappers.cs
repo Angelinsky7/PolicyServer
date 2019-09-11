@@ -11,25 +11,27 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
             Mapper = new MapperConfiguration(cfg => cfg.AddProfile<PermissionMapperProfile>()).CreateMapper();
         }
 
-        public static Models.PolicyPermission ToModel(this Entities.Permission entity) {
-            return Mapper.Map<Models.PolicyPermission>(entity);
-        }
-        public static Entities.Permission ToEntity(this Models.PolicyPermission model) {
-            return Mapper.Map<Entities.Permission>(model);
-        }
-        public static Entities.Permission ToEntity(this Models.PolicyPermission model, Entities.Permission entity) {
-            return Mapper.Map(model, entity);
-        }
+        //TODO(demarco): Rebuild this after the changes !
+        //public static Models.PolicyPermission ToModel(this Entities.Permission entity) {
+        //    return Mapper.Map<Models.PolicyPermission>(entity);
+        //}
+        //public static Entities.Permission ToEntity(this Models.PolicyPermission model) {
+        //    return Mapper.Map<Entities.Permission>(model);
+        //}
+        //public static Entities.Permission ToEntity(this Models.PolicyPermission model, Entities.Permission entity) {
+        //    return Mapper.Map(model, entity);
+        //}
     }
 
     public class PermissionMapperProfile : Profile {
         public PermissionMapperProfile() {
 
-            CreateMap<Entities.Permission, Models.Permission>()
-                .ReverseMap();
+            //TODO(demarco): Rebuild this after the changes !
+            //CreateMap<Entities.Permission, Models.Permission>()
+            //    .ReverseMap();
 
-            CreateMap<Entities.Permission, Models.PolicyPermission>()
-                .ReverseMap();
+            //CreateMap<Entities.Permission, Models.PolicyPermission>()
+            //    .ReverseMap();
 
             //CreateMap<Entities.ClientScope, String>()
             //    .ConstructUsing(src => src.Scope)

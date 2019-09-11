@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PolicyServer1.ResponseHandling.Default {
+
+    [Obsolete]
     public class DefaultPolicyRequestParser : IPolicyRequestParser {
 
         private readonly PolicyServerOptions _options;

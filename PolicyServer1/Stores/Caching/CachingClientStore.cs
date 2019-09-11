@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -28,40 +29,68 @@ namespace PolicyServer1.Stores.Caching {
             _logger = logger;
         }
 
-        public Task<Int32> CreateAsync(Client newClient) {
-            throw new NotImplementedException();
+        public Task<Client> CreateAsync(Client item) {
+            return _inner.CreateAsync(item);
+        }
+
+        public Task<Client> GetAsync(Guid id) {
+            return _inner.GetAsync(id);
+        }
+
+        public IQueryable<Client> Get() {
+            return _inner.Get();
         }
 
         public Task<Client> GetFromClientIdAsync(String clientId) {
-            throw new NotImplementedException();
+            return _inner.GetFromClientIdAsync(clientId);
         }
 
-        public async Task<Client> GetAsync(Int32 clientId) {
-            Client client = await _cache.GetAsync(
-                clientId.ToString(),
-                _options.Caching.ClientStoreExpiration,
-                () => _inner.GetAsync(clientId),
-                _logger
-            );
-
-            return client;
+        public Task<Client> RemoveAsync(Guid id) {
+            return _inner.RemoveAsync(id);
         }
 
-        public Task RemoveAsync(Int32 cliendId) {
-            throw new NotImplementedException();
+        public Task<Client> RemoveClientIdAsync(String cliendId) {
+            return _inner.RemoveClientIdAsync(cliendId);
         }
 
-        public Task RemoveClientIdAsync(String cliendId) {
-            throw new NotImplementedException();
+        public Task<Client> UpdateAsync(Guid id, Client item) {
+            return _inner.UpdateAsync(id, item);
         }
 
-        public Task UpdateAsync(Int32 clientId, Client client) {
-            throw new NotImplementedException();
-        }
+        //public Task<Int32> CreateAsync(Client newClient) {
+        //    throw new NotImplementedException();
+        //}
 
-        public Task<Models.Client> ReloadAsync(Client client) {
-            throw new NotImplementedException();
-        }
+        //public Task<Client> GetFromClientIdAsync(String clientId) {
+        //    throw new NotImplementedException();
+        //}
+
+        //public async Task<Client> GetAsync(Int32 clientId) {
+        //    Client client = await _cache.GetAsync(
+        //        clientId.ToString(),
+        //        _options.Caching.ClientStoreExpiration,
+        //        () => _inner.GetAsync(clientId),
+        //        _logger
+        //    );
+
+        //    return client;
+        //}
+
+        //public Task RemoveAsync(Int32 cliendId) {
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task RemoveClientIdAsync(String cliendId) {
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task UpdateAsync(Int32 clientId, Client client) {
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<Models.Client> ReloadAsync(Client client) {
+        //    throw new NotImplementedException();
+        //}
 
     }
 }

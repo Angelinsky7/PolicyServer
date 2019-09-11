@@ -45,171 +45,171 @@ namespace TestMigration {
                 IPermissionStore permissionStore = serviceScope.ServiceProvider.GetRequiredService<IPermissionStore>();
                 IRoleStore roleStore = serviceScope.ServiceProvider.GetRequiredService<IRoleStore>();
 
-                String clientId = "test";
-                Int32 client_Id = -1;
-                Int32 policy_Id = -1;
-                String permissionId = "PermissionId01";
-                Int32 permission_Id = -1;
-                String RoleId = "Role01";
-                Int32 role_Id = -1;
+                //String clientId = "test";
+                //Int32 client_Id = -1;
+                //Int32 policy_Id = -1;
+                //String permissionId = "PermissionId01";
+                //Int32 permission_Id = -1;
+                //String RoleId = "Role01";
+                //Int32 role_Id = -1;
 
 
-                PolicyServer1.Models.Client existsingClient = null;
-                PolicyServer1.Models.PolicyPermission existsingPermission = null;
-                List<PolicyServer1.Models.Permission> permissions = new List<PolicyServer1.Models.Permission>();
-                PolicyServer1.Models.PolicyRole existsingRole = null;
+                //PolicyServer1.Models.Client existsingClient = null;
+                //PolicyServer1.Models.PolicyPermission existsingPermission = null;
+                //List<PolicyServer1.Models.Permission> permissions = new List<PolicyServer1.Models.Permission>();
+                //PolicyServer1.Models.PolicyRole existsingRole = null;
 
 
-                Task.Run(async () => {
+                //Task.Run(async () => {
 
-                    try {
-                        await clientStore.RemoveClientIdAsync(clientId);
-                    } catch (Exception) { }
+                //    try {
+                //        await clientStore.RemoveClientIdAsync(clientId);
+                //    } catch (Exception) { }
 
-                    PolicyServer1.Models.Client newClient = new PolicyServer1.Models.Client {
-                        ClientId = clientId,
-                        ClientName = "ceci est un test",
-                        Description = "ceci est une description",
-                    };
+                //    PolicyServer1.Models.Client newClient = new PolicyServer1.Models.Client {
+                //        ClientId = clientId,
+                //        ClientName = "ceci est un test",
+                //        Description = "ceci est une description",
+                //    };
 
-                    client_Id = await clientStore.CreateAsync(newClient);
+                //    client_Id = await clientStore.CreateAsync(newClient);
 
-                    existsingClient = await clientStore.GetFromClientIdAsync(clientId);
-                    existsingClient.Description = "une autre descripiton";
-                    existsingClient.ClientUri = "http://localhost:50022";
+                //    existsingClient = await clientStore.GetFromClientIdAsync(clientId);
+                //    existsingClient.Description = "une autre descripiton";
+                //    existsingClient.ClientUri = "http://localhost:50022";
 
-                    await clientStore.UpdateAsync(existsingClient.Id, existsingClient);
+                //    await clientStore.UpdateAsync(existsingClient.Id, existsingClient);
 
-                    policy_Id = existsingClient.Policy.Id;
-                }).Wait();
+                //    policy_Id = existsingClient.Policy.Id;
+                //}).Wait();
 
-                Task.Run(async () => {
-                    try {
-                        //await permissionStore.RemoveAsync((clientId, permissionId));
-                    } catch (Exception) { }
+                //Task.Run(async () => {
+                //    try {
+                //        //await permissionStore.RemoveAsync((clientId, permissionId));
+                //    } catch (Exception) { }
 
-                    PolicyServer1.Models.PolicyPermission newClientPermission = new PolicyServer1.Models.PolicyPermission {
-                        PolicyId = policy_Id,
-                        Name = permissionId,
-                        Description = "Cecei un un desdcription"
-                    };
+                //    PolicyServer1.Models.PolicyPermission newClientPermission = new PolicyServer1.Models.PolicyPermission {
+                //        PolicyId = policy_Id,
+                //        Name = permissionId,
+                //        Description = "Cecei un un desdcription"
+                //    };
 
-                    permission_Id = await permissionStore.CreateAsync(newClientPermission);
+                //    permission_Id = await permissionStore.CreateAsync(newClientPermission);
 
-                    existsingPermission = await permissionStore.GetAsync((policy_Id, permission_Id));
-                    existsingPermission.Description = "L'action de permission - 01";
-                    existsingPermission.IsRevoked = false;
+                //    existsingPermission = await permissionStore.GetAsync((policy_Id, permission_Id));
+                //    existsingPermission.Description = "L'action de permission - 01";
+                //    existsingPermission.IsRevoked = false;
 
-                    await permissionStore.UpdateAsync((client_Id, permission_Id), existsingPermission);
+                //    await permissionStore.UpdateAsync((client_Id, permission_Id), existsingPermission);
 
-                    if ((await permissionStore.GetByNameAsync(policy_Id, "Permission_0")) == null) {
-                        for (Int32 i = 0; i < 20; ++i) {
-                            await permissionStore.CreateAsync(new PolicyServer1.Models.PolicyPermission {
-                                PolicyId = policy_Id,
-                                Name = "Permission_" + i.ToString(),
-                                Description = "Description_" + i.ToString(),
-                            });
-                        }
+                //    if ((await permissionStore.GetByNameAsync(policy_Id, "Permission_0")) == null) {
+                //        for (Int32 i = 0; i < 20; ++i) {
+                //            await permissionStore.CreateAsync(new PolicyServer1.Models.PolicyPermission {
+                //                PolicyId = policy_Id,
+                //                Name = "Permission_" + i.ToString(),
+                //                Description = "Description_" + i.ToString(),
+                //            });
+                //        }
 
-                        permissions = (await clientStore.GetAsync(existsingClient.Id)).Policy.Permissions;
-                    }
-                }).Wait();
+                //        permissions = (await clientStore.GetAsync(existsingClient.Id)).Policy.Permissions;
+                //    }
+                //}).Wait();
 
-                Task.Run(async () => {
-                    try {
-                        //await permissionStore.RemoveAsync((clientId, permissionId));
-                    } catch (Exception) { }
+                //Task.Run(async () => {
+                //    try {
+                //        //await permissionStore.RemoveAsync((clientId, permissionId));
+                //    } catch (Exception) { }
 
-                    PolicyServer1.Models.PolicyRole newClientRole = new PolicyServer1.Models.PolicyRole {
-                        PolicyId = policy_Id,
-                        Name = RoleId,
-                        Description = "Cecei un un desdcription",
-                        IdentityRoles = {
-                            "id-role-01",
-                            "id-role-02"
-                        },
-                        Subjects = {
-                            "Stella",
-                            "Alice",
-                            "Bob"
-                        },
-                        Permissions = {
-                            existsingPermission
-                        }
-                    };
+                //    PolicyServer1.Models.PolicyRole newClientRole = new PolicyServer1.Models.PolicyRole {
+                //        PolicyId = policy_Id,
+                //        Name = RoleId,
+                //        Description = "Cecei un un desdcription",
+                //        IdentityRoles = {
+                //            "id-role-01",
+                //            "id-role-02"
+                //        },
+                //        Subjects = {
+                //            "Stella",
+                //            "Alice",
+                //            "Bob"
+                //        },
+                //        Permissions = {
+                //            existsingPermission
+                //        }
+                //    };
 
-                    role_Id = await roleStore.CreateAsync(newClientRole);
+                //    role_Id = await roleStore.CreateAsync(newClientRole);
 
-                    existsingRole = await roleStore.GetAsync((policy_Id, role_Id));
-                    existsingRole.Description = "Le role de permission - 01";
-                    existsingRole.IdentityRoles.Remove("id-role-01");
-                    existsingRole.Subjects.Remove("Stella");
-                    existsingRole.Permissions.Add(permissions.Skip(5).First());
-                    existsingRole.Permissions.Add(permissions.Skip(6).First());
-                    existsingRole.Permissions.Add(permissions.Skip(7).First());
-                    existsingRole.Permissions.Add(permissions.Skip(8).First());
-                    //existsingRole.Permissions.Add(permissions.Skip(7).First());
+                //    existsingRole = await roleStore.GetAsync((policy_Id, role_Id));
+                //    existsingRole.Description = "Le role de permission - 01";
+                //    existsingRole.IdentityRoles.Remove("id-role-01");
+                //    existsingRole.Subjects.Remove("Stella");
+                //    existsingRole.Permissions.Add(permissions.Skip(5).First());
+                //    existsingRole.Permissions.Add(permissions.Skip(6).First());
+                //    existsingRole.Permissions.Add(permissions.Skip(7).First());
+                //    existsingRole.Permissions.Add(permissions.Skip(8).First());
+                //    //existsingRole.Permissions.Add(permissions.Skip(7).First());
 
-                    await roleStore.UpdateAsync((policy_Id, role_Id), existsingRole);
+                //    await roleStore.UpdateAsync((policy_Id, role_Id), existsingRole);
 
-                    existsingRole.Permissions.RemoveAt(0);
+                //    existsingRole.Permissions.RemoveAt(0);
 
-                    await roleStore.UpdateAsync((policy_Id, role_Id), existsingRole);
+                //    await roleStore.UpdateAsync((policy_Id, role_Id), existsingRole);
 
-                    existsingRole.Permissions.First().IsRevoked = true;
+                //    existsingRole.Permissions.First().IsRevoked = true;
 
-                    await roleStore.UpdateAsync((policy_Id, role_Id), existsingRole);
-                }).Wait();
+                //    await roleStore.UpdateAsync((policy_Id, role_Id), existsingRole);
+                //}).Wait();
 
-                Task.Run(async () => {
+                //Task.Run(async () => {
 
-                    PolicyServer1.Models.PolicyRole newClientRole = new PolicyServer1.Models.PolicyRole {
-                        PolicyId = policy_Id,
-                        Name = "childRole01",
-                        Description = "Cecei un un desdcription",
-                        IdentityRoles = {
-                            "id-role-02"
-                        },
-                        Subjects = {
-                            "Bob"
-                        },
-                        Permissions = {
-                              permissions.Skip(10).First()
-                        },
-                        Parents = {
-                            existsingRole
-                        }
-                    };
+                //    PolicyServer1.Models.PolicyRole newClientRole = new PolicyServer1.Models.PolicyRole {
+                //        PolicyId = policy_Id,
+                //        Name = "childRole01",
+                //        Description = "Cecei un un desdcription",
+                //        IdentityRoles = {
+                //            "id-role-02"
+                //        },
+                //        Subjects = {
+                //            "Bob"
+                //        },
+                //        Permissions = {
+                //              permissions.Skip(10).First()
+                //        },
+                //        Parents = {
+                //            existsingRole
+                //        }
+                //    };
 
-                    newClientRole.Id = await roleStore.CreateAsync(newClientRole);
+                //    newClientRole.Id = await roleStore.CreateAsync(newClientRole);
 
-                    PolicyServer1.Models.PolicyRole newClientRole2 = new PolicyServer1.Models.PolicyRole {
-                        PolicyId = policy_Id,
-                        Name = "childRole02",
-                        Description = "Cecei un un desdcription",
-                        IdentityRoles = {
-                            "id-role-02"
-                        },
-                        Subjects = {
-                            "Bob"
-                        },
-                        Permissions = {
-                              permissions.Skip(10).First()
-                        },
-                        Parents = {
-                            newClientRole
-                        }
-                    };
+                //    PolicyServer1.Models.PolicyRole newClientRole2 = new PolicyServer1.Models.PolicyRole {
+                //        PolicyId = policy_Id,
+                //        Name = "childRole02",
+                //        Description = "Cecei un un desdcription",
+                //        IdentityRoles = {
+                //            "id-role-02"
+                //        },
+                //        Subjects = {
+                //            "Bob"
+                //        },
+                //        Permissions = {
+                //              permissions.Skip(10).First()
+                //        },
+                //        Parents = {
+                //            newClientRole
+                //        }
+                //    };
 
-                    newClientRole2.Id = await roleStore.CreateAsync(newClientRole2);
+                //    newClientRole2.Id = await roleStore.CreateAsync(newClientRole2);
 
-                    PolicyServer1.Models.PolicyRole testChildRole02 = await roleStore.GetAsync((policy_Id, newClientRole2.Id));
+                //    PolicyServer1.Models.PolicyRole testChildRole02 = await roleStore.GetAsync((policy_Id, newClientRole2.Id));
 
-                }).Wait();
+                //}).Wait();
 
-                Task.Run(async () => {
-                    PolicyServer1.Models.PolicyRole test = await roleStore.GetAsync((policy_Id, existsingRole.Id + 1));
-                }).Wait();
+                //Task.Run(async () => {
+                //    PolicyServer1.Models.PolicyRole test = await roleStore.GetAsync((policy_Id, existsingRole.Id + 1));
+                //}).Wait();
 
             }
         }

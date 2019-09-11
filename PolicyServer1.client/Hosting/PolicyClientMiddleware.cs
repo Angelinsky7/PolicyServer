@@ -21,18 +21,21 @@ namespace PolicyServer1.Hosting {
 
         public async Task Invoke(HttpContext context, IPolicyClientService client) {
             if (context.User.Identity.IsAuthenticated) {
-                Models.PolicyResult policy = await client.GetPolicyAsync(context);
+                //TODO(demarco): Rework this part please !
 
-                if (policy.Roles != null && policy.Permissions != null) {
-                    IEnumerable<Claim> roleClaims = policy.Roles.Select(x => new Claim(Constants.Policy.Role, x, nameof(String), client.Authority));
-                    IEnumerable<Claim> permissionClaims = policy.Permissions.Select(x => new Claim(Constants.Policy.Permission, x, nameof(String), client.Authority));
+                //Models.PolicyResult policy = await client.GetPolicyAsync(context);
 
-                    ClaimsIdentity id = new ClaimsIdentity(Constants.Policy.Identity, "name", Constants.Policy.Role);
-                    id.AddClaims(roleClaims);
-                    id.AddClaims(permissionClaims);
+                //if (policy.Roles != null && policy.Permissions != null) {
+                //    IEnumerable<Claim> roleClaims = policy.Roles.Select(x => new Claim(Constants.Policy.Role, x, nameof(String), client.Authority));
+                //    IEnumerable<Claim> permissionClaims = policy.Permissions.Select(x => new Claim(Constants.Policy.Permission, x, nameof(String), client.Authority));
 
-                    context.User.AddIdentity(id);
-                }
+                //    ClaimsIdentity id = new ClaimsIdentity(Constants.Policy.Identity, "name", Constants.Policy.Role);
+                //    id.AddClaims(roleClaims);
+                //    id.AddClaims(permissionClaims);
+
+                //    context.User.AddIdentity(id);
+                //}
+                //TODO(demarco): Rework this part please !
             }
 
             await _next(context);

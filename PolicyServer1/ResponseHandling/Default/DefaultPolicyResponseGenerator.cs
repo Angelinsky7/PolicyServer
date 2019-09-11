@@ -8,6 +8,8 @@ using PolicyServer1.ResponseHandling.Models;
 using PolicyServer1.Stores;
 
 namespace PolicyServer1.ResponseHandling.Default {
+
+    [Obsolete]
     public class DefaultPolicyResponseGenerator : IPolicyResponseGenerator {
 
         private readonly IClientStore _clientStore;
@@ -29,11 +31,15 @@ namespace PolicyServer1.ResponseHandling.Default {
             if (client == null) {
                 _logger.LogWarning("No client found with the clientId given: {clienId}", policyRequest.ClientId);
             }
-            Dictionary<String, Object> result = new Dictionary<String, Object> {
-                { "policy", client.Policy }
-            };
+            //TODO(demarco): Rework this part please !
+            //Dictionary<String, Object> result = new Dictionary<String, Object> {
+            //    { "policy", client.Policy }
+            //};
 
-            return result;
+            //return result;
+            //TODO(demarco): Rework this part please !
+
+            return null;
         }
     }
 }

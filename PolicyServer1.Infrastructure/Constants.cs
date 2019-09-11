@@ -17,7 +17,7 @@ namespace PolicyServer1 {
 
         public static class EndpointNames {
             public const String Discovery = "Discovery";
-            public const String Policy = "Policy";
+            //public const String Policy = "Policy";
             public const String Permission = "Permission";
         }
 
@@ -25,12 +25,12 @@ namespace PolicyServer1 {
             public const String PathPrefix = "connect";
 
             public const String DiscoveryConfiguration = ".well-known/policy-configuration";
-            public const String Policy = PathPrefix + "/policy";
+            //public const String Policy = PathPrefix + "/policy";
             public const String Permission = PathPrefix + "/permission";
 
             public static readonly String[] CorsPaths = {
                 DiscoveryConfiguration,
-                Policy,
+                //Policy,
                 Permission
             };
         }

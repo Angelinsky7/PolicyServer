@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Serialization;
 using TestPolicyServer;
 
 namespace TestPolicyServer1 {
@@ -27,19 +28,19 @@ namespace TestPolicyServer1 {
 
             //services.AddDbContext<PolicyDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(opt => {
+                    opt.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+                    opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                })
+                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+
 
             services.Configure<ForwardedHeadersOptions>(opt => {
                 opt.ForwardedHeaders = ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-                //TODO(demarco): Need to clarify that !!!
-                Console.WriteLine("KnownNetworks: " + String.Join(", ", opt.KnownNetworks));
-                Console.WriteLine("KnownProxies:" + String.Join(", ", opt.KnownProxies));
                 opt.KnownNetworks.Clear();
                 opt.KnownProxies.Clear();
             });
-
-            //TODO(demarco): Change to protect api with identity server....
-            //services.AddAuthentication("Cookies").AddCookie("Cookies");
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 

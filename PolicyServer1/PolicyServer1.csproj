@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Services\Caching\" />
     <Folder Include="Services\InMemory\" />
     <Folder Include="Stores\Default\" />
   </ItemGroup>

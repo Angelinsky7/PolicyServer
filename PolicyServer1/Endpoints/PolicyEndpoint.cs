@@ -11,6 +11,8 @@ using PolicyServer1.ResponseHandling;
 using PolicyServer1.ResponseHandling.Models;
 
 namespace PolicyServer1.Endpoints {
+
+    [Obsolete]
     internal class PolicyEndpoint : IEndpointHandler {
 
         private readonly IPolicyRequestParser _requestParser;

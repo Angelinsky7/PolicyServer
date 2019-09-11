@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PolicyServer1.Stores {
-    public interface IRoleStore {
+    public interface IRoleStore : IStore<Role, Guid> {
 
-        Task<PolicyRole> GetAsync((Int32 policyId, Int32 roleId) key);
-        Task<Int32> CreateAsync(Models.PolicyRole newRole);
-        Task UpdateAsync((Int32 policyId, Int32 roleId) key, Models.PolicyRole role);
-        Task RemoveAsync((Int32 policyId, Int32 roleId) key);
+        //Task<PolicyRole> GetAsync((Int32 policyId, Int32 roleId) key);
+        //Task<Int32> CreateAsync(Models.PolicyRole newRole);
+        //Task UpdateAsync((Int32 policyId, Int32 roleId) key, Models.PolicyRole role);
+        //Task RemoveAsync((Int32 policyId, Int32 roleId) key);
 
     }
 }

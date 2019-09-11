@@ -24,22 +24,24 @@ namespace PolicyServer1.Validations.Default {
         }
 
         protected virtual Task ValidateRoleAsync(ConfigurationValidationContext<Policy> context) {
-            if (context.Item.Roles.Count == 0) {
-                context.SetError($"At least on Role is required, but no role is configured.");
-                return Task.CompletedTask;
-            }
+            //TODO(demarco): Correct validation please
+            //if (context.Item.Name.Count == 0) {
+            //    context.SetError($"At least on Role is required, but no role is configured.");
+            //    return Task.CompletedTask;
+            //}
             return Task.CompletedTask;
 
 
         }
 
         protected virtual Task ValidateCycliqueRoleAsync(ConfigurationValidationContext<Policy> context) {
-            foreach (Role role in context.Item.Roles) {
-                if (!CheckCircularReference(role)) {
-                    context.SetError($"Circular reference detected. Please avoid circular references.");
-                    return Task.CompletedTask;
-                }
-            }
+            //TODO(demarco): Correct validation please
+            //foreach (Role role in context.Item.Roles) {
+            //    if (!CheckCircularReference(role)) {
+            //        context.SetError($"Circular reference detected. Please avoid circular references.");
+            //        return Task.CompletedTask;
+            //    }
+            //}
             return Task.CompletedTask;
         }
 

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using PolicyServer1.ResponseHandling.Models;
 
 namespace PolicyServer1.ResponseHandling {
+
+    [Obsolete]
     public interface IPolicyResponseGenerator {
 
         Task<Dictionary<String, Object>> ProcessAsync(PolicyRequest policyRequest);

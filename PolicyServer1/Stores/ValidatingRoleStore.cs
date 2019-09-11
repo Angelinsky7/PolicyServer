@@ -3,6 +3,7 @@ using PolicyServer1.Models;
 using PolicyServer1.Validations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,20 +26,40 @@ namespace PolicyServer1.Stores {
             _validatorType = _validator.GetType().FullName;
         }
 
-        public Task<Int32> CreateAsync(PolicyRole newRole) {
-            return _inner.CreateAsync(newRole);
+        public Task<Role> CreateAsync(Role item) {
+            throw new NotImplementedException();
         }
 
-        public Task<PolicyRole> GetAsync((Int32 policyId, Int32 roleId) key) {
-            return _inner.GetAsync(key);
+        public Task<Role> GetAsync(Guid id) {
+            throw new NotImplementedException();
         }
 
-        public Task RemoveAsync((Int32 policyId, Int32 roleId) key) {
-            return _inner.RemoveAsync(key);
+        public IQueryable<Role> Get() {
+            throw new NotImplementedException();
         }
 
-        public Task UpdateAsync((Int32 policyId, Int32 roleId) key, PolicyRole Role) {
-            return _inner.UpdateAsync(key, Role);
+        public Task<Role> RemoveAsync(Guid id) {
+            throw new NotImplementedException();
         }
+
+        public Task<Role> UpdateAsync(Guid id, Role item) {
+            throw new NotImplementedException();
+        }
+
+        //public Task<Int32> CreateAsync(PolicyRole newRole) {
+        //    return _inner.CreateAsync(newRole);
+        //}
+
+        //public Task<PolicyRole> GetAsync((Int32 policyId, Int32 roleId) key) {
+        //    return _inner.GetAsync(key);
+        //}
+
+        //public Task RemoveAsync((Int32 policyId, Int32 roleId) key) {
+        //    return _inner.RemoveAsync(key);
+        //}
+
+        //public Task UpdateAsync((Int32 policyId, Int32 roleId) key, PolicyRole Role) {
+        //    return _inner.UpdateAsync(key, Role);
+        //}
     }
 }

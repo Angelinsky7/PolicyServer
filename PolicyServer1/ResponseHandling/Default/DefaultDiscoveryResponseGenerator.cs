@@ -29,9 +29,9 @@ namespace PolicyServer1.ResponseHandling.Default {
                 if (_options.Endpoints.EnablePermissionEndpoint) {
                     entries.Add("PermissionEndpoint", baseUrl + Constants.ProtocolRoutePaths.Permission);
                 }
-                if (_options.Endpoints.EnablePolicyEndpoint) {
-                    entries.Add("PolicyEndpoint", baseUrl + Constants.ProtocolRoutePaths.Policy);
-                }
+                //if (_options.Endpoints.EnablePolicyEndpoint) {
+                //    entries.Add("PolicyEndpoint", baseUrl + Constants.ProtocolRoutePaths.Policy);
+                //}
             }
 
             return Task.FromResult(entries);

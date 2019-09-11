@@ -10,8 +10,8 @@ namespace PolicyServer1.Extensions {
 
         public static Boolean IsEndpointEnabled(this EndpointsOptions options, Endpoint endpoint) {
             switch (endpoint?.Name) {
-                case EndpointNames.Policy:
-                    return options.EnablePolicyEndpoint;
+                //case EndpointNames.Policy:
+                //    return options.EnablePolicyEndpoint;
                 case EndpointNames.Permission:
                     return options.EnablePermissionEndpoint;
                 default:

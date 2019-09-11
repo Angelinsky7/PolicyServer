@@ -13,6 +13,10 @@ namespace PolicyServer1.Client.Services {
         Task<Boolean> HasPermissionAsync(ClaimsPrincipal user, String permissionName);
         Task<Boolean> HasRoleAsync(ClaimsPrincipal user, String roleName);
 
-        Task<PolicyResult> GetPolicyAsync(HttpContext context);
+        //TODO(demarco): We need to change everything
+        //Task<PolicyResult> GetPolicyAsync(HttpContext context);
+
+        //Task<EvaluationResult> GetPermissionsAsync(HttpContext context);
+        //Task<EvaluationTest> GetDecisionAsync(HttpContext context);
     }
 }

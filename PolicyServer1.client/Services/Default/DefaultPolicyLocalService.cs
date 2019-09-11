@@ -34,9 +34,15 @@ namespace PolicyServer1.Client.Services.Default {
             return Task.FromResult(result);
         }
 
-        public async Task<PolicyResult> GetPolicyAsync(HttpContext context) {
-            return await _options.Policy.EvaluateAsync(context.User);
-        }
+        //public Task<EvaluationTest> GetDecisionAsync(HttpContext context) {
+        //    //return await _options.Policy.EvaluateAsync(context.User);
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<EvaluationResult> GetPermissionsAsync(HttpContext context) {
+        //    //return await _options.Policy.EvaluateAsync(context.User);
+        //    throw new NotImplementedException();
+        //}
 
     }
 }

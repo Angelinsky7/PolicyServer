@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -28,27 +29,47 @@ namespace PolicyServer1.Stores.Caching {
             _logger = logger;
         }
 
-        public Task<Int32> CreateAsync(Policy newPolicy) {
+        public Task<Policy> CreateAsync(Policy item) {
             throw new NotImplementedException();
         }
 
-        public async Task<Policy> GetAsync(Int32 policyId) {
-            Policy policy = await _cache.GetAsync(
-                policyId.ToString(),
-                _options.Caching.PolicyStoreExpiration,
-                () => _inner.GetAsync(policyId),
-                _logger
-            );
-
-            return policy;
-        }
-
-        public Task RemoveAsync(Int32 policyId) {
+        public Task<Policy> GetAsync(Guid id) {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Int32 policyId, Policy policy) {
+        public IQueryable<Policy> Get() {
             throw new NotImplementedException();
         }
+
+        public Task<Policy> RemoveAsync(Guid id) {
+            throw new NotImplementedException();
+        }
+
+        public Task<Policy> UpdateAsync(Guid id, Policy item) {
+            throw new NotImplementedException();
+        }
+
+        //public Task<Int32> CreateAsync(Policy newPolicy) {
+        //    throw new NotImplementedException();
+        //}
+
+        //public async Task<Policy> GetAsync(Int32 policyId) {
+        //    Policy policy = await _cache.GetAsync(
+        //        policyId.ToString(),
+        //        _options.Caching.PolicyStoreExpiration,
+        //        () => _inner.GetAsync(policyId),
+        //        _logger
+        //    );
+
+        //    return policy;
+        //}
+
+        //public Task RemoveAsync(Int32 policyId) {
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task UpdateAsync(Int32 policyId, Policy policy) {
+        //    throw new NotImplementedException();
+        //}
     }
 }

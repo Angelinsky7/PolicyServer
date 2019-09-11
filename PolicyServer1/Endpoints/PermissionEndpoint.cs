@@ -21,7 +21,7 @@ namespace PolicyServer1.Endpoints {
         public PermissionEndpoint(
             IPermissionRequestParser requestParser,
             IPermissionResponseGenerator responseGenerator,
-            ILogger<PolicyEndpoint> logger
+            ILogger<PermissionEndpoint> logger
         ) {
             _requestParser = requestParser;
             _responseGenerator = responseGenerator;

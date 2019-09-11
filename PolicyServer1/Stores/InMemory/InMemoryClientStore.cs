@@ -19,9 +19,18 @@ namespace PolicyServer1.Stores.InMemory {
             _clients = new List<Client>(clients);
         }
 
-        public Task<Client> GetAsync(Int32 clientId) {
-            Client query = _clients.SingleOrDefault(p => p.Id == clientId);
+        public Task<Client> CreateAsync(Client item) {
+            _clients.Add(item);
+            return Task.FromResult(_clients.Find(p => p.Id == item.Id));
+        }
+
+        public Task<Client> GetAsync(Guid id) {
+            Client query = _clients.SingleOrDefault(p => p.Id == id);
             return Task.FromResult(query);
+        }
+
+        public IQueryable<Client> Get() {
+            return _clients.AsQueryable();
         }
 
         public Task<Client> GetFromClientIdAsync(String clientId) {
@@ -29,37 +38,28 @@ namespace PolicyServer1.Stores.InMemory {
             return Task.FromResult(query);
         }
 
-        public Task<Int32> CreateAsync(Client newClient) {
-            _clients.Add(newClient);
-            return Task.FromResult(_clients.FindIndex(p => p.Id == newClient.Id));
-        }
-
-        public Task UpdateAsync(Int32 clientId, Client client) {
-            if (clientId != client.Id) { throw new ArgumentException(nameof(clientId)); }
-            Int32 index = _clients.FindIndex(p => p.Id == clientId);
-            if (index == -1) { throw new ArgumentException(nameof(clientId)); }
-            _clients[index] = client;
-            return Task.FromResult(0);
-        }
-
-        public Task RemoveAsync(Int32 cliendId) {
-            Client client = _clients.SingleOrDefault(p => p.Id == cliendId);
+        public Task<Client> RemoveAsync(Guid id) {
+            Client client = _clients.SingleOrDefault(p => p.Id == id);
             if (client != null) {
                 _clients.Remove(client);
             }
-            return Task.FromResult(0);
+            return Task.FromResult(client);
         }
 
-        public Task RemoveClientIdAsync(String cliendId) {
+        public Task<Client> RemoveClientIdAsync(String cliendId) {
             Client client = _clients.SingleOrDefault(p => p.ClientId == cliendId);
             if (client != null) {
                 _clients.Remove(client);
             }
-            return Task.FromResult(0);
+            return Task.FromResult(client);
         }
 
-        public Task<Models.Client> ReloadAsync(Client client) {
-            return Task.FromResult(client);
+        public Task<Client> UpdateAsync(Guid id, Client item) {
+            if (id != item.Id) { throw new ArgumentException(nameof(id)); }
+            Int32 index = _clients.FindIndex(p => p.Id == item.Id);
+            if (index == -1) { throw new ArgumentException(nameof(item)); }
+            _clients[index] = item;
+            return Task.FromResult(item);
         }
 
     }
