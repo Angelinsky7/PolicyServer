@@ -87,16 +87,12 @@ namespace PolicyServer1.ResponseHandling.Default {
                             };
                         }
 
+                        EvaluationAnalyse analyse = await _evaluatorService.BuildEvaluationAnalyseAsync(request);
+
                         //TODO(demarco): i would like to have a real debug view of the data....
 
                         Dictionary<String, Object> result = new Dictionary<String, Object> {
-                            //{ nameof(client),                           client },
-                             { nameof(request.Permissions),              request.Permissions },
-                            { nameof(request.Cache),                    request.Cache._AnalyseCache },
-                            { nameof(request.Results.PermissionsDecisions),                  request.Results.PermissionsDecisions },
-                            //{ nameof(request.User),                     request.User },
-                             { nameof(request.ResourceScopeResults),     request.ResourceScopeResults },
-                            { nameof(evaluation) + "_" + nameof(evaluation.Results),               evaluation.Results },
+                             { nameof(analyse),                             analyse },
                         };
 
                         return result;
@@ -113,10 +109,12 @@ namespace PolicyServer1.ResponseHandling.Default {
                 .Where(p => p.Granted == true)
                 .GroupBy(p => p.Resource)
             ) {
+                Console.WriteLine(item.Key.Name + ":" + String.Join(", ", item.Select(p => p.Scope.Name).Distinct().ToList()));
+
                 result.Results.Add(new EvaluationItem {
                     RsId = item.Key.Id,
                     RsName = item.Key.Name,
-                    Scopes = item.Select(p => p.Scope.Name).ToList()
+                    Scopes = item.Select(p => p.Scope.Name).Distinct().ToList()
                 });
             }
 

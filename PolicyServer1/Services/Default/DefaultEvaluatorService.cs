@@ -64,6 +64,64 @@ namespace PolicyServer1.Services.Default {
             return resouceScopeResults.Values.ToList();
         }
 
+        public async Task<EvaluationAnalyse> BuildEvaluationAnalyseAsync(EvaluatorRequest request) {
+            EvaluationAnalyse analyse = new EvaluationAnalyse();
+
+            foreach (KeyValuePair<Permission, PermissionDecision> permission in request.Results.PermissionsDecisions) {
+                IEnumerable<Resource> resources = await GetResources(request, permission.Key);
+                IEnumerable<Scope> scopes = await GetScopes(request, permission.Key);
+
+                EvaluationAnalyseItem analyseItem = null;
+
+                foreach (Resource resource in resources) {
+                    analyseItem = analyse.Items.FirstOrDefault(p => p.Resource.Id == resource.Id);
+                    if (analyseItem == null) {
+                        analyseItem = new EvaluationAnalyseItem {
+                            Resource = resource,
+                        };
+                        analyse.Items.Add(analyseItem);
+                    }
+
+                    foreach (Scope scope in scopes) {
+                        analyseItem.Scopes.Add(scope);
+                    }
+                }
+
+                if (analyseItem != null) {
+                    EvaluationAnalysePermissionItem evaluationAnalysePermissionItem = new EvaluationAnalysePermissionItem {
+                        Permission = permission.Key,
+                        Granted = permission.Value.Result,
+                        Strategy = permission.Key.DecisionStrategy,
+                        Scopes = scopes.ToList()
+                    };
+
+                    foreach (KeyValuePair<Policy, Boolean> policy in permission.Value.Policies) {
+                        evaluationAnalysePermissionItem.Policies.Add(new EvaluationAnalysePolicyItem {
+                            Policy = policy.Key,
+                            Granted = policy.Value
+                        });
+                    }
+
+                    analyseItem.Permissions.Add(evaluationAnalysePermissionItem);
+                }
+
+                //TODO(demarco): Granted missing !
+                // analyseItem.Granted = permission.Value.Result;
+                //foreach (var item in analyse.Items) {
+                //    switch (request.Client.Options.DecisionStrategy) {
+                //        case DecisionStrategy.Affirmative:
+                //            item.Granted = item.Value.GrantedCount == 0;
+                //            break;
+                //        case DecisionStrategy.Unanimous:
+                //            item.Value.Granted = item.Value.DeniedCount == 0;
+                //            break;
+                //    }
+                //}
+            }
+
+            return analyse;
+        }
+
         //private async Task<Evaluation> BuildResultEvaluationAsync(EvaluatorRequest request) {
         //    Evaluation result = new Evaluation();
         //    Dictionary<Resource, List<Scope>> resourceByScopes = new Dictionary<Resource, List<Scope>>();

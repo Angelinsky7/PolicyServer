@@ -38,7 +38,14 @@ namespace TestPolicyServer {
                     Roles = {
                         roles[0]
                     }
-                }
+                },
+                new RolePolicy {
+                    Name = "User Policy",
+                    Logic = PolicyLogic.Positive,
+                    Roles = {
+                        roles[1]
+                    }
+                },
             };
 
             List<Resource> resources = new List<Resource> {
@@ -148,6 +155,17 @@ namespace TestPolicyServer {
                             },
                             Policies = {
                                 policies[2]
+                            }
+                        },
+                        new ScopePermission {
+                            Name = "Contact User Permission",
+                            Resource = resources[1],
+                            DecisionStrategy = DecisionStrategy.Unanimous,
+                            Scopes = {
+                                scopes[2],
+                            },
+                            Policies = {
+                                policies[3]
                             }
                         }
                     }
