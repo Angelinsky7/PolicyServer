@@ -9,14 +9,14 @@ namespace PolicyServer1.Infrastructure {
     internal class ObjectSerializer {
 
         private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings {
-            DefaultValueHandling = DefaultValueHandling.Ignore,
-            NullValueHandling = NullValueHandling.Ignore,
+            DefaultValueHandling = DefaultValueHandling.Populate,
+            NullValueHandling = NullValueHandling.Include,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
 
         private static readonly JsonSerializer Serializer = new JsonSerializer {
-            DefaultValueHandling = DefaultValueHandling.Ignore,
-            NullValueHandling = NullValueHandling.Ignore,
+            DefaultValueHandling = DefaultValueHandling.Populate,
+            NullValueHandling = NullValueHandling.Include,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
 

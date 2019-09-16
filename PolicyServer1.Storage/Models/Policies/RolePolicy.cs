@@ -13,7 +13,8 @@ namespace PolicyServer1.Models {
             //TODO(demarco): this is not correct !!!
             IEnumerable<String> check = request.User.FindAll("role").Select(p => p.Value);
 
-            return Task.FromResult(CheckRecursiveRole(Roles, check));
+            request.Result = CheckRecursiveRole(Roles, check);
+            return base.EvaluateAsync(request);
         }
 
         private Boolean CheckRecursiveRole(IEnumerable<Role> roles, IEnumerable<String> check) {

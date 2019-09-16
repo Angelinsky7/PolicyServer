@@ -8,6 +8,7 @@ namespace PolicyServer1.Models {
 
         Client Client { get; }
         ClaimsPrincipal User { get; }
+        Boolean Result { get; set; }
 
     }
 }

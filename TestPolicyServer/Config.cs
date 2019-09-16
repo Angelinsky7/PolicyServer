@@ -105,6 +105,17 @@ namespace TestPolicyServer {
                             }
                         },
                         new ScopePermission {
+                            Name = "Remove create scope",
+                            Resource = resources[0],
+                            DecisionStrategy = DecisionStrategy.Affirmative,
+                            Scopes = {
+                                scopes[0]
+                            },
+                            Policies = {
+                                policies[2]
+                            }
+                        },
+                        new ScopePermission {
                             Name = "Contact Time Administrator Permission 1",
                             Resource = resources[1],
                             DecisionStrategy = DecisionStrategy.Unanimous,

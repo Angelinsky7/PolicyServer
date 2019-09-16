@@ -48,7 +48,7 @@ namespace PolicyServer1.ResponseHandling.Default {
             Evaluation evaluation = BuildEvaluation(request);
 
             _logger.LogDebug($"EvaluatorRequest Cache: { Newtonsoft.Json.JsonConvert.SerializeObject(request.Cache)}");
-            _logger.LogDebug($"EvaluatorRequest Result: { Newtonsoft.Json.JsonConvert.SerializeObject(request.Results)}");
+            _logger.LogDebug($"EvaluatorRequest Result: { Newtonsoft.Json.JsonConvert.SerializeObject(request.EvaluatorResults)}");
 
             switch (permissionRequest.ResponseMode) {
                 case PermissionRequestReponseMode.Decision: {
@@ -105,18 +105,33 @@ namespace PolicyServer1.ResponseHandling.Default {
         private Evaluation BuildEvaluation(EvaluatorRequest request) {
             Evaluation result = new Evaluation();
 
-            foreach (IGrouping<Resource, ResouceScopeResult> item in request.ResourceScopeResults
-                .Where(p => p.Granted == true)
-                .GroupBy(p => p.Resource)
-            ) {
-                Console.WriteLine(item.Key.Name + ":" + String.Join(", ", item.Select(p => p.Scope.Name).Distinct().ToList()));
-
-                result.Results.Add(new EvaluationItem {
-                    RsId = item.Key.Id,
-                    RsName = item.Key.Name,
-                    Scopes = item.Select(p => p.Scope.Name).Distinct().ToList()
-                });
+            //TODO(demarco) this being here have issue with the analyse part... we must replicate it and i don't like it
+            switch (request.Client.Options.DecisionStrategy) {
+                case DecisionStrategy.Affirmative:
+                    foreach (IGrouping<Resource, ResouceScopeResult> item in request.ResourceScopeResults
+                        .Where(p => p.Granted == true)
+                        .GroupBy(p => p.Resource)
+                    ) {
+                        result.Results.Add(new EvaluationItem {
+                            RsId = item.Key.Id,
+                            RsName = item.Key.Name,
+                            Scopes = item.Select(p => p.Scope.Name).Distinct().ToList()
+                        });
+                    }
+                    break;
+                case DecisionStrategy.Unanimous:
+                    foreach (IGrouping<Resource, ResouceScopeResult> item in request.ResourceScopeResults
+                        .GroupBy(p => p.Resource)
+                    ) {
+                        result.Results.Add(new EvaluationItem {
+                            RsId = item.Key.Id,
+                            RsName = item.Key.Name,
+                            Scopes = item.Where(p => !item.Where(a => !a.Granted.Value).Select(m => m.Scope.Id).Contains(p.Scope.Id)).Select(p => p.Scope.Name).Distinct().ToList()
+                        });
+                    }
+                    break;
             }
+
 
             return result;
         }

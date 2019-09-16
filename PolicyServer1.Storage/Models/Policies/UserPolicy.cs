@@ -12,7 +12,8 @@ namespace PolicyServer1.Models {
         public override Task<Boolean> EvaluateAsync(IEvaluatorRequest request) {
             //TODO(demarco): this is not correct
 
-            return Task.FromResult(Users.Contains(request.User.FindFirst("sub")?.Value));
+            request.Result = Users.Contains(request.User.FindFirst("sub")?.Value);
+            return base.EvaluateAsync(request);
         }
     }
 }

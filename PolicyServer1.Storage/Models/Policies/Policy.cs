@@ -14,7 +14,14 @@ namespace PolicyServer1.Models {
 
         public PolicyLogic Logic { get; set; }
 
-        public abstract Task<Boolean> EvaluateAsync(IEvaluatorRequest request);
+        //public abstract Task<Boolean> EvaluateAsync(IEvaluatorRequest request);
+
+        public virtual Task<Boolean> EvaluateAsync(IEvaluatorRequest request) {
+            if(Logic == PolicyLogic.Negative) {
+                request.Result = !request.Result;
+            }
+            return Task.FromResult(request.Result);
+        }
 
     }
 

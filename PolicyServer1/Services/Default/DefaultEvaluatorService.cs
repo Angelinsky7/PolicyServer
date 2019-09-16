@@ -24,7 +24,7 @@ namespace PolicyServer1.Services.Default {
         private async Task<List<ResouceScopeResult>> GetResouceScopeResults(EvaluatorRequest request) {
             Dictionary<Int64, ResouceScopeResult> resouceScopeResults = new Dictionary<Int64, ResouceScopeResult>();
 
-            foreach (KeyValuePair<Permission, PermissionDecision> permission in request.Results.PermissionsDecisions) {
+            foreach (KeyValuePair<Permission, PermissionDecision> permission in request.EvaluatorResults.PermissionsDecisions) {
                 IEnumerable<Resource> resources = await GetResources(request, permission.Key);
                 IEnumerable<Scope> scopes = await GetScopes(request, permission.Key);
 
@@ -67,37 +67,59 @@ namespace PolicyServer1.Services.Default {
         public async Task<EvaluationAnalyse> BuildEvaluationAnalyseAsync(EvaluatorRequest request) {
             EvaluationAnalyse analyse = new EvaluationAnalyse();
 
-            foreach (KeyValuePair<Permission, PermissionDecision> permission in request.Results.PermissionsDecisions) {
+            foreach (KeyValuePair<Permission, PermissionDecision> permission in request.EvaluatorResults.PermissionsDecisions) {
                 IEnumerable<Resource> resources = await GetResources(request, permission.Key);
                 IEnumerable<Scope> scopes = await GetScopes(request, permission.Key);
 
                 EvaluationAnalyseItem analyseItem = null;
 
                 foreach (Resource resource in resources) {
-                    analyseItem = analyse.Items.FirstOrDefault(p => p.Resource.Id == resource.Id);
+                    analyseItem = analyse.Items.FirstOrDefault(p => p.ResourceId == resource.Id);
                     if (analyseItem == null) {
                         analyseItem = new EvaluationAnalyseItem {
-                            Resource = resource,
+                            ResourceId = resource.Id,
+                            ResourceName = resource.Name,
+                            Strategy = request.Client.Options.DecisionStrategy.ToString()
                         };
                         analyse.Items.Add(analyseItem);
                     }
 
-                    foreach (Scope scope in scopes) {
-                        analyseItem.Scopes.Add(scope);
+                    IEnumerable<Scope> grantedScopes = null;
+
+                    //TODO(demarco): this code is @ the same place in another file --- DefaultPermissionResponseGenerator.cs@108
+                    switch (request.Client.Options.DecisionStrategy) {
+                        case DecisionStrategy.Affirmative: {
+                                IGrouping<Resource, ResouceScopeResult> scopeByResouces = request.ResourceScopeResults.Where(p => p.Resource.Id == resource.Id && p.Granted == true).GroupBy(p => p.Resource).SingleOrDefault();
+                                IEnumerable<Guid> allowedScopes = scopeByResouces.Select(m => m.Scope.Id).Distinct();
+                                grantedScopes = scopes.Where(p => allowedScopes.Contains(p.Id));
+                            }
+                            break;
+                        case DecisionStrategy.Unanimous: {
+                                IGrouping<Resource, ResouceScopeResult> scopeByResouces = request.ResourceScopeResults.Where(p => p.Resource.Id == resource.Id).GroupBy(p => p.Resource).SingleOrDefault();
+                                IEnumerable<Guid> allowedScopes = scopeByResouces.Where(p => !scopeByResouces.Where(a => !a.Granted.Value).Select(m => m.Scope.Id).Contains(p.Scope.Id)).Select(p => p.Scope.Id).Distinct();
+                                grantedScopes = scopes.Where(p => allowedScopes.Contains(p.Id));
+                            }
+                            break;
+                    }
+
+                    foreach (Scope scope in grantedScopes) {
+                        analyseItem.Scopes.Add(scope.Name);
                     }
                 }
 
                 if (analyseItem != null) {
                     EvaluationAnalysePermissionItem evaluationAnalysePermissionItem = new EvaluationAnalysePermissionItem {
-                        Permission = permission.Key,
+                        PermissionId = permission.Key.Id,
+                        PermissionName = permission.Key.Name,
                         Granted = permission.Value.Result,
-                        Strategy = permission.Key.DecisionStrategy,
-                        Scopes = scopes.ToList()
+                        Strategy = permission.Key.DecisionStrategy.ToString(),
+                        Scopes = scopes.Select(p => p.Name).ToList()
                     };
 
                     foreach (KeyValuePair<Policy, Boolean> policy in permission.Value.Policies) {
                         evaluationAnalysePermissionItem.Policies.Add(new EvaluationAnalysePolicyItem {
-                            Policy = policy.Key,
+                            PolicyId = policy.Key.Id,
+                            PolicyName = policy.Key.Name,
                             Granted = policy.Value
                         });
                     }

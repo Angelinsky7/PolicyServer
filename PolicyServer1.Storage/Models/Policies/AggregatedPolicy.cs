@@ -38,7 +38,8 @@ namespace PolicyServer1.Models {
 
             }
 
-            return result.Value;
+            request.Result = result.Value;
+            return await base.EvaluateAsync(request);
 
         }
 

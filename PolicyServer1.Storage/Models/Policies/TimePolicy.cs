@@ -28,7 +28,8 @@ namespace PolicyServer1.Models {
             if (result != false && (dateTime.Hour < Hour.From || dateTime.Hour >= Hour.To)) { result = false; }
             if (result != false && (dateTime.Minute < Minute.From || dateTime.Minute >= Minute.To)) { result = false; }
 
-            return Task.FromResult(result);
+            request.Result = result;
+            return base.EvaluateAsync(request);
         }
     }
 

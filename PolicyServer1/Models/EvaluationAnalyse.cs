@@ -8,22 +8,26 @@ namespace PolicyServer1.Models {
     }
 
     public class EvaluationAnalyseItem {
-        public Resource Resource { get; set; }
+        public Guid ResourceId { get; set; }
+        public String ResourceName { get; set; }
         public Boolean Granted { get; set; }
-        public ICollection<Scope> Scopes { get; set; } = new HashSet<Scope>();
+        public String Strategy { get; set; }
+        public ICollection<String> Scopes { get; set; } = new HashSet<String>();
         public ICollection<EvaluationAnalysePermissionItem> Permissions { get; set; } = new HashSet<EvaluationAnalysePermissionItem>();
     }
 
     public class EvaluationAnalysePermissionItem {
-        public Permission Permission { get; set; }
+        public Guid PermissionId { get; set; }
+        public String PermissionName { get; set; }
         public Boolean Granted { get; set; }
-        public DecisionStrategy Strategy { get; set; }
-        public ICollection<Scope> Scopes { get; set; } = new HashSet<Scope>();
+        public String Strategy { get; set; }
+        public ICollection<String> Scopes { get; set; } = new HashSet<String>();
         public ICollection<EvaluationAnalysePolicyItem> Policies { get; set; } = new HashSet<EvaluationAnalysePolicyItem>();
     }
 
     public class EvaluationAnalysePolicyItem {
-        public Policy Policy { get; set; }
+        public Guid PolicyId { get; set; }
+        public String PolicyName { get; set; }
         public Boolean Granted { get; set; }
     }
 
