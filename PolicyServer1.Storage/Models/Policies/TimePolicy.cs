@@ -20,13 +20,13 @@ namespace PolicyServer1.Models {
             DateTime dateTime = DateTime.UtcNow;
             Boolean result = true;
 
-            if (dateTime < NotBefore) { result = false; }
-            if (result != false && dateTime >= NotOnOrAfter) { result = false; }
-            if (result != false && (dateTime.Day < DayOfMonth.From || dateTime.Day >= DayOfMonth.To)) { result = false; }
-            if (result != false && (dateTime.Month < Month.From || dateTime.Month >= Month.To)) { result = false; }
-            if (result != false && (dateTime.Year < Year.From || dateTime.Year >= Year.To)) { result = false; }
-            if (result != false && (dateTime.Hour < Hour.From || dateTime.Hour >= Hour.To)) { result = false; }
-            if (result != false && (dateTime.Minute < Minute.From || dateTime.Minute >= Minute.To)) { result = false; }
+            if (NotBefore != null && dateTime < NotBefore.Value) { result = false; }
+            if (result != false && (NotOnOrAfter != null && dateTime >= NotOnOrAfter.Value)) { result = false; }
+            if (result != false && (DayOfMonth != null && (dateTime.Day < DayOfMonth.From || dateTime.Day >= DayOfMonth.To))) { result = false; }
+            if (result != false && (Month != null && (dateTime.Month < Month.From || dateTime.Month >= Month.To))) { result = false; }
+            if (result != false && (Year != null && (dateTime.Year < Year.From || dateTime.Year >= Year.To))) { result = false; }
+            if (result != false && (Hour != null && (dateTime.Hour < Hour.From || dateTime.Hour >= Hour.To))) { result = false; }
+            if (result != false && (Minute != null && (dateTime.Minute < Minute.From || dateTime.Minute >= Minute.To))) { result = false; }
 
             request.Result = result;
             return base.EvaluateAsync(request);

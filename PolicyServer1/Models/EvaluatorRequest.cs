@@ -16,6 +16,7 @@ namespace PolicyServer1.Models {
         public EvaluatorCache Cache { get; set; } = new EvaluatorCache();
 
         public ICollection<ResouceScopeResult> ResourceScopeResults { get; set; } = new HashSet<ResouceScopeResult>();
+        public ICollection<PermissionResourceScopeItem> PermissionResourceScopeItems { get; set; } = new HashSet<PermissionResourceScopeItem>();
 
     }
 }

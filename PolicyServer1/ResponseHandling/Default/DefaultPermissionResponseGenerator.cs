@@ -45,16 +45,33 @@ namespace PolicyServer1.ResponseHandling.Default {
             };
 
             await _evaluatorService.EvaluateAsync(request);
-            Evaluation evaluation = BuildEvaluation(request);
+            Evaluation evaluation = await _evaluatorService.BuildEvaluationAsync(request);
 
             _logger.LogDebug($"EvaluatorRequest Cache: { Newtonsoft.Json.JsonConvert.SerializeObject(request.Cache)}");
             _logger.LogDebug($"EvaluatorRequest Result: { Newtonsoft.Json.JsonConvert.SerializeObject(request.EvaluatorResults)}");
 
             switch (permissionRequest.ResponseMode) {
                 case PermissionRequestReponseMode.Decision: {
+                        List<Boolean> granted = new List<Boolean>();
+                        IEnumerable<IGrouping<String, EvaluationItem>> groupByResource = evaluation.Results.GroupBy(p => p.RsName);
+
+                        foreach (PermissionResourceScopeItem requestPermission in request.PermissionResourceScopeItems) {
+                            if (requestPermission.ResouceName != null && requestPermission.ScopeName == null) {
+                                granted.Add(groupByResource.Any(p => p.Key == requestPermission.ResouceName));
+                            }else if(requestPermission.ResouceName != null && requestPermission.ScopeName != null) {
+                                granted.Add(groupByResource.Any(p => p.Key == requestPermission.ResouceName && p.Any(a => a.Scopes.Any(m => m == requestPermission.ScopeName))));
+                            }else if(requestPermission.ResouceName == null && requestPermission.ScopeName != null) {
+                                granted.Add(groupByResource.Any(p => p.Any(a => a.Scopes.Any(m => m == requestPermission.ScopeName))));
+                            } else {
+                                return new Dictionary<String, Object> {
+                                    {"ErrorMessage", "Requested resource empty" }
+                                };
+                            }
+                        }
+
                         Dictionary<String, Object> result = new Dictionary<String, Object> {
-                            //{ nameof(client.ClientId),                      client.ClientId },
-                            // { nameof(evaluation.Result),                    evaluation.Result },
+                            { nameof(client.ClientId),                      client.ClientId },
+                            { nameof(evaluation.Results),                   granted.Count(p => !p) == 0 },
                             //{ nameof(evaluation.LastPolicyChangeDate),      evaluation.LastPolicyChangeDate },
                             //{ nameof(evaluation.Roles),                     evaluation.Roles },
                             //{ nameof(evaluation.Permissions),               evaluation.Permissions }
@@ -63,15 +80,8 @@ namespace PolicyServer1.ResponseHandling.Default {
                         return result;
                     }
                 case PermissionRequestReponseMode.Permissions: {
-
-                        // Permission : "SomeOne(Policy) cando Something(Scope) on Resource(Resource)"
-
-                        // EvaluationResult evaluation = await _evaluatorService.EvaluateResultAsync(permissionRequest.User, client, permissionRequest.Permissions);
-
-                        // _logger.LogDebug($"EvaluationResult: { Newtonsoft.Json.JsonConvert.SerializeObject(evaluation)}");
-
                         Dictionary<String, Object> result = new Dictionary<String, Object> {
-                            //{ nameof(client.ClientId),                        client.ClientId },
+                            { nameof(client.ClientId),                        client.ClientId },
                             { nameof(evaluation.Results),                     evaluation.Results },
                             //{ nameof(evaluation.LastPolicyChangeDate),      evaluation.LastPolicyChangeDate },
                             //{ nameof(evaluation.Roles),                     evaluation.Roles },
@@ -89,10 +99,8 @@ namespace PolicyServer1.ResponseHandling.Default {
 
                         EvaluationAnalyse analyse = await _evaluatorService.BuildEvaluationAnalyseAsync(request);
 
-                        //TODO(demarco): i would like to have a real debug view of the data....
-
                         Dictionary<String, Object> result = new Dictionary<String, Object> {
-                             { nameof(analyse),                             analyse },
+                             { nameof(analyse),                             analyse.Items },
                         };
 
                         return result;
@@ -100,40 +108,6 @@ namespace PolicyServer1.ResponseHandling.Default {
             }
 
             return null;
-        }
-
-        private Evaluation BuildEvaluation(EvaluatorRequest request) {
-            Evaluation result = new Evaluation();
-
-            //TODO(demarco) this being here have issue with the analyse part... we must replicate it and i don't like it
-            switch (request.Client.Options.DecisionStrategy) {
-                case DecisionStrategy.Affirmative:
-                    foreach (IGrouping<Resource, ResouceScopeResult> item in request.ResourceScopeResults
-                        .Where(p => p.Granted == true)
-                        .GroupBy(p => p.Resource)
-                    ) {
-                        result.Results.Add(new EvaluationItem {
-                            RsId = item.Key.Id,
-                            RsName = item.Key.Name,
-                            Scopes = item.Select(p => p.Scope.Name).Distinct().ToList()
-                        });
-                    }
-                    break;
-                case DecisionStrategy.Unanimous:
-                    foreach (IGrouping<Resource, ResouceScopeResult> item in request.ResourceScopeResults
-                        .GroupBy(p => p.Resource)
-                    ) {
-                        result.Results.Add(new EvaluationItem {
-                            RsId = item.Key.Id,
-                            RsName = item.Key.Name,
-                            Scopes = item.Where(p => !item.Where(a => !a.Granted.Value).Select(m => m.Scope.Id).Contains(p.Scope.Id)).Select(p => p.Scope.Name).Distinct().ToList()
-                        });
-                    }
-                    break;
-            }
-
-
-            return result;
         }
 
     }

@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PolicyServer1.Extensions;
 using PolicyServer1.Models;
 
 namespace PolicyServer1.Services.Default {
     public class DefaultEvaluatorService : IEvaluatorService {
+
+        private static readonly Func<PermissionResourceScopeItem, Boolean> _filterResourcePermissions = p => (p.ResouceName != null);
+        private static Func<PermissionResourceScopeItem, Boolean> _filterScopesPermissions(Resource resource) {
+            return p => (p.ResouceName == null || p.ResouceName == resource.Name) && p.ScopeName != null;
+        }
 
         public async Task<EvaluatorRequest> EvaluateAsync(EvaluatorRequest request) {
 
             if (request == null) { throw new ArgumentNullException(nameof(request)); }
             if (request.Client == null) { throw new ArgumentNullException(nameof(request.Client)); }
 
-            foreach (Permission permission in request.Client.Permissions.Where(p => request.Permissions == null || request.Permissions.Contains(p.Name))) {
+            request.PermissionResourceScopeItems = await GetPermissionResourceScopeItems(request);
+
+            foreach (Permission permission in FilterPermissions(request, request.Client.Permissions)) {
                 await permission.EvaluateAsync(request);
             }
 
@@ -21,7 +29,19 @@ namespace PolicyServer1.Services.Default {
             return request;
         }
 
-        private async Task<List<ResouceScopeResult>> GetResouceScopeResults(EvaluatorRequest request) {
+        private IEnumerable<Permission> FilterPermissions(EvaluatorRequest request, IEnumerable<Permission> src) {
+            if (request.PermissionResourceScopeItems.Any(p => p.ResouceName == null)) { return src; }
+            if (request.PermissionResourceScopeItems.Count(_filterResourcePermissions) == 0) { return src; }
+            return src.Where(p => request.PermissionResourceScopeItems.Where(_filterResourcePermissions).Select(a => a.ResouceName).Contains(p.GetResourceName()));
+        }
+
+        private IEnumerable<Scope> FilterScopes(EvaluatorRequest request, Resource resource, IEnumerable<Scope> src) {
+            if (request.PermissionResourceScopeItems.Any(p => p.ResouceName == resource.Name && p.ScopeName == null)) { return src; }
+            if (request.PermissionResourceScopeItems.Count(_filterScopesPermissions(resource)) == 0) { return src; }
+            return src.Where(p => request.PermissionResourceScopeItems.Where(_filterScopesPermissions(resource)).Select(a => a.ScopeName).Contains(p.Name));
+        }
+
+        private async Task<ICollection<ResouceScopeResult>> GetResouceScopeResults(EvaluatorRequest request) {
             Dictionary<Int64, ResouceScopeResult> resouceScopeResults = new Dictionary<Int64, ResouceScopeResult>();
 
             foreach (KeyValuePair<Permission, PermissionDecision> permission in request.EvaluatorResults.PermissionsDecisions) {
@@ -29,7 +49,7 @@ namespace PolicyServer1.Services.Default {
                 IEnumerable<Scope> scopes = await GetScopes(request, permission.Key);
 
                 foreach (Resource resource in resources) {
-                    foreach (Scope scope in scopes) {
+                    foreach (Scope scope in FilterScopes(request, resource, scopes)) {
                         Int64 hash = ResouceScopeResult.GetHash(permission.Key, resource, scope);
                         if (!resouceScopeResults.ContainsKey(hash)) {
                             resouceScopeResults.Add(hash, new ResouceScopeResult {
@@ -64,6 +84,28 @@ namespace PolicyServer1.Services.Default {
             return resouceScopeResults.Values.ToList();
         }
 
+        private Task<ICollection<PermissionResourceScopeItem>> GetPermissionResourceScopeItems(EvaluatorRequest request) {
+            List<PermissionResourceScopeItem> result = new List<PermissionResourceScopeItem>();
+            if (request.Permissions != null) {
+                foreach (String permission in request.Permissions) {
+                    String[] split = permission.Split(new String[] { request.Client.Options.PermissionSplitter }, StringSplitOptions.None);
+                    if (split.Length == 2) {
+                        result.Add(new PermissionResourceScopeItem {
+                            ResouceName = split[0].ReturnNullIfEmpty(),
+                            ScopeName = split[1].ReturnNullIfEmpty()
+                        });
+                    } else if (split.Length == 1) {
+                        result.Add(new PermissionResourceScopeItem {
+                            ResouceName = split[0].ReturnNullIfEmpty()
+                        });
+                    } else {
+                        throw new ArgumentOutOfRangeException(nameof(request.Permissions));
+                    }
+                }
+            }
+            return Task.FromResult((ICollection<PermissionResourceScopeItem>)result);
+        }
+
         public async Task<EvaluationAnalyse> BuildEvaluationAnalyseAsync(EvaluatorRequest request) {
             EvaluationAnalyse analyse = new EvaluationAnalyse();
 
@@ -84,26 +126,9 @@ namespace PolicyServer1.Services.Default {
                         analyse.Items.Add(analyseItem);
                     }
 
-                    IEnumerable<Scope> grantedScopes = null;
-
-                    //TODO(demarco): this code is @ the same place in another file --- DefaultPermissionResponseGenerator.cs@108
-                    switch (request.Client.Options.DecisionStrategy) {
-                        case DecisionStrategy.Affirmative: {
-                                IGrouping<Resource, ResouceScopeResult> scopeByResouces = request.ResourceScopeResults.Where(p => p.Resource.Id == resource.Id && p.Granted == true).GroupBy(p => p.Resource).SingleOrDefault();
-                                IEnumerable<Guid> allowedScopes = scopeByResouces.Select(m => m.Scope.Id).Distinct();
-                                grantedScopes = scopes.Where(p => allowedScopes.Contains(p.Id));
-                            }
-                            break;
-                        case DecisionStrategy.Unanimous: {
-                                IGrouping<Resource, ResouceScopeResult> scopeByResouces = request.ResourceScopeResults.Where(p => p.Resource.Id == resource.Id).GroupBy(p => p.Resource).SingleOrDefault();
-                                IEnumerable<Guid> allowedScopes = scopeByResouces.Where(p => !scopeByResouces.Where(a => !a.Granted.Value).Select(m => m.Scope.Id).Contains(p.Scope.Id)).Select(p => p.Scope.Id).Distinct();
-                                grantedScopes = scopes.Where(p => allowedScopes.Contains(p.Id));
-                            }
-                            break;
-                    }
-
-                    foreach (Scope scope in grantedScopes) {
-                        analyseItem.Scopes.Add(scope.Name);
+                    Evaluation evaluation = await BuildEvaluationAsync(request, resource);
+                    foreach (String scope in evaluation.Results.SingleOrDefault(p => p.RsId == resource.Id)?.Scopes) {
+                        analyseItem.Scopes.Add(scope);
                     }
                 }
 
@@ -127,58 +152,44 @@ namespace PolicyServer1.Services.Default {
                     analyseItem.Permissions.Add(evaluationAnalysePermissionItem);
                 }
 
-                //TODO(demarco): Granted missing !
-                // analyseItem.Granted = permission.Value.Result;
-                //foreach (var item in analyse.Items) {
-                //    switch (request.Client.Options.DecisionStrategy) {
-                //        case DecisionStrategy.Affirmative:
-                //            item.Granted = item.Value.GrantedCount == 0;
-                //            break;
-                //        case DecisionStrategy.Unanimous:
-                //            item.Value.Granted = item.Value.DeniedCount == 0;
-                //            break;
-                //    }
-                //}
             }
 
             return analyse;
         }
 
-        //private async Task<Evaluation> BuildResultEvaluationAsync(EvaluatorRequest request) {
-        //    Evaluation result = new Evaluation();
-        //    Dictionary<Resource, List<Scope>> resourceByScopes = new Dictionary<Resource, List<Scope>>();
+        public Task<Evaluation> BuildEvaluationAsync(EvaluatorRequest request, Resource filterResouce = null) {
+            Evaluation result = new Evaluation();
 
-        //    foreach (KeyValuePair<Permission, PermissionDecision> permission in request.Result.PermissionsDecisions) {
-        //        IEnumerable<Resource> resources = await _evaluatorService.GetResources(request, permission.Key);
-        //        IEnumerable<Scope> scopes = await _evaluatorService.GetScopes(request, permission.Key);
+            switch (request.Client.Options.DecisionStrategy) {
+                case DecisionStrategy.Affirmative:
+                    foreach (IGrouping<Resource, ResouceScopeResult> item in request.ResourceScopeResults
+                        .Where(p => p.Granted == true && filterResouce == null || p.Resource.Id == filterResouce.Id)
+                        .GroupBy(p => p.Resource)
+                    ) {
+                        result.Results.Add(new EvaluationItem {
+                            RsId = item.Key.Id,
+                            RsName = item.Key.Name,
+                            Scopes = item.Select(p => p.Scope.Name).Distinct().ToList()
+                        });
+                    }
+                    break;
+                case DecisionStrategy.Unanimous:
+                    foreach (IGrouping<Resource, ResouceScopeResult> item in request.ResourceScopeResults
+                        .Where(p => filterResouce == null || p.Resource.Id == filterResouce.Id)
+                        .GroupBy(p => p.Resource)
+                    ) {
+                        result.Results.Add(new EvaluationItem {
+                            RsId = item.Key.Id,
+                            RsName = item.Key.Name,
+                            Scopes = item.Where(p => !item.Where(a => !a.Granted.Value).Select(m => m.Scope.Id).Contains(p.Scope.Id)).Select(p => p.Scope.Name).Distinct().ToList()
+                        });
+                    }
+                    break;
+            }
 
-        //        foreach (Resource resource in resources) {
-        //            if (!resourceByScopes.ContainsKey(resource)) {
-        //                resourceByScopes.Add(resource, new List<Scope>());
-        //            }
-        //            foreach (Scope scope in scopes) {
-        //                if (!resourceByScopes[resource].Contains(scope)) {
-        //                    resourceByScopes[resource].Add(scope);
-        //                    //TODO(demarco): It's missing the part of DENIED permission....
-        //                }
 
-        //            }
-        //        }
-
-        //    }
-
-        //    _logger.LogDebug($"Ressouces by Scopes: { Newtonsoft.Json.JsonConvert.SerializeObject(resourceByScopes)}");
-
-        //    foreach (KeyValuePair<Resource, List<Scope>> resourceByScope in resourceByScopes) {
-        //        result.Results.Add(new EvaluationItem {
-        //            RsId = resourceByScope.Key.Id,
-        //            RsName = resourceByScope.Key.Name,
-        //            Scopes = resourceByScope.Value.Select(p => p.Name).ToList()
-        //        });
-        //    }
-
-        //    return result;
-        //}
+            return Task.FromResult(result);
+        }
 
         private Task<IEnumerable<Resource>> GetResources(EvaluatorRequest request, Permission permission) {
             List<Resource> result = new List<Resource>();

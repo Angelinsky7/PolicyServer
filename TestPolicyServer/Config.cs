@@ -30,7 +30,8 @@ namespace TestPolicyServer {
                 new TimePolicy {
                     Name = "Time Policy",
                     Logic = PolicyLogic.Positive,
-                    NotBefore = DateTime.Now.AddMinutes(-10)
+                    NotBefore = new DateTime(2019, 1, 1),
+                    NotOnOrAfter = new DateTime(2019, 10, 10)
                 },
                 new RolePolicy {
                     Name = "Anti Adminisator Policy",

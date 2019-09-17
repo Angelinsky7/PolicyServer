@@ -9,11 +9,8 @@ namespace PolicyServer1.Services {
     public interface IEvaluatorService {
 
         Task<EvaluatorRequest> EvaluateAsync(EvaluatorRequest request);
-
-        //Task<IEnumerable<Resource>> GetResources(EvaluatorRequest request, Permission permission);
-        //Task<IEnumerable<Scope>> GetScopes(EvaluatorRequest request, Permission permission);
-
         Task<EvaluationAnalyse> BuildEvaluationAnalyseAsync(EvaluatorRequest request);
-
+        Task<Evaluation> BuildEvaluationAsync(EvaluatorRequest request, Resource filterResouce = null);
+        
     }
 }

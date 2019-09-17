@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PolicyServer1.Models;
@@ -45,6 +46,15 @@ namespace PolicyServer1.Models {
                 Policies = policyResult
             });
 
+        }
+
+        public static String GetResourceName(this Permission permission) {
+            if (permission is ResourcePermission resourcePermission) {
+                return resourcePermission.Resource?.Name;
+            } else if (permission is ScopePermission scopePermission) {
+                return scopePermission.Resource?.Name;
+            }
+            return null;
         }
 
     }
