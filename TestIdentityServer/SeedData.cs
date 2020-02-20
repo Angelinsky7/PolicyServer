@@ -28,12 +28,24 @@ namespace IdentityServerAspNetIdentity {
             using (ServiceProvider serviceProvider = services.BuildServiceProvider()) {
                 using (IServiceScope scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope()) {
                     ApplicationDbContext context = scope.ServiceProvider.GetService<ApplicationDbContext>();
-                    context.Database.Migrate();
 
+                    Console.WriteLine("Waiting database to be up....");
+                    //context.Database.EnsureCreated();
+                    context.Database.Migrate();
+                    Console.WriteLine("Database migrated");
+
+                    if (context.Roles.SingleOrDefault(p => p.Id == "1") == null) {
+                        context.Roles.Add(new IdentityRole { Id = "1", Name = "Administrator", NormalizedName = "ADMINISTRATOR" });
+                        context.Roles.Add(new IdentityRole { Id = "2", Name = "User", NormalizedName = "USER" });
+                        context.SaveChanges();
+                        Console.WriteLine("Roles Created");
+                    }
+                    
                     UserManager<ApplicationUser> userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
                     ApplicationUser alice = userMgr.FindByNameAsync("alice").Result;
                     if (alice == null) {
                         alice = new ApplicationUser {
+                            Id = "0564eba0-4bd6-4dd4-9b03-8190aed55a30",
                             UserName = "alice"
                         };
                         IdentityResult result = userMgr.CreateAsync(alice, "Pass123$").Result;
@@ -54,6 +66,11 @@ namespace IdentityServerAspNetIdentity {
                             throw new Exception(result.Errors.First().Description);
                         }
                         Console.WriteLine("alice created");
+
+                        context.UserRoles.Add(new IdentityUserRole<String> { UserId = alice.Id, RoleId = "1" });
+                        context.UserRoles.Add(new IdentityUserRole<String> { UserId = alice.Id, RoleId = "2" });
+                        context.SaveChanges();
+
                     } else {
                         Console.WriteLine("alice already exists");
                     }
