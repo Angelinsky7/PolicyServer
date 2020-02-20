@@ -36,7 +36,7 @@ namespace MvcClient.Controllers {
 
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            String content = await client.GetStringAsync("http://localhost:5001/connect/permission");
+            String content = await client.GetStringAsync("http://localhost:5001/connect/permission?clientId=mvc");
 
             ViewBag.Json = Newtonsoft.Json.JsonConvert.DeserializeObject(content).ToString();
             return View("Json");
