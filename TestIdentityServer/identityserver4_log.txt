@@ -11342,3 +11342,34 @@ Error Number:4060,State:1,Class:11
 2020-02-20 22:20:11.210 +01:00 [INF] Successful signout callback.
 2020-02-20 22:20:11.211 +01:00 [DBG] No client front-channel iframe urls
 2020-02-20 22:20:11.216 +01:00 [DBG] No client back-channel iframe urls
+2020-02-20 22:22:55.499 +01:00 [INF] Starting IdentityServer4 version 2.4.0.0
+2020-02-20 22:22:55.532 +01:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2020-02-20 22:22:55.540 +01:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2020-02-20 22:22:55.540 +01:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2020-02-20 22:22:55.540 +01:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2020-02-20 22:22:55.541 +01:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2020-02-20 22:22:55.541 +01:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2020-02-20 22:22:55.543 +01:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2020-02-20 22:22:59.239 +01:00 [DBG] Login Url: /Account/Login
+2020-02-20 22:22:59.240 +01:00 [DBG] Login Return Url Parameter: ReturnUrl
+2020-02-20 22:22:59.242 +01:00 [DBG] Logout Url: /Account/Logout
+2020-02-20 22:22:59.242 +01:00 [DBG] ConsentUrl Url: /consent
+2020-02-20 22:22:59.242 +01:00 [DBG] Consent Return Url Parameter: returnUrl
+2020-02-20 22:22:59.243 +01:00 [DBG] Error Url: /home/error
+2020-02-20 22:22:59.243 +01:00 [DBG] Error Id Parameter: errorId
+2020-02-20 22:23:03.333 +01:00 [INF] AuthenticationScheme: Identity.Application was challenged.
+2020-02-20 22:23:11.479 +01:00 [DBG] CORS request made for path: /Account/Login from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2020-02-20 22:23:11.965 +01:00 [DBG] Augmenting SignInContext
+2020-02-20 22:23:11.967 +01:00 [DBG] Adding idp claim with value: local
+2020-02-20 22:23:11.967 +01:00 [DBG] Adding amr claim with value: pwd
+2020-02-20 22:23:11.968 +01:00 [DBG] Adding auth_time claim with value: 1582233791
+2020-02-20 22:23:11.977 +01:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2020-02-20 22:23:11.993 +01:00 [INF] {"Username":"alice","Provider":null,"ProviderUserId":null,"SubjectId":"0564eba0-4bd6-4dd4-9b03-8190aed55a30","DisplayName":"alice","Endpoint":"UI","Category":"Authentication","Name":"User Login Success","EventType":"Success","Id":1000,"Message":null,"ActivityId":"0HLTM9C7KJLDA:00000005","TimeStamp":"2020-02-20T21:23:11.0000000Z","ProcessId":20368,"LocalIpAddress":"::1:5000","RemoteIpAddress":"::1","$type":"UserLoginSuccessEvent"}
+2020-03-23 18:08:50.091 +01:00 [INF] Starting IdentityServer4 version 2.4.0.0
+2020-03-23 18:08:50.145 +01:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2020-03-23 18:08:50.169 +01:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2020-03-23 18:08:50.169 +01:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2020-03-23 18:08:50.170 +01:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2020-03-23 18:08:50.170 +01:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2020-03-23 18:08:50.170 +01:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2020-03-23 18:08:50.171 +01:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid

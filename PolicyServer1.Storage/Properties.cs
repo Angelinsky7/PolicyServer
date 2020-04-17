@@ -1,3 +1,3 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("PolicyServer1")]
+[assembly: InternalsVisibleTo("ch.infodev.web.audit.server")]
