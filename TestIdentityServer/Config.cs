@@ -53,12 +53,13 @@ namespace IdentityServerAspNetIdentity {
                 new Client {
                     ClientId = "mvc",
                     ClientName = "MVC Client",
-                    AllowedGrantTypes = GrantTypes.Code,
+                    //AllowedGrantTypes = GrantTypes.Code, 
+                    AllowedGrantTypes = GrantTypes.Hybrid,
                     //AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
                     ClientSecrets = {
                         new Secret("secret".Sha256())
                     },
-                    RedirectUris = { "http://localhost:5005/signin-oidc" },
+                    RedirectUris = { "http://localhost:5005/signin-oidc" }, 
                     //FrontChannelLogoutUri = "http://localhost:5005/signout-oidc",
                     PostLogoutRedirectUris = { "http://localhost:5005/signout-callback.oidc" },
                     AllowedScopes = {

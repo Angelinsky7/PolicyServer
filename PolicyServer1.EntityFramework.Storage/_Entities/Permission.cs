@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace PolicyServer1.EntityFramework.Storage.Entities {
-    public class Secret {
-
-        public Int64 Id { get; set; }
+    public class Permission {
+        public Int32 Id { get; set; }
+        public String Name { get; set; }
         public String Description { get; set; }
-        public String Value { get; set; }
-        public DateTime? Expiration { get; set; }
-        public String Type { get; set; } = "SharedSecret";
+        
+        public Int32 PolicyId { get; set; }
+        public Policy Policy { get; set; }
 
         public DateTime Created { get; set; } = DateTime.UtcNow;
         public DateTime? Updated { get; set; }

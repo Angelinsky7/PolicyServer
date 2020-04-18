@@ -7,6 +7,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="_Entities\Client.cs" />
+    <Compile Remove="_Entities\ClientScope.cs" />
+    <Compile Remove="_Entities\ClientSecret.cs" />
+    <Compile Remove="_Entities\Permission.cs" />
+    <Compile Remove="_Entities\Policy.cs" />
+    <Compile Remove="_Entities\PolicyRole.cs" />
+    <Compile Remove="_Entities\Role.cs" />
+    <Compile Remove="_Entities\RoleIdentity.cs" />
+    <Compile Remove="_Entities\RolePermission.cs" />
+    <Compile Remove="_Entities\RoleRole.cs" />
+    <Compile Remove="_Entities\RoleSubject.cs" />
+    <Compile Remove="_Entities\Secret.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="_Entities\Client.cs" />
+    <None Include="_Entities\ClientScope.cs" />
+    <None Include="_Entities\ClientSecret.cs" />
+    <None Include="_Entities\Permission.cs" />
+    <None Include="_Entities\Policy.cs" />
+    <None Include="_Entities\PolicyRole.cs" />
+    <None Include="_Entities\Role.cs" />
+    <None Include="_Entities\RoleIdentity.cs" />
+    <None Include="_Entities\RolePermission.cs" />
+    <None Include="_Entities\RoleRole.cs" />
+    <None Include="_Entities\RoleSubject.cs" />
+    <None Include="_Entities\Secret.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.4" />
   </ItemGroup>

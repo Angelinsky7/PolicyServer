@@ -223,44 +223,44 @@ namespace TestMigration {
 
                     Int32 policyId = 0;
 
-                    if (!context.Clients.Any()) {
-                        context.Clients.Add(new PolicyServer1.EntityFramework.Storage.Entities.Client {
-                            ClientId = "mvc",
-                            ClientName = "MVC Client",
-                            ClientUri = "http://localhost:5000",
-                        });
-                        context.SaveChanges();
-                        policyId = context.Clients.FirstOrDefault(p => p.ClientId == "mvc").PolicyId ?? -1;
-                    }
+                    //if (!context.Clients.Any()) {
+                    //    context.Clients.Add(new PolicyServer1.EntityFramework.Storage.Entities.Client {
+                    //        ClientId = "mvc",
+                    //        ClientName = "MVC Client",
+                    //        ClientUri = "http://localhost:5000",
+                    //    });
+                    //    context.SaveChanges();
+                    //    policyId = context.Clients.FirstOrDefault(p => p.ClientId == "mvc").PolicyId ?? -1;
+                    //}
 
-                    if (!context.Policies.Any()) {
-                        PolicyServer1.EntityFramework.Storage.Entities.Policy newPolicy = new PolicyServer1.EntityFramework.Storage.Entities.Policy();
-                        context.Policies.Add(newPolicy);
-                        context.SaveChanges();
+                    //if (!context.Policies.Any()) {
+                    //    PolicyServer1.EntityFramework.Storage.Entities.Policy newPolicy = new PolicyServer1.EntityFramework.Storage.Entities.Policy();
+                    //    context.Policies.Add(newPolicy);
+                    //    context.SaveChanges();
 
-                        PolicyServer1.EntityFramework.Storage.Entities.Client client = context.Clients.Find(policyId);
-                        client.PolicyId = newPolicy.Id;
-                        context.SaveChanges();
-                    }
+                    //    PolicyServer1.EntityFramework.Storage.Entities.Client client = context.Clients.Find(policyId);
+                    //    client.PolicyId = newPolicy.Id;
+                    //    context.SaveChanges();
+                    //}
 
-                    if (!context.Permissions.Any()) {
-                        context.Permissions.Add(new PolicyServer1.EntityFramework.Storage.Entities.Permission {
-                            PolicyId = policyId,
-                            Name = "Permission1",
-                            Description = "Ceci est une permission - 1",
-                        });
-                        context.Permissions.Add(new PolicyServer1.EntityFramework.Storage.Entities.Permission {
-                            PolicyId = policyId,
-                            Name = "Permission2",
-                            Description = "Ceci est une permission - 2",
-                        });
-                        context.Permissions.Add(new PolicyServer1.EntityFramework.Storage.Entities.Permission {
-                            PolicyId = policyId,
-                            Name = "Permission3",
-                            Description = "Ceci est une permission - 3",
-                        });
-                        context.SaveChanges();
-                    }
+                    //if (!context.Permissions.Any()) {
+                    //    context.Permissions.Add(new PolicyServer1.EntityFramework.Storage.Entities.Permission {
+                    //        PolicyId = policyId,
+                    //        Name = "Permission1",
+                    //        Description = "Ceci est une permission - 1",
+                    //    });
+                    //    context.Permissions.Add(new PolicyServer1.EntityFramework.Storage.Entities.Permission {
+                    //        PolicyId = policyId,
+                    //        Name = "Permission2",
+                    //        Description = "Ceci est une permission - 2",
+                    //    });
+                    //    context.Permissions.Add(new PolicyServer1.EntityFramework.Storage.Entities.Permission {
+                    //        PolicyId = policyId,
+                    //        Name = "Permission3",
+                    //        Description = "Ceci est une permission - 3",
+                    //    });
+                    //    context.SaveChanges();
+                    //}
                 }
 
             }

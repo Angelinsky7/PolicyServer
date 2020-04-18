@@ -5,11 +5,11 @@ using System.Text;
 namespace PolicyServer1.EntityFramework.Storage.Entities {
     public class RoleRole {
 
-        public Guid RoleId { get; set; }
+        public Int32 RoleId { get; set; }
         public Role Role { get; set; }
 
-        public Guid ParentId { get; set; }
-        public Role Parent{ get; set; }
+        public Int32 ParentId { get; set; }
+        public Role Parent { get; set; }
 
     }
 }

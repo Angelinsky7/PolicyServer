@@ -72,6 +72,13 @@ namespace MvcClient {
             //services.AddPolicyServer();
             //.AddLocalPolicy(Configuration.GetSection("Policy"));
 
+            /*
+             * 
+             * To test this !!!!
+             * http://localhost:5001/connect/permission?response_mode=analyse&client_id=mvc
+             * 
+             */
+
             //TODO(demarco): What i want
             services.AddPolicyClient(opt => {
                 opt.Authority = "http://localhost:5001";

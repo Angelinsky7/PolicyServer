@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace PolicyServer1.EntityFramework.Storage.Entities {
-    public class ClientSecret {
+    public class ClientPolicy {
 
         public Guid ClientId { get; set; }
         public Client Client { get; set; }
 
-        public Int64 BaseId { get; set; }
-        public Int64 Base { get; set; }
+        public Guid PolicyId { get; set; }
+        public Policy Policy { get; set; }
 
     }
 }
