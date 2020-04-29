@@ -206,7 +206,7 @@ namespace PolicyServer1.Services.Default {
             }
 
             if (result.Count == 0) {
-                //TODO(demarco): add an empty resouce that reprents no ressources....
+                //TODO(demarco): add an empty resouce that reprents no resources....
             }
 
             return Task.FromResult(result.AsEnumerable());

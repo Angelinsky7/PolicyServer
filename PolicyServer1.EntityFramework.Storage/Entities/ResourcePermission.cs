@@ -9,6 +9,8 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
         public Permission Base { get; set; }
 
         public String ResouceType { get; set; }
+
+        public Guid ResourceId { get; set; }
         public Resource Resource { get; set; }
 
     }

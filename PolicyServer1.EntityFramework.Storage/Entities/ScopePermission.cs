@@ -8,7 +8,7 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
         public Guid Id { get; set; }
         public Permission Base { get; set; }
 
-        public Guid RessourceId { get; set; }
+        public Guid ResourceId { get; set; }
         public Resource Resource { get; set; }
 
         public ICollection<ScopePermissionScope> Scopes { get; set; } = new HashSet<ScopePermissionScope>();

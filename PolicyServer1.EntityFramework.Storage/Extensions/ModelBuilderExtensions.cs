@@ -97,7 +97,7 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
                 userPolicy.ToTable(storeOptions.UserPolicy);
                 userPolicy.HasKey(p => p.Id);
 
-                userPolicy.HasOne(p => p.Base).WithOne().HasForeignKey<TimePolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+                userPolicy.HasOne(p => p.Base).WithOne().HasForeignKey<UserPolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
                 userPolicy.HasMany(p => p.Users).WithOne(p => p.UserPolicy).HasForeignKey(p => p.UserPolicyId).OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -112,7 +112,7 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
                 groupPolicy.ToTable(storeOptions.GroupPolicy);
                 groupPolicy.HasKey(p => p.Id);
 
-                groupPolicy.HasOne(p => p.Base).WithOne().HasForeignKey<TimePolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+                groupPolicy.HasOne(p => p.Base).WithOne().HasForeignKey<GroupPolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
                 groupPolicy.HasMany(p => p.Users).WithOne(p => p.GroupPolicy).HasForeignKey(p => p.GroupPolicyId).OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -127,7 +127,7 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
                 clientPolicy_NameMissing.ToTable(storeOptions.ClientPolicy_NameMissing);
                 clientPolicy_NameMissing.HasKey(p => p.Id);
 
-                clientPolicy_NameMissing.HasOne(p => p.Base).WithOne().HasForeignKey<TimePolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+                clientPolicy_NameMissing.HasOne(p => p.Base).WithOne().HasForeignKey<ClientPolicy_NameMissing>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
                 clientPolicy_NameMissing.HasMany(p => p.Users).WithOne(p => p.ClientPolicy).HasForeignKey(p => p.ClientPolicyId).OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -144,6 +144,7 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
 
                 aggregatedPolicy.Property(p => p.DecisionStrategy).IsRequired();
 
+                aggregatedPolicy.HasOne(p => p.Base).WithOne().HasForeignKey<AggregatedPolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
                 aggregatedPolicy.HasMany(p => p.Policies).WithOne(p => p.AggregatedPolicy).HasForeignKey(p => p.AggregatedPolicyId).OnDelete(DeleteBehavior.Restrict);
             });
 
@@ -172,24 +173,24 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
                 resource.Property(p => p.Updated).ValueGeneratedOnUpdate();
                 resource.Property(p => p.LastAccessed);
 
-                resource.HasMany(p => p.Uri).WithOne(p => p.Resource).HasForeignKey(p => p.RessouceId).OnDelete(DeleteBehavior.Cascade);
-                resource.HasMany(p => p.Scopes).WithOne(p => p.Resource).HasForeignKey(p => p.RessourceId).OnDelete(DeleteBehavior.Cascade);
+                resource.HasMany(p => p.Uri).WithOne(p => p.Resource).HasForeignKey(p => p.ResouceId).OnDelete(DeleteBehavior.Cascade);
+                resource.HasMany(p => p.Scopes).WithOne(p => p.Resource).HasForeignKey(p => p.ResourceId).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<ResourceUri>(resourceUri => {
                 resourceUri.ToTable(storeOptions.ResourceUri);
                 resourceUri.HasKey(p => p.Id);
 
-                resourceUri.HasOne(p => p.Resource).WithMany(p => p.Uri).HasForeignKey(p => p.RessouceId).OnDelete(DeleteBehavior.Cascade);
+                resourceUri.HasOne(p => p.Resource).WithMany(p => p.Uri).HasForeignKey(p => p.ResouceId).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<ResourceScope>(resourceScope => {
                 resourceScope.ToTable(storeOptions.ResourceScope);
-                resourceScope.HasKey(p => new { p.RessourceId, p.ScopeId});
+                resourceScope.HasKey(p => new { p.ResourceId, p.ScopeId});
 
-                resourceScope.HasIndex(p => new { p.RessourceId, p.ScopeId }).IsUnique();
+                resourceScope.HasIndex(p => new { p.ResourceId, p.ScopeId }).IsUnique();
 
-                resourceScope.HasOne(p => p.Resource).WithMany(p => p.Scopes).HasForeignKey(p => p.RessourceId).OnDelete(DeleteBehavior.Cascade);
+                resourceScope.HasOne(p => p.Resource).WithMany(p => p.Scopes).HasForeignKey(p => p.ResourceId).OnDelete(DeleteBehavior.Cascade);
                 resourceScope.HasOne(p => p.Scope).WithMany().HasForeignKey(p => p.ScopeId).OnDelete(DeleteBehavior.Restrict);
             });
 
@@ -205,6 +206,70 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
                 secret.Property(p => p.Created).ValueGeneratedOnAdd().IsRequired();
                 secret.Property(p => p.Updated).ValueGeneratedOnUpdate();
                 secret.Property(p => p.LastAccessed);
+            });
+
+            modelBuilder.Entity<Permission>(permission => {
+                permission.ToTable(storeOptions.Permission);
+                permission.HasKey(p => p.Id);
+
+                permission.Property(p => p.Name).HasMaxLength(200).IsRequired();
+                permission.Property(p => p.Description).HasMaxLength(200);
+                permission.Property(p => p.DecisionStrategy).IsRequired();
+
+                permission.Property(p => p.Created).ValueGeneratedOnAdd().IsRequired();
+                permission.Property(p => p.Updated).ValueGeneratedOnUpdate();
+                permission.Property(p => p.LastAccessed);
+
+                permission.HasMany(p => p.Policies).WithOne(p => p.Permission).HasForeignKey(p => p.PermissionId).OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<PermissionPolicy>(permissionPolicy => {
+                permissionPolicy.ToTable(storeOptions.PermissionPolicy);
+                permissionPolicy.HasKey(p => new { p.PermissionId, p.PolicyId });
+
+                permissionPolicy.HasIndex(p => new { p.PermissionId, p.PolicyId }).IsUnique();
+
+                permissionPolicy.HasOne(p => p.Permission).WithMany(p => p.Policies).HasForeignKey(p => p.PermissionId).OnDelete(DeleteBehavior.Cascade);
+                permissionPolicy.HasOne(p => p.Policy).WithMany().HasForeignKey(p => p.PolicyId).OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<ScopePermission>(scopePermission => {
+                scopePermission.ToTable(storeOptions.ScopePermission);
+                scopePermission.HasKey(p => p.Id);
+
+                scopePermission.HasOne(p => p.Base).WithOne().HasForeignKey<ScopePermission>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+                scopePermission.HasOne(p => p.Resource).WithMany().HasForeignKey(p => p.ResourceId).OnDelete(DeleteBehavior.Cascade);
+                scopePermission.HasMany(p => p.Scopes).WithOne(p => p.ScopePermission).HasForeignKey(p => p.ScopePermissionId).OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<ScopePermissionScope>(scopePermissionScope => {
+                scopePermissionScope.ToTable(storeOptions.ScopePermissionScope);
+                scopePermissionScope.HasKey(p => new { p.ScopePermissionId, p.ScopeId });
+
+                scopePermissionScope.HasIndex(p => new { p.ScopePermissionId, p.ScopeId }).IsUnique();
+
+                scopePermissionScope.HasOne(p => p.ScopePermission).WithMany(p => p.Scopes).HasForeignKey(p => p.ScopePermissionId).OnDelete(DeleteBehavior.Cascade);
+                scopePermissionScope.HasOne(p => p.Scope).WithMany().HasForeignKey(p => p.ScopeId).OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<ResourcePermission>(resourcePermission => {
+                resourcePermission.ToTable(storeOptions.ResourcePermission);
+                resourcePermission.HasKey(p => p.Id);
+
+                resourcePermission.Property(p => p.ResouceType).HasMaxLength(200).IsRequired();
+
+                resourcePermission.HasOne(p => p.Base).WithOne().HasForeignKey<ResourcePermission>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+                resourcePermission.HasOne(p => p.Resource).WithMany().HasForeignKey(p => p.ResourceId).OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<ScopePermissionScope>(scopePermissionScope => {
+                scopePermissionScope.ToTable(storeOptions.ScopePermissionScope);
+                scopePermissionScope.HasKey(p => new { p.ScopePermissionId, p.ScopeId });
+
+                scopePermissionScope.HasIndex(p => new { p.ScopePermissionId, p.ScopeId }).IsUnique();
+
+                scopePermissionScope.HasOne(p => p.ScopePermission).WithMany(p => p.Scopes).HasForeignKey(p => p.ScopePermissionId).OnDelete(DeleteBehavior.Cascade);
+                scopePermissionScope.HasOne(p => p.Scope).WithMany().HasForeignKey(p => p.ScopeId).OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Client>(client => {
@@ -249,12 +314,12 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
 
             modelBuilder.Entity<ClientResource>(clientResource => {
                 clientResource.ToTable(storeOptions.ClientResource);
-                clientResource.HasKey(p => new { p.ClientId, p.RessourceId });
+                clientResource.HasKey(p => new { p.ClientId, p.ResourceId });
 
-                clientResource.HasIndex(p => new { p.ClientId, p.RessourceId }).IsUnique();
+                clientResource.HasIndex(p => new { p.ClientId, p.ResourceId }).IsUnique();
 
                 clientResource.HasOne(p => p.Client).WithMany(p => p.Resources).HasForeignKey(p => p.ClientId).OnDelete(DeleteBehavior.Cascade);
-                clientResource.HasOne(p => p.Ressource).WithMany().HasForeignKey(p => p.RessourceId).OnDelete(DeleteBehavior.Restrict);
+                clientResource.HasOne(p => p.Resource).WithMany().HasForeignKey(p => p.ResourceId).OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<ClientScope>(clientScope => {

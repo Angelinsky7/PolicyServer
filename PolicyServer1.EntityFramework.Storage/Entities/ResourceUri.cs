@@ -7,7 +7,7 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
 
         public Int64 Id { get; set; }
 
-        public Guid RessouceId { get; set; }
+        public Guid ResouceId { get; set; }
         public Resource Resource { get; set; }
 
         public String Uri { get; set; }

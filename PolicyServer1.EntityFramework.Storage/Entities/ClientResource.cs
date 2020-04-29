@@ -8,8 +8,8 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
         public Guid ClientId { get; set; }
         public Client Client { get; set; }
 
-        public Guid RessourceId { get; set; }
-        public Resource Ressource { get; set; }
+        public Guid ResourceId { get; set; }
+        public Resource Resource { get; set; }
 
     }
 }

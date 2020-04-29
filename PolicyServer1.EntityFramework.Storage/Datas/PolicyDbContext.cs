@@ -23,6 +23,7 @@ namespace PolicyServer1.EntityFramework.Storage.Datas {
         public DbSet<Policy> Policies { get; set; }
         public DbSet<Resource> Resources { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
 
         public PolicyDbContext(DbContextOptions<TContext> options, clientStoreOptions storeOptions) : base(options) {
             _storeOptions = storeOptions ?? throw new ArgumentNullException(nameof(storeOptions));

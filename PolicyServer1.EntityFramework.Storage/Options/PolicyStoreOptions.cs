@@ -13,7 +13,7 @@ namespace PolicyServer1.EntityFramework.Storage.Options {
         
         
       
-        public TableConfiguration Permission { get; set; } = new TableConfiguration("Permission");
+       
 
         //public TableConfiguration PolicyRole { get; set; } = new TableConfiguration("PolicyRole");        
         //public TableConfiguration RoleIdentity { get; set; } = new TableConfiguration("RoleIdentity");
@@ -41,6 +41,11 @@ namespace PolicyServer1.EntityFramework.Storage.Options {
         public TableConfiguration Resource { get; set; } = new TableConfiguration("Resource");
         public TableConfiguration ResourceUri { get; set; } = new TableConfiguration("ResourceUri");
         public TableConfiguration ResourceScope { get; set; } = new TableConfiguration("ResourceScope");
+        public TableConfiguration Permission { get; set; } = new TableConfiguration("Permission");
+        public TableConfiguration PermissionPolicy { get; set; } = new TableConfiguration("PermissionPolicy");
+        public TableConfiguration ScopePermission { get; set; } = new TableConfiguration("ScopePermission");
+        public TableConfiguration ScopePermissionScope { get; set; } = new TableConfiguration("ScopePermissionScope");
+        public TableConfiguration ResourcePermission { get; set; } = new TableConfiguration("ResourcePermission");
         public TableConfiguration Client { get; set; } = new TableConfiguration("Client");
         public TableConfiguration ClientSecret { get; set; } = new TableConfiguration("ClientSecret");
         public TableConfiguration ClientResource { get; set; } = new TableConfiguration("ClientResource");

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -54,16 +55,23 @@ namespace TestPolicyServer1 {
                 }
             );
 
-            services.AddPolicyServer(opt => {
-                //opt.Caching.clientStoreExpiration = ..;
-            })
+            //services.AddPolicyServer(opt => {
+            //    //opt.Caching.clientStoreExpiration = ..;
+            //}).AddInMemoryPolicies(Config.GetClients());
+
+
+
+            services.AddPolicyServer(opt => {})
+                .AddConfigurationStore(opt => {
+                    opt.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), sql => sql.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name));
+                });
+
+
+
 
             //    //.AddConfigurationStore(opt => {
             //    //    opt.ConfigureDbContext = ctx => ctx.UseSqlServer("", sql => sql.MigrationsAssembly(""));
             //    //})
-
-                .AddInMemoryPolicies(Config.GetClients());
-
             //.AddclientStore<PolicyDbContext>()
             //.AddclientStore(opt => { opt.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), sql => sql.MigrationsAssembly(...)); })
             //.AddInMemoryPolicies(Config.GetPolicies())
