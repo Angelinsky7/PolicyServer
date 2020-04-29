@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using TestPolicyServer;
 
@@ -30,10 +32,10 @@ namespace TestPolicyServer1 {
 
             services.AddMvc()
                 .AddJsonOptions(opt => {
-                    opt.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
-                    opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    opt.JsonSerializerOptions.WriteIndented = true;
+                    opt.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 })
-                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
 
 
             services.Configure<ForwardedHeadersOptions>(opt => {
@@ -70,7 +72,7 @@ namespace TestPolicyServer1 {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
             app.UseForwardedHeaders();
 
             if (env.IsDevelopment()) {
@@ -79,20 +81,30 @@ namespace TestPolicyServer1 {
 
             app.UsePathBase("/policy");
 
-            app.Use((context, next) => {
-                Console.WriteLine("Headers: " + String.Join(", ", context.Request.Headers));
-                Console.WriteLine("Host is " + context.Request.Host);
-                Console.WriteLine("PathBase is " + context.Request.PathBase.Value);
-                Console.WriteLine("Path is " + context.Request.Path.Value);
-                return next();
-            });
+            //app.Use((context, next) => {
+            //    Console.WriteLine("Headers: " + String.Join(", ", context.Request.Headers));
+            //    Console.WriteLine("Host is " + context.Request.Host);
+            //    Console.WriteLine("PathBase is " + context.Request.PathBase.Value);
+            //    Console.WriteLine("Path is " + context.Request.Path.Value);
+            //    return next();
+            //});
+
+            //app.UseAuthentication();
+
+            app.UseStaticFiles();
+
+            app.UseRouting();
 
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UsePolicyServer();
 
-            app.UseStaticFiles();
-            app.UseMvcWithDefaultRoute();
+            //app.UseMvcWithDefaultRoute();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

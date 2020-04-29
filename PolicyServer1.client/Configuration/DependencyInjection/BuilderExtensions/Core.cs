@@ -37,7 +37,7 @@ namespace Microsoft.Extensions.DependencyInjection {
         }
 
         public static IPolicyClientBuilder AddAuthorizationPermissionPolicies(this IPolicyClientBuilder builder) {
-            builder.Services.AddAuthorization();
+            builder.Services.AddAuthorizationCore();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddTransient<IAuthorizationPolicyProvider, DefaultPolicyServerAuthorizationPolicyProvider>();
             builder.Services.AddTransient<IAuthorizationHandler, DefaultPolicyServerPermissionHandler>();
