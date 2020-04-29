@@ -10,7 +10,7 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
         public String Name { get; set; }
         public String DisplayName { get; set; }
         public String Type { get; set; }
-        public ICollection<String> Uri { get; set; } = new HashSet<String>();
+        public ICollection<ResourceUri> Uri { get; set; } = new HashSet<ResourceUri>();
         public ICollection<ResourceScope> Scopes { get; set; } = new HashSet<ResourceScope>();
         public String IconUri { get; set; }
 

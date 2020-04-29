@@ -11,19 +11,19 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
         public Nullable<DateTime> NotBefore { get; set; }
         public Nullable<DateTime> NotOnOrAfter { get; set; }
 
-        public Int64 DayOfMonthId { get; set; }
+        public Nullable<Int64> DayOfMonthId { get; set; }
         public TimePolicyRange DayOfMonth { get; set; }
 
-        public Int64 MonthId { get; set; }
+        public Nullable<Int64> MonthId { get; set; }
         public TimePolicyRange Month { get; set; }
 
-        public Int64 YearId { get; set; }
+        public Nullable<Int64> YearId { get; set; }
         public TimePolicyRange Year { get; set; }
 
-        public Int64 HourId { get; set; }
+        public Nullable<Int64> HourId { get; set; }
         public TimePolicyRange Hour { get; set; }
 
-        public Int64 MinuteId{ get; set; }
+        public Nullable<Int64> MinuteId{ get; set; }
         public TimePolicyRange Minute { get; set; }
 
         public DateTime Created { get; set; } = DateTime.UtcNow;
