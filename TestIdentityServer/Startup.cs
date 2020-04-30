@@ -33,7 +33,7 @@ namespace IdentityServerAspNetIdentity {
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
+            services.AddControllersWithViews();
 
             services.Configure<IISOptions>(iis => {
                 iis.AuthenticationDisplayName = "Windows";

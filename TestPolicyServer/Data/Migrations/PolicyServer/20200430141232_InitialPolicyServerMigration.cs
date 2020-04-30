@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TestPolicyServer.Data.Migrations.PolicyServer._001
+namespace TestPolicyServer.Data.Migrations.PolicyServer
 {
     public partial class InitialPolicyServerMigration : Migration
     {
@@ -153,7 +153,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClientPermission",
+                name: "MmClientPermission",
                 columns: table => new
                 {
                     ClientId = table.Column<Guid>(nullable: false),
@@ -161,15 +161,15 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClientPermission", x => new { x.ClientId, x.PermissionId });
+                    table.PrimaryKey("PK_MmClientPermission", x => new { x.ClientId, x.PermissionId });
                     table.ForeignKey(
-                        name: "FK_ClientPermission_Client_ClientId",
+                        name: "FK_MmClientPermission_Client_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Client",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ClientPermission_Permission_PermissionId",
+                        name: "FK_MmClientPermission_Permission_PermissionId",
                         column: x => x.PermissionId,
                         principalTable: "Permission",
                         principalColumn: "Id",
@@ -198,37 +198,13 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 name: "ClientPolicy",
                 columns: table => new
                 {
-                    ClientId = table.Column<Guid>(nullable: false),
-                    PolicyId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ClientPolicy", x => new { x.ClientId, x.PolicyId });
-                    table.ForeignKey(
-                        name: "FK_ClientPolicy_Client_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Client",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ClientPolicy_Policy_PolicyId",
-                        column: x => x.PolicyId,
-                        principalTable: "Policy",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ClientPolicy_NameMissing",
-                columns: table => new
-                {
                     Id = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClientPolicy_NameMissing", x => x.Id);
+                    table.PrimaryKey("PK_ClientPolicy", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ClientPolicy_NameMissing_Policy_Id",
+                        name: "FK_ClientPolicy_Policy_Id",
                         column: x => x.Id,
                         principalTable: "Policy",
                         principalColumn: "Id",
@@ -253,7 +229,31 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 });
 
             migrationBuilder.CreateTable(
-                name: "PermissionPolicy",
+                name: "MmClientPolicy",
+                columns: table => new
+                {
+                    ClientId = table.Column<Guid>(nullable: false),
+                    PolicyId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MmClientPolicy", x => new { x.ClientId, x.PolicyId });
+                    table.ForeignKey(
+                        name: "FK_MmClientPolicy_Client_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Client",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MmClientPolicy_Policy_PolicyId",
+                        column: x => x.PolicyId,
+                        principalTable: "Policy",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MmPermissionPolicy",
                 columns: table => new
                 {
                     PermissionId = table.Column<Guid>(nullable: false),
@@ -261,15 +261,15 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PermissionPolicy", x => new { x.PermissionId, x.PolicyId });
+                    table.PrimaryKey("PK_MmPermissionPolicy", x => new { x.PermissionId, x.PolicyId });
                     table.ForeignKey(
-                        name: "FK_PermissionPolicy_Permission_PermissionId",
+                        name: "FK_MmPermissionPolicy_Permission_PermissionId",
                         column: x => x.PermissionId,
                         principalTable: "Permission",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PermissionPolicy_Policy_PolicyId",
+                        name: "FK_MmPermissionPolicy_Policy_PolicyId",
                         column: x => x.PolicyId,
                         principalTable: "Policy",
                         principalColumn: "Id",
@@ -311,7 +311,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClientResource",
+                name: "MmClientResource",
                 columns: table => new
                 {
                     ClientId = table.Column<Guid>(nullable: false),
@@ -319,15 +319,15 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClientResource", x => new { x.ClientId, x.ResourceId });
+                    table.PrimaryKey("PK_MmClientResource", x => new { x.ClientId, x.ResourceId });
                     table.ForeignKey(
-                        name: "FK_ClientResource_Client_ClientId",
+                        name: "FK_MmClientResource_Client_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Client",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ClientResource_Resource_ResourceId",
+                        name: "FK_MmClientResource_Resource_ResourceId",
                         column: x => x.ResourceId,
                         principalTable: "Resource",
                         principalColumn: "Id",
@@ -404,7 +404,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClientRole",
+                name: "MmClientRole",
                 columns: table => new
                 {
                     ClientId = table.Column<Guid>(nullable: false),
@@ -412,15 +412,15 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClientRole", x => new { x.ClientId, x.RoleId });
+                    table.PrimaryKey("PK_MmClientRole", x => new { x.ClientId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_ClientRole_Client_ClientId",
+                        name: "FK_MmClientRole_Client_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Client",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ClientRole_Role_RoleId",
+                        name: "FK_MmClientRole_Role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Role",
                         principalColumn: "Id",
@@ -428,7 +428,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoleRole",
+                name: "MmRoleRole",
                 columns: table => new
                 {
                     RoleId = table.Column<Guid>(nullable: false),
@@ -436,15 +436,15 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleRole", x => new { x.RoleId, x.ParentId });
+                    table.PrimaryKey("PK_MmRoleRole", x => new { x.RoleId, x.ParentId });
                     table.ForeignKey(
-                        name: "FK_RoleRole_Role_ParentId",
+                        name: "FK_MmRoleRole_Role_ParentId",
                         column: x => x.ParentId,
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RoleRole_Role_RoleId",
+                        name: "FK_MmRoleRole_Role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Role",
                         principalColumn: "Id",
@@ -452,7 +452,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClientScope",
+                name: "MmClientScope",
                 columns: table => new
                 {
                     ClientId = table.Column<Guid>(nullable: false),
@@ -460,15 +460,15 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClientScope", x => new { x.ClientId, x.ScopeId });
+                    table.PrimaryKey("PK_MmClientScope", x => new { x.ClientId, x.ScopeId });
                     table.ForeignKey(
-                        name: "FK_ClientScope_Client_ClientId",
+                        name: "FK_MmClientScope_Client_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Client",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ClientScope_Scope_ScopeId",
+                        name: "FK_MmClientScope_Scope_ScopeId",
                         column: x => x.ScopeId,
                         principalTable: "Scope",
                         principalColumn: "Id",
@@ -476,7 +476,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 });
 
             migrationBuilder.CreateTable(
-                name: "ResourceScope",
+                name: "MmResourceScope",
                 columns: table => new
                 {
                     ResourceId = table.Column<Guid>(nullable: false),
@@ -484,15 +484,15 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ResourceScope", x => new { x.ResourceId, x.ScopeId });
+                    table.PrimaryKey("PK_MmResourceScope", x => new { x.ResourceId, x.ScopeId });
                     table.ForeignKey(
-                        name: "FK_ResourceScope_Resource_ResourceId",
+                        name: "FK_MmResourceScope_Resource_ResourceId",
                         column: x => x.ResourceId,
                         principalTable: "Resource",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ResourceScope_Scope_ScopeId",
+                        name: "FK_MmResourceScope_Scope_ScopeId",
                         column: x => x.ScopeId,
                         principalTable: "Scope",
                         principalColumn: "Id",
@@ -500,7 +500,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClientSecret",
+                name: "MmClientSecret",
                 columns: table => new
                 {
                     SecretId = table.Column<long>(nullable: false),
@@ -508,15 +508,15 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClientSecret", x => new { x.ClientId, x.SecretId });
+                    table.PrimaryKey("PK_MmClientSecret", x => new { x.ClientId, x.SecretId });
                     table.ForeignKey(
-                        name: "FK_ClientSecret_Client_ClientId",
+                        name: "FK_MmClientSecret_Client_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Client",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ClientSecret_Secret_SecretId",
+                        name: "FK_MmClientSecret_Secret_SecretId",
                         column: x => x.SecretId,
                         principalTable: "Secret",
                         principalColumn: "Id",
@@ -547,13 +547,13 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                         column: x => x.DayOfMonthId,
                         principalTable: "TimePolicyRange",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TimePolicy_TimePolicyRange_HourId",
                         column: x => x.HourId,
                         principalTable: "TimePolicyRange",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TimePolicy_Policy_Id",
                         column: x => x.Id,
@@ -565,23 +565,23 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                         column: x => x.MinuteId,
                         principalTable: "TimePolicyRange",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TimePolicy_TimePolicyRange_MonthId",
                         column: x => x.MonthId,
                         principalTable: "TimePolicyRange",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TimePolicy_TimePolicyRange_YearId",
                         column: x => x.YearId,
                         principalTable: "TimePolicyRange",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AggregatedPolicyPolicy",
+                name: "MmAggregatedPolicyPolicy",
                 columns: table => new
                 {
                     AggregatedPolicyId = table.Column<Guid>(nullable: false),
@@ -589,15 +589,15 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AggregatedPolicyPolicy", x => new { x.AggregatedPolicyId, x.PolicyId });
+                    table.PrimaryKey("PK_MmAggregatedPolicyPolicy", x => new { x.AggregatedPolicyId, x.PolicyId });
                     table.ForeignKey(
-                        name: "FK_AggregatedPolicyPolicy_AggregatedPolicy_AggregatedPolicyId",
+                        name: "FK_MmAggregatedPolicyPolicy_AggregatedPolicy_AggregatedPolicyId",
                         column: x => x.AggregatedPolicyId,
                         principalTable: "AggregatedPolicy",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AggregatedPolicyPolicy_Policy_PolicyId",
+                        name: "FK_MmAggregatedPolicyPolicy_Policy_PolicyId",
                         column: x => x.PolicyId,
                         principalTable: "Policy",
                         principalColumn: "Id",
@@ -605,7 +605,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClientPolicy_NameMissingClient",
+                name: "ClientPolicyClient",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -615,11 +615,11 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClientPolicy_NameMissingClient", x => x.Id);
+                    table.PrimaryKey("PK_ClientPolicyClient", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ClientPolicy_NameMissingClient_ClientPolicy_NameMissing_ClientPolicyId",
+                        name: "FK_ClientPolicyClient_ClientPolicy_ClientPolicyId",
                         column: x => x.ClientPolicyId,
-                        principalTable: "ClientPolicy_NameMissing",
+                        principalTable: "ClientPolicy",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -645,7 +645,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 });
 
             migrationBuilder.CreateTable(
-                name: "RolePolicyRole",
+                name: "MmRolePolicyRole",
                 columns: table => new
                 {
                     RolePolicyId = table.Column<Guid>(nullable: false),
@@ -653,15 +653,15 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RolePolicyRole", x => new { x.RolePolicyId, x.RoleId });
+                    table.PrimaryKey("PK_MmRolePolicyRole", x => new { x.RolePolicyId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_RolePolicyRole_Role_RoleId",
+                        name: "FK_MmRolePolicyRole_Role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RolePolicyRole_RolePolicy_RolePolicyId",
+                        name: "FK_MmRolePolicyRole_RolePolicy_RolePolicyId",
                         column: x => x.RolePolicyId,
                         principalTable: "RolePolicy",
                         principalColumn: "Id",
@@ -675,7 +675,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserPolicyId = table.Column<Guid>(nullable: false),
-                    User = table.Column<string>(nullable: true)
+                    User = table.Column<string>(maxLength: 200, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -689,7 +689,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 });
 
             migrationBuilder.CreateTable(
-                name: "ScopePermissionScope",
+                name: "MmScopePermissionScope",
                 columns: table => new
                 {
                     ScopePermissionId = table.Column<Guid>(nullable: false),
@@ -697,31 +697,20 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ScopePermissionScope", x => new { x.ScopePermissionId, x.ScopeId });
+                    table.PrimaryKey("PK_MmScopePermissionScope", x => new { x.ScopePermissionId, x.ScopeId });
                     table.ForeignKey(
-                        name: "FK_ScopePermissionScope_Scope_ScopeId",
+                        name: "FK_MmScopePermissionScope_Scope_ScopeId",
                         column: x => x.ScopeId,
                         principalTable: "Scope",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ScopePermissionScope_ScopePermission_ScopePermissionId",
+                        name: "FK_MmScopePermissionScope_ScopePermission_ScopePermissionId",
                         column: x => x.ScopePermissionId,
                         principalTable: "ScopePermission",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AggregatedPolicyPolicy_PolicyId",
-                table: "AggregatedPolicyPolicy",
-                column: "PolicyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AggregatedPolicyPolicy_AggregatedPolicyId_PolicyId",
-                table: "AggregatedPolicyPolicy",
-                columns: new[] { "AggregatedPolicyId", "PolicyId" },
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Client_ClientId",
@@ -730,73 +719,18 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClientPermission_PermissionId",
-                table: "ClientPermission",
-                column: "PermissionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClientPermission_ClientId_PermissionId",
-                table: "ClientPermission",
-                columns: new[] { "ClientId", "PermissionId" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClientPolicy_PolicyId",
-                table: "ClientPolicy",
-                column: "PolicyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClientPolicy_ClientId_PolicyId",
-                table: "ClientPolicy",
-                columns: new[] { "ClientId", "PolicyId" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClientPolicy_NameMissingClient_ClientPolicyId",
-                table: "ClientPolicy_NameMissingClient",
+                name: "IX_ClientPolicyClient_ClientPolicyId",
+                table: "ClientPolicyClient",
                 column: "ClientPolicyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClientResource_ResourceId",
-                table: "ClientResource",
-                column: "ResourceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClientResource_ClientId_ResourceId",
-                table: "ClientResource",
-                columns: new[] { "ClientId", "ResourceId" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClientRole_RoleId",
-                table: "ClientRole",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClientRole_ClientId_RoleId",
-                table: "ClientRole",
-                columns: new[] { "ClientId", "RoleId" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClientScope_ScopeId",
-                table: "ClientScope",
-                column: "ScopeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClientScope_ClientId_ScopeId",
-                table: "ClientScope",
-                columns: new[] { "ClientId", "ScopeId" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClientSecret_SecretId",
-                table: "ClientSecret",
+                name: "IX_MmClientSecret_SecretId",
+                table: "MmClientSecret",
                 column: "SecretId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClientSecret_ClientId_SecretId",
-                table: "ClientSecret",
+                name: "IX_MmClientSecret_ClientId_SecretId",
+                table: "MmClientSecret",
                 columns: new[] { "ClientId", "SecretId" },
                 unique: true);
 
@@ -806,14 +740,124 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 column: "GroupPolicyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PermissionPolicy_PolicyId",
-                table: "PermissionPolicy",
+                name: "IX_MmAggregatedPolicyPolicy_PolicyId",
+                table: "MmAggregatedPolicyPolicy",
                 column: "PolicyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PermissionPolicy_PermissionId_PolicyId",
-                table: "PermissionPolicy",
+                name: "IX_MmAggregatedPolicyPolicy_AggregatedPolicyId_PolicyId",
+                table: "MmAggregatedPolicyPolicy",
+                columns: new[] { "AggregatedPolicyId", "PolicyId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmClientPermission_PermissionId",
+                table: "MmClientPermission",
+                column: "PermissionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmClientPermission_ClientId_PermissionId",
+                table: "MmClientPermission",
+                columns: new[] { "ClientId", "PermissionId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmClientPolicy_PolicyId",
+                table: "MmClientPolicy",
+                column: "PolicyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmClientPolicy_ClientId_PolicyId",
+                table: "MmClientPolicy",
+                columns: new[] { "ClientId", "PolicyId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmClientResource_ResourceId",
+                table: "MmClientResource",
+                column: "ResourceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmClientResource_ClientId_ResourceId",
+                table: "MmClientResource",
+                columns: new[] { "ClientId", "ResourceId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmClientRole_RoleId",
+                table: "MmClientRole",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmClientRole_ClientId_RoleId",
+                table: "MmClientRole",
+                columns: new[] { "ClientId", "RoleId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmClientScope_ScopeId",
+                table: "MmClientScope",
+                column: "ScopeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmClientScope_ClientId_ScopeId",
+                table: "MmClientScope",
+                columns: new[] { "ClientId", "ScopeId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmPermissionPolicy_PolicyId",
+                table: "MmPermissionPolicy",
+                column: "PolicyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmPermissionPolicy_PermissionId_PolicyId",
+                table: "MmPermissionPolicy",
                 columns: new[] { "PermissionId", "PolicyId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmResourceScope_ScopeId",
+                table: "MmResourceScope",
+                column: "ScopeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmResourceScope_ResourceId_ScopeId",
+                table: "MmResourceScope",
+                columns: new[] { "ResourceId", "ScopeId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmRolePolicyRole_RoleId",
+                table: "MmRolePolicyRole",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmRolePolicyRole_RolePolicyId_RoleId",
+                table: "MmRolePolicyRole",
+                columns: new[] { "RolePolicyId", "RoleId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmRoleRole_ParentId",
+                table: "MmRoleRole",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmRoleRole_RoleId_ParentId",
+                table: "MmRoleRole",
+                columns: new[] { "RoleId", "ParentId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmScopePermissionScope_ScopeId",
+                table: "MmScopePermissionScope",
+                column: "ScopeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmScopePermissionScope_ScopePermissionId_ScopeId",
+                table: "MmScopePermissionScope",
+                columns: new[] { "ScopePermissionId", "ScopeId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -828,58 +872,14 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 column: "ResourceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResourceScope_ScopeId",
-                table: "ResourceScope",
-                column: "ScopeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ResourceScope_ResourceId_ScopeId",
-                table: "ResourceScope",
-                columns: new[] { "ResourceId", "ScopeId" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ResourceUri_ResouceId",
                 table: "ResourceUri",
                 column: "ResouceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RolePolicyRole_RoleId",
-                table: "RolePolicyRole",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RolePolicyRole_RolePolicyId_RoleId",
-                table: "RolePolicyRole",
-                columns: new[] { "RolePolicyId", "RoleId" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RoleRole_ParentId",
-                table: "RoleRole",
-                column: "ParentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RoleRole_RoleId_ParentId",
-                table: "RoleRole",
-                columns: new[] { "RoleId", "ParentId" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ScopePermission_ResourceId",
                 table: "ScopePermission",
                 column: "ResourceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ScopePermissionScope_ScopeId",
-                table: "ScopePermissionScope",
-                column: "ScopeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ScopePermissionScope_ScopePermissionId_ScopeId",
-                table: "ScopePermissionScope",
-                columns: new[] { "ScopePermissionId", "ScopeId" },
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_TimePolicy_DayOfMonthId",
@@ -925,52 +925,52 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AggregatedPolicyPolicy");
+                name: "ClientPolicyClient");
 
             migrationBuilder.DropTable(
-                name: "ClientPermission");
-
-            migrationBuilder.DropTable(
-                name: "ClientPolicy");
-
-            migrationBuilder.DropTable(
-                name: "ClientPolicy_NameMissingClient");
-
-            migrationBuilder.DropTable(
-                name: "ClientResource");
-
-            migrationBuilder.DropTable(
-                name: "ClientRole");
-
-            migrationBuilder.DropTable(
-                name: "ClientScope");
-
-            migrationBuilder.DropTable(
-                name: "ClientSecret");
+                name: "MmClientSecret");
 
             migrationBuilder.DropTable(
                 name: "GroupPolicyGroup");
 
             migrationBuilder.DropTable(
-                name: "PermissionPolicy");
+                name: "MmAggregatedPolicyPolicy");
+
+            migrationBuilder.DropTable(
+                name: "MmClientPermission");
+
+            migrationBuilder.DropTable(
+                name: "MmClientPolicy");
+
+            migrationBuilder.DropTable(
+                name: "MmClientResource");
+
+            migrationBuilder.DropTable(
+                name: "MmClientRole");
+
+            migrationBuilder.DropTable(
+                name: "MmClientScope");
+
+            migrationBuilder.DropTable(
+                name: "MmPermissionPolicy");
+
+            migrationBuilder.DropTable(
+                name: "MmResourceScope");
+
+            migrationBuilder.DropTable(
+                name: "MmRolePolicyRole");
+
+            migrationBuilder.DropTable(
+                name: "MmRoleRole");
+
+            migrationBuilder.DropTable(
+                name: "MmScopePermissionScope");
 
             migrationBuilder.DropTable(
                 name: "ResourcePermission");
 
             migrationBuilder.DropTable(
-                name: "ResourceScope");
-
-            migrationBuilder.DropTable(
                 name: "ResourceUri");
-
-            migrationBuilder.DropTable(
-                name: "RolePolicyRole");
-
-            migrationBuilder.DropTable(
-                name: "RoleRole");
-
-            migrationBuilder.DropTable(
-                name: "ScopePermissionScope");
 
             migrationBuilder.DropTable(
                 name: "TimePolicy");
@@ -979,19 +979,19 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                 name: "UserPolicyUser");
 
             migrationBuilder.DropTable(
-                name: "AggregatedPolicy");
-
-            migrationBuilder.DropTable(
-                name: "ClientPolicy_NameMissing");
-
-            migrationBuilder.DropTable(
-                name: "Client");
+                name: "ClientPolicy");
 
             migrationBuilder.DropTable(
                 name: "Secret");
 
             migrationBuilder.DropTable(
                 name: "GroupPolicy");
+
+            migrationBuilder.DropTable(
+                name: "AggregatedPolicy");
+
+            migrationBuilder.DropTable(
+                name: "Client");
 
             migrationBuilder.DropTable(
                 name: "RolePolicy");

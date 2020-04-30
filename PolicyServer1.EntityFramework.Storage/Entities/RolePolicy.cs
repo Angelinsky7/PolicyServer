@@ -8,7 +8,7 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
         public Guid Id { get; set; }
         public Policy Base { get; set; }
 
-        public ICollection<RolePolicyRole> Roles { get; set; } = new HashSet<RolePolicyRole>();
+        public ICollection<MmRolePolicyRole> Roles { get; set; } = new HashSet<MmRolePolicyRole>();
 
     }
 }

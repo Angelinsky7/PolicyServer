@@ -13,7 +13,7 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
 
         public DecisionStrategy DecisionStrategy { get; set; }
 
-        public ICollection<PermissionPolicy> Policies { get; set; } = new HashSet<PermissionPolicy>();
+        public ICollection<MmPermissionPolicy> Policies { get; set; } = new HashSet<MmPermissionPolicy>();
 
         public DateTime Created { get; set; } = DateTime.UtcNow;
         public DateTime? Updated { get; set; }

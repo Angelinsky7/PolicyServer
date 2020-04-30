@@ -16,7 +16,7 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
         public DateTime? LastAccessed { get; set; }
         //public Boolean NonEditable { get; set; }
 
-        public ICollection<RoleRole> Parents { get; set; } = new HashSet<RoleRole>();
+        public ICollection<MmRoleRole> Parents { get; set; } = new HashSet<MmRoleRole>();
 
     }
 }

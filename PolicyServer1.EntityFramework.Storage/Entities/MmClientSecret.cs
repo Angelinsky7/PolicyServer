@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace PolicyServer1.EntityFramework.Storage.Entities {
-    public class ClientSecret {
+    public class MmClientSecret {
 
         public Int64 SecretId { get; set; }
         public Secret Secret { get; set; }

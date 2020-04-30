@@ -11,7 +11,7 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
 
         public DecisionStrategy DecisionStrategy { get; set; }
 
-        public ICollection<AggregatedPolicyPolicy> Policies { get; set; } = new HashSet<AggregatedPolicyPolicy>();
+        public ICollection<MmAggregatedPolicyPolicy> Policies { get; set; } = new HashSet<MmAggregatedPolicyPolicy>();
 
     }
 }

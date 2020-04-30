@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PolicyServer1.EntityFramework.Storage.Datas;
 
-namespace TestPolicyServer.Data.Migrations.PolicyServer._001
+namespace TestPolicyServer.Data.Migrations.PolicyServer
 {
     [DbContext(typeof(PolicyDbContext))]
-    partial class PolicyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200430141232_InitialPolicyServerMigration")]
+    partial class InitialPolicyServerMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,24 +32,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                     b.HasKey("Id");
 
                     b.ToTable("AggregatedPolicy");
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.AggregatedPolicyPolicy", b =>
-                {
-                    b.Property<Guid>("AggregatedPolicyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PolicyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("AggregatedPolicyId", "PolicyId");
-
-                    b.HasIndex("PolicyId");
-
-                    b.HasIndex("AggregatedPolicyId", "PolicyId")
-                        .IsUnique();
-
-                    b.ToTable("AggregatedPolicyPolicy");
                 });
 
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Client", b =>
@@ -113,53 +97,17 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                     b.ToTable("Client");
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientPermission", b =>
-                {
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PermissionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ClientId", "PermissionId");
-
-                    b.HasIndex("PermissionId");
-
-                    b.HasIndex("ClientId", "PermissionId")
-                        .IsUnique();
-
-                    b.ToTable("ClientPermission");
-                });
-
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicy", b =>
-                {
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PolicyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ClientId", "PolicyId");
-
-                    b.HasIndex("PolicyId");
-
-                    b.HasIndex("ClientId", "PolicyId")
-                        .IsUnique();
-
-                    b.ToTable("ClientPolicy");
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicy_NameMissing", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ClientPolicy_NameMissing");
+                    b.ToTable("ClientPolicy");
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicy_NameMissingClient", b =>
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicyClient", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -176,79 +124,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
 
                     b.HasIndex("ClientPolicyId");
 
-                    b.ToTable("ClientPolicy_NameMissingClient");
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientResource", b =>
-                {
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ResourceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ClientId", "ResourceId");
-
-                    b.HasIndex("ResourceId");
-
-                    b.HasIndex("ClientId", "ResourceId")
-                        .IsUnique();
-
-                    b.ToTable("ClientResource");
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientRole", b =>
-                {
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ClientId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("ClientId", "RoleId")
-                        .IsUnique();
-
-                    b.ToTable("ClientRole");
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientScope", b =>
-                {
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ScopeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ClientId", "ScopeId");
-
-                    b.HasIndex("ScopeId");
-
-                    b.HasIndex("ClientId", "ScopeId")
-                        .IsUnique();
-
-                    b.ToTable("ClientScope");
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientSecret", b =>
-                {
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("SecretId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("ClientId", "SecretId");
-
-                    b.HasIndex("SecretId");
-
-                    b.HasIndex("ClientId", "SecretId")
-                        .IsUnique();
-
-                    b.ToTable("ClientSecret");
+                    b.ToTable("ClientPolicyClient");
                 });
 
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.GroupPolicy", b =>
@@ -279,6 +155,222 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                     b.HasIndex("GroupPolicyId");
 
                     b.ToTable("GroupPolicyGroup");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmAggregatedPolicyPolicy", b =>
+                {
+                    b.Property<Guid>("AggregatedPolicyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PolicyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AggregatedPolicyId", "PolicyId");
+
+                    b.HasIndex("PolicyId");
+
+                    b.HasIndex("AggregatedPolicyId", "PolicyId")
+                        .IsUnique();
+
+                    b.ToTable("MmAggregatedPolicyPolicy");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmClientPermission", b =>
+                {
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ClientId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("ClientId", "PermissionId")
+                        .IsUnique();
+
+                    b.ToTable("MmClientPermission");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmClientPolicy", b =>
+                {
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PolicyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ClientId", "PolicyId");
+
+                    b.HasIndex("PolicyId");
+
+                    b.HasIndex("ClientId", "PolicyId")
+                        .IsUnique();
+
+                    b.ToTable("MmClientPolicy");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmClientResource", b =>
+                {
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ResourceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ClientId", "ResourceId");
+
+                    b.HasIndex("ResourceId");
+
+                    b.HasIndex("ClientId", "ResourceId")
+                        .IsUnique();
+
+                    b.ToTable("MmClientResource");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmClientRole", b =>
+                {
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ClientId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("ClientId", "RoleId")
+                        .IsUnique();
+
+                    b.ToTable("MmClientRole");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmClientScope", b =>
+                {
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ScopeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ClientId", "ScopeId");
+
+                    b.HasIndex("ScopeId");
+
+                    b.HasIndex("ClientId", "ScopeId")
+                        .IsUnique();
+
+                    b.ToTable("MmClientScope");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmClientSecret", b =>
+                {
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("SecretId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ClientId", "SecretId");
+
+                    b.HasIndex("SecretId");
+
+                    b.HasIndex("ClientId", "SecretId")
+                        .IsUnique();
+
+                    b.ToTable("ClientSecret");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmPermissionPolicy", b =>
+                {
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PolicyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PermissionId", "PolicyId");
+
+                    b.HasIndex("PolicyId");
+
+                    b.HasIndex("PermissionId", "PolicyId")
+                        .IsUnique();
+
+                    b.ToTable("MmPermissionPolicy");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmResourceScope", b =>
+                {
+                    b.Property<Guid>("ResourceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ScopeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ResourceId", "ScopeId");
+
+                    b.HasIndex("ScopeId");
+
+                    b.HasIndex("ResourceId", "ScopeId")
+                        .IsUnique();
+
+                    b.ToTable("MmResourceScope");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmRolePolicyRole", b =>
+                {
+                    b.Property<Guid>("RolePolicyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RolePolicyId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("RolePolicyId", "RoleId")
+                        .IsUnique();
+
+                    b.ToTable("MmRolePolicyRole");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmRoleRole", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RoleId", "ParentId");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("RoleId", "ParentId")
+                        .IsUnique();
+
+                    b.ToTable("MmRoleRole");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmScopePermissionScope", b =>
+                {
+                    b.Property<Guid>("ScopePermissionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ScopeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ScopePermissionId", "ScopeId");
+
+                    b.HasIndex("ScopeId");
+
+                    b.HasIndex("ScopePermissionId", "ScopeId")
+                        .IsUnique();
+
+                    b.ToTable("MmScopePermissionScope");
                 });
 
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Permission", b =>
@@ -313,24 +405,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                     b.HasKey("Id");
 
                     b.ToTable("Permission");
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.PermissionPolicy", b =>
-                {
-                    b.Property<Guid>("PermissionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PolicyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("PermissionId", "PolicyId");
-
-                    b.HasIndex("PolicyId");
-
-                    b.HasIndex("PermissionId", "PolicyId")
-                        .IsUnique();
-
-                    b.ToTable("PermissionPolicy");
                 });
 
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Policy", b =>
@@ -431,24 +505,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                     b.ToTable("ResourcePermission");
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ResourceScope", b =>
-                {
-                    b.Property<Guid>("ResourceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ScopeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ResourceId", "ScopeId");
-
-                    b.HasIndex("ScopeId");
-
-                    b.HasIndex("ResourceId", "ScopeId")
-                        .IsUnique();
-
-                    b.ToTable("ResourceScope");
-                });
-
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ResourceUri", b =>
                 {
                     b.Property<long>("Id")
@@ -511,42 +567,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                     b.ToTable("RolePolicy");
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.RolePolicyRole", b =>
-                {
-                    b.Property<Guid>("RolePolicyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("RolePolicyId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("RolePolicyId", "RoleId")
-                        .IsUnique();
-
-                    b.ToTable("RolePolicyRole");
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.RoleRole", b =>
-                {
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ParentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("RoleId", "ParentId");
-
-                    b.HasIndex("ParentId");
-
-                    b.HasIndex("RoleId", "ParentId")
-                        .IsUnique();
-
-                    b.ToTable("RoleRole");
-                });
-
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Scope", b =>
                 {
                     b.Property<Guid>("Id")
@@ -596,24 +616,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                     b.HasIndex("ResourceId");
 
                     b.ToTable("ScopePermission");
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ScopePermissionScope", b =>
-                {
-                    b.Property<Guid>("ScopePermissionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ScopeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ScopePermissionId", "ScopeId");
-
-                    b.HasIndex("ScopeId");
-
-                    b.HasIndex("ScopePermissionId", "ScopeId")
-                        .IsUnique();
-
-                    b.ToTable("ScopePermissionScope");
                 });
 
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Secret", b =>
@@ -761,7 +763,9 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("User")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
 
                     b.Property<Guid>("UserPolicyId")
                         .HasColumnType("uniqueidentifier");
@@ -782,126 +786,21 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.AggregatedPolicyPolicy", b =>
-                {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.AggregatedPolicy", "AggregatedPolicy")
-                        .WithMany("Policies")
-                        .HasForeignKey("AggregatedPolicyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Policy", "Policy")
-                        .WithMany()
-                        .HasForeignKey("PolicyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientPermission", b =>
-                {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Client", "Client")
-                        .WithMany("Permissions")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Permission", "Permission")
-                        .WithMany()
-                        .HasForeignKey("PermissionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicy", b =>
-                {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Client", "Client")
-                        .WithMany("Policies")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Policy", "Policy")
-                        .WithMany()
-                        .HasForeignKey("PolicyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicy_NameMissing", b =>
                 {
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Policy", "Base")
                         .WithOne()
-                        .HasForeignKey("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicy_NameMissing", "Id")
+                        .HasForeignKey("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicy", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicy_NameMissingClient", b =>
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicyClient", b =>
                 {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicy_NameMissing", "ClientPolicy")
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicy", "ClientPolicy")
                         .WithMany("Users")
                         .HasForeignKey("ClientPolicyId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientResource", b =>
-                {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Client", "Client")
-                        .WithMany("Resources")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Resource", "Resource")
-                        .WithMany()
-                        .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientRole", b =>
-                {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Client", "Client")
-                        .WithMany("Roles")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientScope", b =>
-                {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Client", "Client")
-                        .WithMany("Scopes")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Scope", "Scope")
-                        .WithMany()
-                        .HasForeignKey("ScopeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientSecret", b =>
-                {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Client", "Client")
-                        .WithMany("Secrets")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Secret", "Secret")
-                        .WithMany()
-                        .HasForeignKey("SecretId")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -923,7 +822,112 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.PermissionPolicy", b =>
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmAggregatedPolicyPolicy", b =>
+                {
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.AggregatedPolicy", "AggregatedPolicy")
+                        .WithMany("Policies")
+                        .HasForeignKey("AggregatedPolicyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Policy", "Policy")
+                        .WithMany()
+                        .HasForeignKey("PolicyId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmClientPermission", b =>
+                {
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Client", "Client")
+                        .WithMany("Permissions")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Permission", "Permission")
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmClientPolicy", b =>
+                {
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Client", "Client")
+                        .WithMany("Policies")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Policy", "Policy")
+                        .WithMany()
+                        .HasForeignKey("PolicyId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmClientResource", b =>
+                {
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Client", "Client")
+                        .WithMany("Resources")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Resource", "Resource")
+                        .WithMany()
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmClientRole", b =>
+                {
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Client", "Client")
+                        .WithMany("Roles")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmClientScope", b =>
+                {
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Client", "Client")
+                        .WithMany("Scopes")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Scope", "Scope")
+                        .WithMany()
+                        .HasForeignKey("ScopeId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmClientSecret", b =>
+                {
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Client", "Client")
+                        .WithMany("Secrets")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Secret", "Secret")
+                        .WithMany()
+                        .HasForeignKey("SecretId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmPermissionPolicy", b =>
                 {
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Permission", "Permission")
                         .WithMany("Policies")
@@ -934,7 +938,67 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Policy", "Policy")
                         .WithMany()
                         .HasForeignKey("PolicyId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmResourceScope", b =>
+                {
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Resource", "Resource")
+                        .WithMany("Scopes")
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Scope", "Scope")
+                        .WithMany()
+                        .HasForeignKey("ScopeId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmRolePolicyRole", b =>
+                {
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.RolePolicy", "RolePolicy")
+                        .WithMany("Roles")
+                        .HasForeignKey("RolePolicyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmRoleRole", b =>
+                {
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Role", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Role", "Role")
+                        .WithMany("Parents")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmScopePermissionScope", b =>
+                {
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Scope", "Scope")
+                        .WithMany()
+                        .HasForeignKey("ScopeId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.ScopePermission", "ScopePermission")
+                        .WithMany("Scopes")
+                        .HasForeignKey("ScopePermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -950,21 +1014,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                         .WithMany()
                         .HasForeignKey("ResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ResourceScope", b =>
-                {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Resource", "Resource")
-                        .WithMany("Scopes")
-                        .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Scope", "Scope")
-                        .WithMany()
-                        .HasForeignKey("ScopeId")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -986,36 +1035,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.RolePolicyRole", b =>
-                {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.RolePolicy", "RolePolicy")
-                        .WithMany("Roles")
-                        .HasForeignKey("RolePolicyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.RoleRole", b =>
-                {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Role", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Role", "Role")
-                        .WithMany("Parents")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ScopePermission", b =>
                 {
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Permission", "Base")
@@ -1031,32 +1050,17 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ScopePermissionScope", b =>
-                {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Scope", "Scope")
-                        .WithMany()
-                        .HasForeignKey("ScopeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.ScopePermission", "ScopePermission")
-                        .WithMany("Scopes")
-                        .HasForeignKey("ScopePermissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.TimePolicy", b =>
                 {
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.TimePolicyRange", "DayOfMonth")
                         .WithOne()
                         .HasForeignKey("PolicyServer1.EntityFramework.Storage.Entities.TimePolicy", "DayOfMonthId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.TimePolicyRange", "Hour")
                         .WithOne()
                         .HasForeignKey("PolicyServer1.EntityFramework.Storage.Entities.TimePolicy", "HourId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Policy", "Base")
                         .WithOne()
@@ -1067,17 +1071,17 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer._001
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.TimePolicyRange", "Minute")
                         .WithOne()
                         .HasForeignKey("PolicyServer1.EntityFramework.Storage.Entities.TimePolicy", "MinuteId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.TimePolicyRange", "Month")
                         .WithOne()
                         .HasForeignKey("PolicyServer1.EntityFramework.Storage.Entities.TimePolicy", "MonthId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.TimePolicyRange", "Year")
                         .WithOne()
                         .HasForeignKey("PolicyServer1.EntityFramework.Storage.Entities.TimePolicy", "YearId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.UserPolicy", b =>

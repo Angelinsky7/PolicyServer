@@ -11,7 +11,7 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
         public Guid ResourceId { get; set; }
         public Resource Resource { get; set; }
 
-        public ICollection<ScopePermissionScope> Scopes { get; set; } = new HashSet<ScopePermissionScope>();
+        public ICollection<MmScopePermissionScope> Scopes { get; set; } = new HashSet<MmScopePermissionScope>();
 
     }
 }

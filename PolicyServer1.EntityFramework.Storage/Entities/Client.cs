@@ -9,7 +9,7 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
 
         public Boolean Enabled { get; set; } = true;
         public String ClientId { get; set; }
-        public ICollection<ClientSecret> Secrets { get; set; } = new HashSet<ClientSecret>();
+        public ICollection<MmClientSecret> Secrets { get; set; } = new HashSet<MmClientSecret>();
         public Boolean RequireClientSecret { get; set; } = true;
         public String ClientName { get; set; }
         public String Description { get; set; }
@@ -20,11 +20,11 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
         public Boolean AnalyseModeEnabled { get; set; } = false;
         public String PermissionSplitter { get; set; } = "#";
 
-        public ICollection<ClientResource> Resources { get; set; } = new HashSet<ClientResource>();
-        public ICollection<ClientScope> Scopes { get; set; } = new HashSet<ClientScope>();
-        public ICollection<ClientRole> Roles { get; set; } = new HashSet<ClientRole>();
-        public ICollection<ClientPolicy> Policies { get; set; } = new HashSet<ClientPolicy>();
-        public ICollection<ClientPermission> Permissions { get; set; } = new HashSet<ClientPermission>();
+        public ICollection<MmClientResource> Resources { get; set; } = new HashSet<MmClientResource>();
+        public ICollection<MmClientScope> Scopes { get; set; } = new HashSet<MmClientScope>();
+        public ICollection<MmClientRole> Roles { get; set; } = new HashSet<MmClientRole>();
+        public ICollection<MmClientPolicy> Policies { get; set; } = new HashSet<MmClientPolicy>();
+        public ICollection<MmClientPermission> Permissions { get; set; } = new HashSet<MmClientPermission>();
 
         public DateTime Created { get; set; } = DateTime.UtcNow;
         public DateTime? Updated { get; set; }

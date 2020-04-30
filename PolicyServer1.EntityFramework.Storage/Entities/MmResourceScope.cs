@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace PolicyServer1.EntityFramework.Storage.Entities {
-    public class ResourceScope {
+    public class MmResourceScope {
 
         public Guid ResourceId { get; set; }
         public Resource Resource { get; set; }

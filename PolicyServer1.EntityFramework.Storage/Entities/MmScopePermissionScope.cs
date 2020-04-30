@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace PolicyServer1.EntityFramework.Storage.Entities {
-    public class ScopePermissionScope {
+    public class MmScopePermissionScope {
 
         public Guid ScopePermissionId { get; set; }
         public ScopePermission ScopePermission { get; set; }

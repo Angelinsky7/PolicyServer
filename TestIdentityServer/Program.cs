@@ -8,6 +8,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -22,6 +23,7 @@ namespace IdentityServerAspNetIdentity {
 
             if (seed) {
                 IConfiguration config = host.Services.GetRequiredService<IConfiguration>();
+                //host.Services.serv.AddTransient(typeof(ILogger<>), (typeof(Logger<>));
                 String connectionString = config.GetConnectionString("SQlServerConnection");
                 SeedData.EnsureSeedData(connectionString);
 

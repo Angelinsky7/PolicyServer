@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace PolicyServer1.EntityFramework.Storage.Entities {
-    public class PermissionPolicy {
+    public class MmPermissionPolicy {
 
         public Guid PermissionId{ get; set; }
         public Permission Permission { get; set; }
