@@ -5,7 +5,7 @@ using PolicyServer1.Models;
 namespace TestPolicyServer {
     public static class Config {
 
-        public static IEnumerable<Client> GetClients() {
+        public static List<Scope> GetScopes() {
             List<Scope> scopes = new List<Scope> {
                 new Scope{ Name = "create", DisplayName = "Create" },
                 new Scope{ Name = "edit", DisplayName = "Edit" },
@@ -13,12 +13,19 @@ namespace TestPolicyServer {
                 new Scope{ Name = "delete", DisplayName = "Delete" }
             };
 
+            return scopes;
+        }
+
+        public static List<Role> GetRoles() {
             List<Role> roles = new List<Role> {
                 new Role{ Name = "Administrator" },
                 new Role{ Name = "User" },
                 new Role{ Name = "AntiRole"},
             };
+            return roles;
+        }
 
+        public static List<Policy> GetPolicies(List<Role> roles) {
             List<Policy> policies = new List<Policy> {
                 new RolePolicy {
                     Name = "Activite Adminisator Policy",
@@ -48,7 +55,10 @@ namespace TestPolicyServer {
                     }
                 },
             };
+            return policies;
+        }
 
+        public static List<Resource> GetResouces(List<Scope> scopes) {
             List<Resource> resources = new List<Resource> {
                 new Resource{
                     Name = "Activite",
@@ -72,6 +82,14 @@ namespace TestPolicyServer {
                     }
                 }
             };
+            return resources;
+        }
+
+        public static IEnumerable<Client> GetClients() {
+            List<Scope> scopes = GetScopes();
+            List<Role> roles = GetRoles();
+            List<Policy> policies = GetPolicies(roles);
+            List<Resource> resources = GetResouces(scopes);
 
             return new Client[] {
                 new Client {

@@ -9,11 +9,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
+using PolicyServer1.EntityFramework.Storage.Datas;
+using PolicyServer1.EntityFramework.Storage.Mappers;
 using TestPolicyServer;
 
 namespace TestPolicyServer1 {
@@ -21,9 +24,7 @@ namespace TestPolicyServer1 {
 
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration) {
-            Configuration = configuration;
-        }
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -61,9 +62,10 @@ namespace TestPolicyServer1 {
 
 
 
-            services.AddPolicyServer(opt => {})
+            services.AddPolicyServer(opt => { })
                 .AddConfigurationStore(opt => {
-                    opt.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), sql => sql.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name));
+                    opt.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), sql => sql.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name))
+                        .EnableSensitiveDataLogging();
                 });
 
 
@@ -84,6 +86,7 @@ namespace TestPolicyServer1 {
             app.UseForwardedHeaders();
 
             if (env.IsDevelopment()) {
+                app.InitializeDatabase();
                 app.UseDeveloperExceptionPage();
             }
 
@@ -109,10 +112,10 @@ namespace TestPolicyServer1 {
             app.UsePolicyServer();
 
             //app.UseMvcWithDefaultRoute();
-            app.UseEndpoints(endpoints =>
-            {
+            app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
         }
+
     }
 }

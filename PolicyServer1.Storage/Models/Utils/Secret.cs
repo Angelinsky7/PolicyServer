@@ -7,6 +7,7 @@ namespace PolicyServer1.Models {
 
         public String Value { get; set; }
 
+        public Secret() { }
         public Secret(String value) {
             Value = value;
         }

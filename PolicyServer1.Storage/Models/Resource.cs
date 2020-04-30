@@ -9,7 +9,7 @@ namespace PolicyServer1.Models {
         public String Name { get; set; }
         public String DisplayName { get; set; }
         public String Type { get; set; }
-        public ICollection<Uri> Uri { get; set; } = new HashSet<Uri>();
+        public ICollection<Uri> Uris { get; set; } = new HashSet<Uri>();
         public ICollection<Scope> Scopes { get; set; } = new HashSet<Scope>();
         public Uri IconUri { get; set; }
 
