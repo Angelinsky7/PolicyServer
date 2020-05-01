@@ -35,7 +35,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Client", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("AnalyseModeEnabled")
@@ -374,7 +373,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Permission", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Created")
@@ -408,7 +406,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Policy", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Created")
@@ -416,7 +413,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -443,7 +439,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Resource", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Created")
@@ -526,7 +521,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Created")
@@ -534,7 +528,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -568,7 +561,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Scope", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Created")
@@ -1018,7 +1010,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ResourceUri", b =>
                 {
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Resource", "Resource")
-                        .WithMany("Uri")
+                        .WithMany("Uris")
                         .HasForeignKey("ResouceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

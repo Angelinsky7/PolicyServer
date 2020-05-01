@@ -54,7 +54,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
-                    Description = table.Column<string>(maxLength: 200, nullable: false),
+                    Description = table.Column<string>(maxLength: 200, nullable: true),
                     Logic = table.Column<int>(nullable: false),
                     Created = table.Column<DateTime>(nullable: false),
                     Updated = table.Column<DateTime>(nullable: true),
@@ -89,7 +89,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
-                    Description = table.Column<string>(maxLength: 200, nullable: false),
+                    Description = table.Column<string>(maxLength: 200, nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
                     Updated = table.Column<DateTime>(nullable: true),
                     LastAccessed = table.Column<DateTime>(nullable: true)
@@ -724,17 +724,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                 column: "ClientPolicyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MmClientSecret_SecretId",
-                table: "MmClientSecret",
-                column: "SecretId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MmClientSecret_ClientId_SecretId",
-                table: "MmClientSecret",
-                columns: new[] { "ClientId", "SecretId" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_GroupPolicyGroup_GroupPolicyId",
                 table: "GroupPolicyGroup",
                 column: "GroupPolicyId");
@@ -803,6 +792,17 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                 name: "IX_MmClientScope_ClientId_ScopeId",
                 table: "MmClientScope",
                 columns: new[] { "ClientId", "ScopeId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmClientSecret_SecretId",
+                table: "MmClientSecret",
+                column: "SecretId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MmClientSecret_ClientId_SecretId",
+                table: "MmClientSecret",
+                columns: new[] { "ClientId", "SecretId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -928,9 +928,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                 name: "ClientPolicyClient");
 
             migrationBuilder.DropTable(
-                name: "MmClientSecret");
-
-            migrationBuilder.DropTable(
                 name: "GroupPolicyGroup");
 
             migrationBuilder.DropTable(
@@ -950,6 +947,9 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
 
             migrationBuilder.DropTable(
                 name: "MmClientScope");
+
+            migrationBuilder.DropTable(
+                name: "MmClientSecret");
 
             migrationBuilder.DropTable(
                 name: "MmPermissionPolicy");
@@ -982,9 +982,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                 name: "ClientPolicy");
 
             migrationBuilder.DropTable(
-                name: "Secret");
-
-            migrationBuilder.DropTable(
                 name: "GroupPolicy");
 
             migrationBuilder.DropTable(
@@ -992,6 +989,9 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
 
             migrationBuilder.DropTable(
                 name: "Client");
+
+            migrationBuilder.DropTable(
+                name: "Secret");
 
             migrationBuilder.DropTable(
                 name: "RolePolicy");

@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace PolicyServer1.EntityFramework.Storage.Entities {
     public class Scope {
+
+#if DEBUG
+        [NotMapped]
+        public Guid CheckId { get; set; } = Guid.NewGuid();
+#endif
 
         public Guid Id { get; set; } = Guid.NewGuid();
 
