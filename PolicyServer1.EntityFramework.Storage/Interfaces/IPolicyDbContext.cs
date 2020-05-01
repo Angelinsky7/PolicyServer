@@ -16,6 +16,8 @@ namespace PolicyServer1.EntityFramework.Storage.Interfaces {
         DbSet<Client> Clients { get; set; }
         DbSet<Permission> Permissions { get; set; }
 
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
+
         Int32 SaveChanges();
         Task<Int32> SaveChangesAsync();
 

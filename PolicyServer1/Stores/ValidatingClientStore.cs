@@ -26,7 +26,7 @@ namespace PolicyServer1.Stores {
             _validatorType = _validator.GetType().FullName;
         }
 
-        public Task<Client> CreateAsync(Client item) {
+        public Task<Guid> CreateAsync(Client item) {
             return _inner.CreateAsync(item);
         }
 
@@ -34,23 +34,23 @@ namespace PolicyServer1.Stores {
             return _inner.GetAsync(id);
         }
 
-        public IQueryable<Client> Get() {
-            return _inner.Get();
+        public IQueryable<Client> Query() {
+            return _inner.Query();
         }
 
         public Task<Client> GetFromClientIdAsync(String clientId) {
             return _inner.GetFromClientIdAsync(clientId);
         }
 
-        public Task<Client> RemoveAsync(Guid id) {
+        public Task RemoveAsync(Guid id) {
             return _inner.RemoveAsync(id);
         }
 
-        public Task<Client> RemoveClientIdAsync(String cliendId) {
+        public Task RemoveClientIdAsync(String cliendId) {
             return _inner.RemoveClientIdAsync(cliendId);
         }
 
-        public Task<Client> UpdateAsync(Guid id, Client item) {
+        public Task UpdateAsync(Guid id, Client item) {
             return _inner.UpdateAsync(id, item);
         }
 

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace PolicyServer1.Stores {
     public interface IStore<TEntity, IKey> {
 
-        IQueryable<TEntity> Get();
+        IQueryable<TEntity> Query();
         Task<TEntity> GetAsync(IKey id);
-        Task<TEntity> CreateAsync(TEntity item);
-        Task<TEntity> UpdateAsync(IKey id, TEntity item);
-        Task<TEntity> RemoveAsync(IKey id);
+        Task<IKey> CreateAsync(TEntity item);
+        Task UpdateAsync(IKey id, TEntity item);
+        Task RemoveAsync(IKey id);
 
     }
 }

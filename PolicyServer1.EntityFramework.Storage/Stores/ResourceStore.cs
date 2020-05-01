@@ -8,11 +8,11 @@ using PolicyServer1.Stores;
 
 namespace PolicyServer1.EntityFramework.Storage.Stores {
     public class ResourceStore : IResourceStore {
-        public Task<Resource> CreateAsync(Resource item) {
+        public Task<Guid> CreateAsync(Resource item) {
             throw new NotImplementedException();
         }
 
-        public IQueryable<Resource> Get() {
+        public IQueryable<Resource> Query() {
             throw new NotImplementedException();
         }
 
@@ -20,11 +20,11 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             throw new NotImplementedException();
         }
 
-        public Task<Resource> RemoveAsync(Guid id) {
+        public Task RemoveAsync(Guid id) {
             throw new NotImplementedException();
         }
 
-        public Task<Resource> UpdateAsync(Guid id, Resource item) {
+        public Task UpdateAsync(Guid id, Resource item) {
             throw new NotImplementedException();
         }
     }

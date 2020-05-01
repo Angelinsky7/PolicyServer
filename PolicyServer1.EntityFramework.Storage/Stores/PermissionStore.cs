@@ -25,7 +25,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             _logger = logger;
         }
 
-        public Task<Permission> CreateAsync(Permission item) {
+        public Task<Guid> CreateAsync(Permission item) {
             throw new NotImplementedException();
         }
 
@@ -33,7 +33,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             throw new NotImplementedException();
         }
 
-        public IQueryable<Permission> Get() {
+        public IQueryable<Permission> Query() {
             throw new NotImplementedException();
         }
 
@@ -41,11 +41,11 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             throw new NotImplementedException();
         }
 
-        public Task<Permission> RemoveAsync(Guid id) {
+        public Task RemoveAsync(Guid id) {
             throw new NotImplementedException();
         }
 
-        public Task<Permission> UpdateAsync(Guid id, Permission item) {
+        public Task UpdateAsync(Guid id, Permission item) {
             throw new NotImplementedException();
         }
 

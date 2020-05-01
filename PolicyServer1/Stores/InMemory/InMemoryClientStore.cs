@@ -19,9 +19,9 @@ namespace PolicyServer1.Stores.InMemory {
             _clients = new List<Client>(clients);
         }
 
-        public Task<Client> CreateAsync(Client item) {
+        public Task<Guid> CreateAsync(Client item) {
             _clients.Add(item);
-            return Task.FromResult(_clients.Find(p => p.Id == item.Id));
+            return Task.FromResult(_clients.Find(p => p.Id == item.Id).Id);
         }
 
         public Task<Client> GetAsync(Guid id) {
@@ -29,7 +29,7 @@ namespace PolicyServer1.Stores.InMemory {
             return Task.FromResult(query);
         }
 
-        public IQueryable<Client> Get() {
+        public IQueryable<Client> Query() {
             return _clients.AsQueryable();
         }
 
@@ -38,7 +38,7 @@ namespace PolicyServer1.Stores.InMemory {
             return Task.FromResult(query);
         }
 
-        public Task<Client> RemoveAsync(Guid id) {
+        public Task RemoveAsync(Guid id) {
             Client client = _clients.SingleOrDefault(p => p.Id == id);
             if (client != null) {
                 _clients.Remove(client);
@@ -46,7 +46,7 @@ namespace PolicyServer1.Stores.InMemory {
             return Task.FromResult(client);
         }
 
-        public Task<Client> RemoveClientIdAsync(String cliendId) {
+        public Task RemoveClientIdAsync(String cliendId) {
             Client client = _clients.SingleOrDefault(p => p.ClientId == cliendId);
             if (client != null) {
                 _clients.Remove(client);
@@ -54,7 +54,7 @@ namespace PolicyServer1.Stores.InMemory {
             return Task.FromResult(client);
         }
 
-        public Task<Client> UpdateAsync(Guid id, Client item) {
+        public Task UpdateAsync(Guid id, Client item) {
             if (id != item.Id) { throw new ArgumentException(nameof(id)); }
             Int32 index = _clients.FindIndex(p => p.Id == item.Id);
             if (index == -1) { throw new ArgumentException(nameof(item)); }

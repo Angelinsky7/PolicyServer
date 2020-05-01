@@ -5,6 +5,8 @@ using System.Text;
 using PolicyServer1.EntityFramework.Storage.Entities;
 
 namespace PolicyServer1.EntityFramework.Storage {
+
+    [Obsolete]
     public static class EntityExtensions {
 
         public static void PrepareBeforeInsert(this Client client) {

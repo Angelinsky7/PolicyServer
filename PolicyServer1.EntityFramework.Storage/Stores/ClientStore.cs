@@ -30,32 +30,91 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             _logger = logger;
         }
 
-        public Task<Client> CreateAsync(Client item) {
-            throw new NotImplementedException();
+        public async Task<Guid> CreateAsync(Client item) {
+            Entities.Client entity = item.ToEntity();
+            _context.Clients.Add(entity);
+
+            try {
+                await _context.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException ex) {
+                _logger.LogInformation($"exception adding {entity} to database: {ex.Message}");
+            }
+
+            return entity.Id;
         }
 
-        public Task<Client> GetAsync(Guid id) {
-            throw new NotImplementedException();
+        public async Task<Client> GetAsync(Guid id) {
+            Entities.Client entity = await _context.Clients.IncludeQuery().SingleOrDefaultAsync(p => p.Id == id);
+            if (entity == null) {
+                _logger.LogInformation($"entity with id {id} was not found");
+                //throw new EntityNotFoundException(nameof(Trail), id);
+                return null;
+            }
+
+            return entity.ToModel();
         }
 
-        public IQueryable<Client> Get() {
-            throw new NotImplementedException();
+        public IQueryable<Client> Query() => _context.Clients.IncludeQuery().ToModel();
+        
+        public async Task<Client> GetFromClientIdAsync(String clientId) {
+            Entities.Client entity = await _context.Clients.IncludeQuery().SingleOrDefaultAsync(p => p.ClientId == clientId);
+            if (entity == null) {
+                _logger.LogInformation($"entity with id {clientId} was not found");
+                //throw new EntityNotFoundException(nameof(Trail), id);
+                return null;
+            }
+
+            return entity.ToModel();
         }
 
-        public Task<Client> GetFromClientIdAsync(String clientId) {
-            throw new NotImplementedException();
+        public async Task RemoveAsync(Guid id) {
+            Entities.Client entity = await _context.Clients.SingleOrDefaultAsync(p => p.Id == id);
+            if (entity == null) {
+                _logger.LogInformation($"entity with id {id} was not found");
+                //throw new EntityNotFoundException(nameof(Trail), id);
+            }
+
+            _context.Clients.Remove(entity);
+            _context.Set<Entities.Secret>().RemoveRange(entity.Secrets.Select(p => p.Secret));
+
+            try {
+                await _context.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException ex) {
+                _logger.LogInformation($"exception removing {entity} to database: {ex.Message}");
+            }
         }
 
-        public Task<Client> RemoveAsync(Guid id) {
-            throw new NotImplementedException();
+        public async Task RemoveClientIdAsync(String cliendId) {
+            Entities.Client entity = await _context.Clients.SingleOrDefaultAsync(p => p.ClientId == cliendId);
+            if (entity == null) {
+                _logger.LogInformation($"entity with id {cliendId} was not found");
+                //throw new EntityNotFoundException(nameof(Trail), id);
+            }
+
+            _context.Clients.Remove(entity);
+            _context.Set<Entities.Secret>().RemoveRange(entity.Secrets.Select(p => p.Secret));
+
+            try {
+                await _context.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException ex) {
+                _logger.LogInformation($"exception removing {entity} to database: {ex.Message}");
+            }
         }
 
-        public Task<Client> RemoveClientIdAsync(String cliendId) {
-            throw new NotImplementedException();
-        }
+        public async Task UpdateAsync(Guid id, Client item) {
+            var entity = await _context.Clients.SingleOrDefaultAsync(p => p.Id == id);
+            if (entity == null) {
+                _logger.LogInformation($"entity with id {id} was not found");
+                //throw new EntityNotFoundException(nameof(Trail), id);
+            }
 
-        public Task<Client> UpdateAsync(Guid id, Client item) {
-            throw new NotImplementedException();
+            item.UpdateEntity(entity);
+
+            try {
+                await _context.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException ex) {
+                _logger.LogInformation($"exception updating {item} to database: {ex.Message}");
+            }
         }
 
         //public async Task<Models.Client> GetAsync(Int32 clientId) {

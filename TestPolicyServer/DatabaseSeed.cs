@@ -11,6 +11,7 @@ using PolicyServer1.EntityFramework.Storage;
 using PolicyServer1.EntityFramework.Storage.Datas;
 using PolicyServer1.EntityFramework.Storage.Entities;
 using PolicyServer1.EntityFramework.Storage.Mappers;
+using PolicyServer1.Stores;
 
 namespace TestPolicyServer {
     public static class DatabaseSeed {
@@ -20,6 +21,8 @@ namespace TestPolicyServer {
                 //serviceScope.ServiceProvider.GetRequiredService<PolicyServer1.EntityFramework.Storage.Datas.PolicyDbContext>().Database.Migrate();
 
                 PolicyDbContext context = serviceScope.ServiceProvider.GetRequiredService<PolicyDbContext>();
+                IClientStore clientStore = serviceScope.ServiceProvider.GetRequiredService<IClientStore>();
+
                 context.Database.Migrate();
 
                 //if (!context.Scopes.Any()) {
@@ -48,9 +51,10 @@ namespace TestPolicyServer {
 
                 if (!context.Clients.Any()) {
                     foreach (PolicyServer1.Models.Client client in Config.GetClients()) {
-                        Client entity = client.ToEntity();
-                        //entity.PrepareBeforeInsert();
+                        //_ = clientStore.CreateAsync(client).Result;
 
+                        Client entity = client.ToEntity();
+                        
                         Boolean shouldNotBeNull = entity.Resources.FirstOrDefault().Resource.Scopes.FirstOrDefault().Resource != null;
                         Boolean shouldBeSame = entity.Scopes.First().Scope.CheckId == entity.Resources.First().Resource.Scopes.First().Scope.CheckId;
 

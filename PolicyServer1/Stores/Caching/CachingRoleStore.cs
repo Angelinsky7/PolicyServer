@@ -51,7 +51,7 @@ namespace PolicyServer1.Stores.Caching {
         //public Task UpdateAsync((Int32 policyId, Int32 roleId) key, PolicyRole Role) {
         //    throw new NotImplementedException();
         //}
-        public Task<Role> CreateAsync(Role item) {
+        public Task<Guid> CreateAsync(Role item) {
             throw new NotImplementedException();
         }
 
@@ -59,15 +59,15 @@ namespace PolicyServer1.Stores.Caching {
             throw new NotImplementedException();
         }
 
-        public IQueryable<Role> Get() {
+        public IQueryable<Role> Query() {
             throw new NotImplementedException();
         }
 
-        public Task<Role> RemoveAsync(Guid id) {
+        public Task RemoveAsync(Guid id) {
             throw new NotImplementedException();
         }
 
-        public Task<Role> UpdateAsync(Guid id, Role item) {
+        public Task UpdateAsync(Guid id, Role item) {
             throw new NotImplementedException();
         }
     }

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Extensions\EntityExtensions.cs" />
     <Compile Remove="_Entities\Client.cs" />
     <Compile Remove="_Entities\ClientScope.cs" />
     <Compile Remove="_Entities\ClientSecret.cs" />
@@ -22,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Extensions\EntityExtensions.cs" />
     <None Include="_Entities\Client.cs" />
     <None Include="_Entities\ClientScope.cs" />
     <None Include="_Entities\ClientSecret.cs" />

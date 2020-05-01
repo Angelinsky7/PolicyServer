@@ -26,7 +26,7 @@ namespace PolicyServer1.Stores {
             _validatorType = _validator.GetType().FullName;
         }
 
-        public Task<Policy> CreateAsync(Policy item) {
+        public Task<Guid> CreateAsync(Policy item) {
             throw new NotImplementedException();
         }
 
@@ -34,15 +34,15 @@ namespace PolicyServer1.Stores {
             throw new NotImplementedException();
         }
 
-        public IQueryable<Policy> Get() {
+        public IQueryable<Policy> Query() {
             throw new NotImplementedException();
         }
 
-        public Task<Policy> RemoveAsync(Guid id) {
+        public Task RemoveAsync(Guid id) {
             throw new NotImplementedException();
         }
 
-        public Task<Policy> UpdateAsync(Guid id, Policy item) {
+        public Task UpdateAsync(Guid id, Policy item) {
             throw new NotImplementedException();
         }
 

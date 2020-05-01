@@ -12,7 +12,7 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
         internal static IMapper Mapper { get; }
 
         static ClientMappers() {
-            var configuration = new MapperConfiguration(cfg => {
+            MapperConfiguration configuration = new MapperConfiguration(cfg => {
                 cfg.AddProfile<ClientMapperProfile>();
                 cfg.AddProfile<ScopeMapperProfile>();
                 cfg.AddProfile<ResourceMapperProfile>();
@@ -21,32 +21,20 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 cfg.AddProfile<PermissionMapperProfile>();
             });
 
-//#if DEBUG
-//            configuration.AssertConfigurationIsValid();
-//#endif
+            //#if DEBUG
+            //            configuration.AssertConfigurationIsValid();
+            //#endif
 
             Mapper = configuration.CreateMapper();
         }
 
-        //public static Models.Client ToModel(this Entities.Client entity) {
-        //    return Mapper.Map<Models.Client>(entity);
-        //}
-
-        //public static Models.Client Reload(this Models.Client model, Models.Client updated) {
-        //    return Mapper.Map(updated, model);
-        //}
-
-        //public static Entities.Client ToEntity(this Models.Client model) {
-        //    return Mapper.Map<Entities.Client>(model);
-        //}
-
-        //public static Entities.Client ToEntity(this Models.Client model, Entities.Client entity) {
-        //    return Mapper.Map(model, entity);
-        //}
-
         public static Models.Client ToModel(this Entities.Client entity) => Mapper.Map<Models.Client>(entity);
 
         public static Entities.Client ToEntity(this Models.Client model) => Mapper.Map<Entities.Client>(model);
+
+        public static void UpdateEntity(this Models.Client model, Entities.Client entity) => Mapper.Map(model, entity);
+
+        public static IQueryable<Models.Client> ToModel(this IQueryable<Entities.Client> source) => source.ProjectTo<Models.Client>(Mapper.ConfigurationProvider);
 
     }
 
@@ -103,6 +91,13 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
             CreateMap<Models.Policy, Entities.MmClientPolicy>()
                 .ForMember(p => p.PolicyId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(p => p.Policy, opt => opt.MapFrom(src => src));
+
+            //CreateMap<Models.RolePolicy, Entities.MmClientPolicy>()
+            //    .ForMember(p => p.PolicyId, opt => opt.MapFrom(src => src.Id))
+            //    .ForMember(p => p.Policy, opt => opt.MapFrom(src => src));
+            //CreateMap<Models.TimePolicy, Entities.MmClientPolicy>()
+            //    .ForMember(p => p.PolicyId, opt => opt.MapFrom(src => src.Id))
+            //    .ForMember(p => p.Policy, opt => opt.MapFrom(src => src));
 
             CreateMap<Models.Permission, Entities.MmClientPermission>()
                 .ForMember(p => p.PermissionId, opt => opt.MapFrom(src => src.Id))

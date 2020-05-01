@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿#define DEBUG_MAPPING
+
+using AutoMapper;
 using PolicyServer1.EntityFramework.Storage.Entities;
 using System;
 using System.Collections.Generic;
@@ -28,10 +30,17 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
         public PolicyMapperProfile() {
 
             CreateMap<Models.Policy, Entities.Policy>()
+                //.Include<Models.RolePolicy, Entities.Policy>()
+                //.Include<Models.TimePolicy, Entities.Policy>()
                 .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(p => p.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(p => p.Logic, opt => opt.MapFrom(src => src.Logic))
+#if DEBUG_MAPPING
+                .AfterMap((model, entity) => {
+                    if (true) { }
+                })
+#endif
                 .PreserveReferences();
 
             CreateMap<Models.RolePolicy, Entities.RolePolicy>()
@@ -45,6 +54,9 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 .ForMember(p => p.Roles, opt => opt.MapFrom(src => src.Roles))
                 .AfterMap((model, entity) => {
                     foreach (Entities.MmRolePolicyRole item in entity.Roles) { item.RolePolicy = entity; item.RolePolicyId = entity.Id; }
+#if DEBUG_MAPPING
+                    if(true){}
+#endif
                 })
                 .PreserveReferences();
 
@@ -68,6 +80,11 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 .ForMember(p => p.Year, opt => opt.MapFrom(src => src.Year))
                 .ForMember(p => p.Hour, opt => opt.MapFrom(src => src.Hour))
                 .ForMember(p => p.Minute, opt => opt.MapFrom(src => src.Minute))
+#if DEBUG_MAPPING
+                .AfterMap((model, entity) => {
+                    if(true){}
+                })
+#endif
                 .PreserveReferences();
 
             CreateMap<Models.TimePolicyRange, Entities.TimePolicyRange>()

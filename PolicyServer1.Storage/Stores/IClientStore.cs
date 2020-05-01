@@ -14,7 +14,7 @@ namespace PolicyServer1.Stores {
         //Task<Int32> CreateAsync(Models.Client newClient);
         //Task UpdateAsync(Int32 clientId, Models.Client client);
         //Task RemoveAsync(Int32 cliendId);
-        Task<Client> RemoveClientIdAsync(String cliendId);
+        Task RemoveClientIdAsync(String cliendId);
         
     }
 }
