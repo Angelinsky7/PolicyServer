@@ -9,8 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
-    <Folder Include="Services\" />
+    <Compile Remove="Extensions\**" />
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Extensions\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Extensions\**" />
+    <None Remove="Services\**" />
   </ItemGroup>
 
   <Target Name="PostBuildRelease" AfterTargets="Pack" Condition="'$(NuGetSourceReleasePolicy)' != '' And '$(Configuration)' == 'Release'">

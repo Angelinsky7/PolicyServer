@@ -22,6 +22,30 @@ namespace TestPolicyServer {
                 new Role{ Name = "User" },
                 new Role{ Name = "AntiRole"},
             };
+
+            roles.Add(new Role {
+                Name = "Test Parent1",
+                Parents = new Role[] {
+                    roles[0]
+                }
+            });
+
+            roles.Add(new Role {
+                Name = "Test Parent2",
+                Parents = new Role[] {
+                    roles[3],
+                    roles[1]
+                }
+            });
+
+            roles.Add(new Role {
+                Name = "Test Parent3",
+                Parents = new Role[] {
+                    roles[4],
+                    roles[2]
+                }
+            });
+
             return roles;
         }
 
@@ -54,7 +78,71 @@ namespace TestPolicyServer {
                         roles[1]
                     }
                 },
+                new ClientPolicy {
+                    Name = "Client policy",
+                    Logic = PolicyLogic.Positive,
+                    Description = "This is a test of a client policy",
+                    Clients = new String[] {
+                        "client1",
+                        "client2"
+                    }
+                },
+                new GroupPolicy {
+                    Name = "Group Policy",
+                    Description = "A test to create a group policy",
+                    Logic = PolicyLogic.Positive,
+                    Groups = new String[] {
+                        "group1",
+                        "group2"
+                    },
+                },
+                new UserPolicy {
+                    Name = "User policy",
+                    Description = "A test of user policy",
+                    Logic = PolicyLogic.Positive,
+                    Users = new String[] {
+                        "user1",
+                        "user2"
+                    }
+                },
+                new TimePolicy {
+                    Name = "Time Policy 2",
+                    Logic = PolicyLogic.Positive,
+                    NotBefore = new DateTime(2019, 1, 1),
+                    NotOnOrAfter = new DateTime(2019, 10, 10),
+                    Hour = new TimePolicyRange {
+                        From = 14,
+                        To = 20
+                    },
+                    Minute = new TimePolicyRange {
+                        From = 10,
+                        To = 50
+                    }
+                },
             };
+
+            policies.Add(new AggregatedPolicy {
+                Name = "Aggregate policy",
+                Description = "a test of an aggreate policy",
+                Logic = PolicyLogic.Positive,
+                DecisionStrategy = DecisionStrategy.Unanimous,
+                Policies = new Policy[] {
+                    policies[5],
+                    policies[6]
+                }
+            });
+
+            policies.Add(new AggregatedPolicy {
+                Name = "Aggregate policy 2",
+                Description = "a test of an aggreate policy",
+                Logic = PolicyLogic.Positive,
+                DecisionStrategy = DecisionStrategy.Unanimous,
+                Policies = new Policy[] {
+                    policies[8],
+                    policies[1]
+                }
+            });
+
             return policies;
         }
 
@@ -80,6 +168,22 @@ namespace TestPolicyServer {
                         scopes[2],
                         scopes[3],
                     }
+                },
+                new Resource{
+                    Name = "Resource With Uris",
+                    DisplayName = "Copntact",
+                    Type = "urn:mvc:resources:res1",
+                    Scopes = {
+                        scopes[0],
+                        scopes[1],
+                        scopes[2],
+                        scopes[3],
+                    },
+                    Uris = new Uri[]{
+                        new Uri("http://test1.uri.ch"),
+                        new Uri("http://test2.uri.ch"),
+                    },
+                    IconUri = new Uri("http://test3.uri.ch"),
                 }
             };
             return resources;
@@ -196,6 +300,16 @@ namespace TestPolicyServer {
                             },
                             Policies = {
                                 policies[3]
+                            }
+                        },
+                        new ResourcePermission {
+                            Name = "Resource Permission",
+                            Resource = resources[2],
+                            DecisionStrategy = DecisionStrategy.Affirmative,
+                            Description = "test of resource permsion",
+                            ResouceType = "rsc:tyoe:1",
+                            Policies = {
+                                policies[9]
                             }
                         }
                     }

@@ -18,6 +18,8 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
     public class RoleMapperProfile : Profile {
         public RoleMapperProfile() {
 
+            #region Role
+
             CreateMap<Models.Role, Entities.Role>()
                 .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Name))
@@ -28,29 +30,25 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 })
                 .PreserveReferences();
 
+            CreateMap<Entities.Role, Models.Role>()
+                .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(p => p.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(p => p.Parents, opt => opt.MapFrom(src => src.Parents));
+
+            #endregion
+
+            #region Role
+
             CreateMap<Models.Role, Entities.MmRoleRole>()
                 .ForMember(p => p.ParentId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(p => p.Parent, opt => opt.MapFrom(src => src))
                 .PreserveReferences();
 
-            //CreateMap<Entities.Role, Models.Role>()
-            //    .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id))
-            //    .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Name))
-            //    .ForMember(p => p.Description, opt => opt.MapFrom(src => src.Description))
-            //    .ForMember(p => p.Parents, opt => opt.MapFrom(src => src.Parents))
-            //    .ReverseMap()
-            //    .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id))
-            //    .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Name))
-            //    .ForMember(p => p.Description, opt => opt.MapFrom(src => src.Description))
-            //    .ForMember(p => p.Parents, opt => opt.MapFrom(src => src.Parents))
-            //    .AfterMap((model, entity) => {
-            //        foreach (Entities.MmRoleRole item in entity.Parents) { item.Role = entity; item.RoleId = entity.Id; }
-            //    });
+            CreateMap<Entities.MmRoleRole, Models.Role>()
+                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Role>(p.Parent));
 
-            //CreateMap<Entities.MmRoleRole, Models.Role>()
-            //    .ReverseMap()
-            //    .ForMember(p => p.ParentId, opt => opt.MapFrom(src => src.Id))
-            //    .ForMember(p => p.Parent, opt => opt.MapFrom(src => src.ToEntity()));
+            #endregion
 
         }
     }

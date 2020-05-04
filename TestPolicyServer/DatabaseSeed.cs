@@ -38,14 +38,22 @@ namespace TestPolicyServer {
                 //var resources = Config.GetResouces(scopes);
                 //var firstResouce = resources.First().ToEntity();
 
+                if (context.Clients.Any()) {
+                    PolicyServer1.Models.Client entity = clientStore.GetFromClientIdAsync("mvc").Result;
+                }
 
 #if RESET_DATABASE
                 context.Clients.RemoveRange(context.Clients);
-                context.Resources.RemoveRange(context.Resources);
-                context.Roles.RemoveRange(context.Roles);
-                context.Scopes.RemoveRange(context.Scopes);
+                context.SaveChanges();
                 context.Permissions.RemoveRange(context.Permissions);
+                context.SaveChanges();
                 context.Policies.RemoveRange(context.Policies);
+                context.SaveChanges();
+                context.Resources.RemoveRange(context.Resources);
+                context.SaveChanges();
+                context.Roles.RemoveRange(context.Roles);
+                context.SaveChanges();
+                context.Scopes.RemoveRange(context.Scopes);
                 context.SaveChanges();
 #endif
 
@@ -54,7 +62,7 @@ namespace TestPolicyServer {
                         //_ = clientStore.CreateAsync(client).Result;
 
                         Client entity = client.ToEntity();
-                        
+
                         Boolean shouldNotBeNull = entity.Resources.FirstOrDefault().Resource.Scopes.FirstOrDefault().Resource != null;
                         Boolean shouldBeSame = entity.Scopes.First().Scope.CheckId == entity.Resources.First().Resource.Scopes.First().Scope.CheckId;
 

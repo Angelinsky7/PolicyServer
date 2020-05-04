@@ -4,7 +4,7 @@ using System.Text;
 using PolicyServer1.Models;
 
 namespace PolicyServer1.EntityFramework.Storage.Entities {
-    public class Policy {
+    public abstract class Policy {
 
         public Guid Id { get; set; } = Guid.NewGuid();
 

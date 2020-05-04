@@ -11,7 +11,7 @@ namespace PolicyServer1.Models {
         public String Name { get; set; }
         public String Description { get; set; }
 
-        public ICollection<Role> Parents { get; internal set; } = new HashSet<Role>();
+        public ICollection<Role> Parents { get; set; } = new HashSet<Role>();
 
         //public Int32 Id { get; set; }
         //public String Name { get; set; }

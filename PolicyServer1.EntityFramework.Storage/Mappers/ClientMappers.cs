@@ -5,6 +5,7 @@ using System.Text;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using PolicyServer1.Models;
 
 namespace PolicyServer1.EntityFramework.Storage.Mappers {
     public static class ClientMappers {
@@ -41,6 +42,8 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
     public class ClientMapperProfile : Profile {
         public ClientMapperProfile() {
 
+            #region Client
+
             CreateMap<Models.Client, Entities.Client>()
                 .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(p => p.Enabled, opt => opt.MapFrom(src => src.Enabled))
@@ -69,31 +72,94 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 })
                 .PreserveReferences();
 
-            //CreateMap<Models.Secret, Entities.Secret>(MemberList.Destination);
-            //TODO(demarco): It's missing
-            CreateMap<Models.Secret, Entities.ClientSecret>();
+            CreateMap<Entities.Client, Models.Client>()
+               .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id))
+               .ForMember(p => p.Enabled, opt => opt.MapFrom(src => src.Enabled))
+               .ForMember(p => p.ClientId, opt => opt.MapFrom(src => src.ClientId))
+               .ForMember(p => p.Secrets, opt => opt.MapFrom(src => src.Secrets))
+               .ForMember(p => p.RequireClientSecret, opt => opt.MapFrom(src => src.RequireClientSecret))
+               .ForMember(p => p.ClientName, opt => opt.MapFrom(src => src.ClientName))
+               .ForMember(p => p.Description, opt => opt.MapFrom(src => src.Description))
+               .ForMember(p => p.ClientUri, opt => opt.MapFrom(src => src.ClientUri))
+               .ForMember(p => p.Options, opt => opt.MapFrom(src => new ClientOption {
+                   AnalyseModeEnabled = src.AnalyseModeEnabled,
+                   DecisionStrategy = src.DecisionStrategy,
+                   PermissionSplitter = src.PermissionSplitter,
+                   PolicyEnforcement = src.PolicyEnforcement
+               }))
+               .ForMember(p => p.Resources, opt => opt.MapFrom(src => src.Resources))
+               .ForMember(p => p.Scopes, opt => opt.MapFrom(src => src.Scopes))
+               .ForMember(p => p.Roles, opt => opt.MapFrom(src => src.Roles))
+               .ForMember(p => p.Policies, opt => opt.MapFrom(src => src.Policies))
+               .ForMember(p => p.Permissions, opt => opt.MapFrom(src => src.Permissions));
+
+            #endregion
+
+            CreateMap<Models.Secret, Entities.ClientSecret>()
+                .ReverseMap();
+
+            #region Resource
 
             CreateMap<Models.Resource, Entities.MmClientResource>()
                 .ForMember(p => p.ResourceId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(p => p.Resource, opt => opt.MapFrom(src => src))
                 .PreserveReferences();
 
+            CreateMap<Entities.MmClientResource, Models.Resource>()
+                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Resource>(p.Resource));
+
+            #endregion
+
+            #region Scope
+
             CreateMap<Models.Scope, Entities.MmClientScope>()
                 .ForMember(p => p.ScopeId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(p => p.Scope, opt => opt.MapFrom(src => src))
                 .PreserveReferences();
 
+            CreateMap<Entities.MmClientScope, Models.Scope>()
+                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Scope>(p.Scope));
+
+            #endregion
+
+            #region Role
+
             CreateMap<Models.Role, Entities.MmClientRole>()
                 .ForMember(p => p.RoleId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(p => p.Role, opt => opt.MapFrom(src => src));
+                .ForMember(p => p.Role, opt => opt.MapFrom(src => src))
+                .PreserveReferences();
+
+            CreateMap<Entities.MmClientRole, Models.Role>()
+                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Role>(p.Role))
+                .PreserveReferences();
+
+            #endregion
+
+            #region Policy
 
             CreateMap<Models.Policy, Entities.MmClientPolicy>()
                 .ForMember(p => p.PolicyId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(p => p.Policy, opt => opt.MapFrom(src => src));
+                .ForMember(p => p.Policy, opt => opt.MapFrom(src => src))
+                .PreserveReferences();
+
+            CreateMap<Entities.MmClientPolicy, Models.Policy>()
+                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Policy>(p.Policy))
+                .PreserveReferences();
+
+            #endregion
+
+            #region Permission
 
             CreateMap<Models.Permission, Entities.MmClientPermission>()
                 .ForMember(p => p.PermissionId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(p => p.Permission, opt => opt.MapFrom(src => src));
+                .ForMember(p => p.Permission, opt => opt.MapFrom(src => src))
+                .PreserveReferences();
+
+            CreateMap<Entities.MmClientPermission, Models.Permission>()
+                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Permission>(p.Permission))
+                .PreserveReferences();
+
+            #endregion
 
         }
     }

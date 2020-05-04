@@ -18,15 +18,22 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
     public class ScopeMapperProfile : Profile {
         public ScopeMapperProfile() {
 
+            #region Scope
+
             CreateMap<Models.Scope, Entities.Scope>()
                 .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(p => p.DisplayName, opt => opt.MapFrom(src => src.DisplayName))
                 .ForMember(p => p.IconUri, opt => opt.MapFrom(src => src.IconUri))
-                .AfterMap((model, entity, context) => {
-                    if (true) { }
-                })
                 .PreserveReferences();
+
+            CreateMap<Entities.Scope, Models.Scope>(MemberList.Destination)
+                .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(p => p.DisplayName, opt => opt.MapFrom(src => src.DisplayName))
+                .ForMember(p => p.IconUri, opt => opt.MapFrom(src => src.IconUri));
+
+            #endregion
 
         }
     }
