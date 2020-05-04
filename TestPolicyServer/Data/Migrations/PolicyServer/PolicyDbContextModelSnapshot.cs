@@ -19,19 +19,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.AggregatedPolicy", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("DecisionStrategy")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AggregatedPolicy");
-                });
-
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Client", b =>
                 {
                     b.Property<Guid>("Id")
@@ -94,16 +81,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                     b.ToTable("Client");
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicy", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ClientPolicy");
-                });
-
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicyClient", b =>
                 {
                     b.Property<long>("Id")
@@ -122,16 +99,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                     b.HasIndex("ClientPolicyId");
 
                     b.ToTable("ClientPolicyClient");
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.GroupPolicy", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GroupPolicy");
                 });
 
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.GroupPolicyGroup", b =>
@@ -262,24 +229,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                     b.ToTable("MmClientScope");
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmClientSecret", b =>
-                {
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("SecretId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("ClientId", "SecretId");
-
-                    b.HasIndex("SecretId");
-
-                    b.HasIndex("ClientId", "SecretId")
-                        .IsUnique();
-
-                    b.ToTable("MmClientSecret");
-                });
-
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmPermissionPolicy", b =>
                 {
                     b.Property<Guid>("PermissionId")
@@ -394,6 +343,10 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
+                    b.Property<string>("PermissionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("Updated")
                         .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
@@ -401,6 +354,8 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                     b.HasKey("Id");
 
                     b.ToTable("Permission");
+
+                    b.HasDiscriminator<string>("PermissionType").HasValue("Permission");
                 });
 
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Policy", b =>
@@ -427,6 +382,10 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
+                    b.Property<string>("PolicyType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("Updated")
                         .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
@@ -434,6 +393,8 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                     b.HasKey("Id");
 
                     b.ToTable("Policy");
+
+                    b.HasDiscriminator<string>("PolicyType").HasValue("Policy");
                 });
 
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Resource", b =>
@@ -476,26 +437,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                         .IsUnique();
 
                     b.ToTable("Resource");
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ResourcePermission", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ResouceType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<Guid>("ResourceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResourceId");
-
-                    b.ToTable("ResourcePermission");
                 });
 
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ResourceUri", b =>
@@ -548,16 +489,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                     b.ToTable("Role");
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.RolePolicy", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RolePolicy");
-                });
-
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Scope", b =>
                 {
                     b.Property<Guid>("Id")
@@ -593,21 +524,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                     b.ToTable("Scope");
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ScopePermission", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ResourceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResourceId");
-
-                    b.ToTable("ScopePermission");
-                });
-
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.Secret", b =>
                 {
                     b.Property<long>("Id")
@@ -629,6 +545,10 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                     b.Property<DateTime?>("LastAccessed")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("SecretType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
@@ -646,66 +566,8 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                     b.HasKey("Id");
 
                     b.ToTable("Secret");
-                });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.TimePolicy", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("DayOfMonthId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("HourId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("LastAccessed")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("MinuteId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("MonthId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("NotBefore")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("NotOnOrAfter")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("Updated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("YearId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DayOfMonthId")
-                        .IsUnique()
-                        .HasFilter("[DayOfMonthId] IS NOT NULL");
-
-                    b.HasIndex("HourId")
-                        .IsUnique()
-                        .HasFilter("[HourId] IS NOT NULL");
-
-                    b.HasIndex("MinuteId")
-                        .IsUnique()
-                        .HasFilter("[MinuteId] IS NOT NULL");
-
-                    b.HasIndex("MonthId")
-                        .IsUnique()
-                        .HasFilter("[MonthId] IS NOT NULL");
-
-                    b.HasIndex("YearId")
-                        .IsUnique()
-                        .HasFilter("[YearId] IS NOT NULL");
-
-                    b.ToTable("TimePolicy");
+                    b.HasDiscriminator<string>("SecretType").HasValue("Secret");
                 });
 
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.TimePolicyRange", b =>
@@ -735,16 +597,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                     b.ToTable("TimePolicyRange");
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.UserPolicy", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserPolicy");
-                });
-
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.UserPolicyUser", b =>
                 {
                     b.Property<long>("Id")
@@ -767,22 +619,130 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                     b.ToTable("UserPolicyUser");
                 });
 
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ResourcePermission", b =>
+                {
+                    b.HasBaseType("PolicyServer1.EntityFramework.Storage.Entities.Permission");
+
+                    b.Property<string>("ResouceType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ResourceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("ResourceId");
+
+                    b.HasDiscriminator().HasValue("ResourcePermission");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ScopePermission", b =>
+                {
+                    b.HasBaseType("PolicyServer1.EntityFramework.Storage.Entities.Permission");
+
+                    b.Property<Guid>("ResourceId")
+                        .HasColumnName("ScopePermission_ResourceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("ResourceId");
+
+                    b.HasDiscriminator().HasValue("ScopePermission");
+                });
+
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.AggregatedPolicy", b =>
                 {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Policy", "Base")
-                        .WithOne()
-                        .HasForeignKey("PolicyServer1.EntityFramework.Storage.Entities.AggregatedPolicy", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasBaseType("PolicyServer1.EntityFramework.Storage.Entities.Policy");
+
+                    b.Property<int>("DecisionStrategy")
+                        .HasColumnType("int");
+
+                    b.HasDiscriminator().HasValue("AggregatedPolicy");
                 });
 
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicy", b =>
                 {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Policy", "Base")
-                        .WithOne()
-                        .HasForeignKey("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicy", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasBaseType("PolicyServer1.EntityFramework.Storage.Entities.Policy");
+
+                    b.HasDiscriminator().HasValue("ClientPolicy");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.GroupPolicy", b =>
+                {
+                    b.HasBaseType("PolicyServer1.EntityFramework.Storage.Entities.Policy");
+
+                    b.HasDiscriminator().HasValue("GroupPolicy");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.RolePolicy", b =>
+                {
+                    b.HasBaseType("PolicyServer1.EntityFramework.Storage.Entities.Policy");
+
+                    b.HasDiscriminator().HasValue("RolePolicy");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.TimePolicy", b =>
+                {
+                    b.HasBaseType("PolicyServer1.EntityFramework.Storage.Entities.Policy");
+
+                    b.Property<long?>("DayOfMonthId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("HourId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("MinuteId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("MonthId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("NotBefore")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NotOnOrAfter")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("YearId")
+                        .HasColumnType("bigint");
+
+                    b.HasIndex("DayOfMonthId")
+                        .IsUnique()
+                        .HasFilter("[DayOfMonthId] IS NOT NULL");
+
+                    b.HasIndex("HourId")
+                        .IsUnique()
+                        .HasFilter("[HourId] IS NOT NULL");
+
+                    b.HasIndex("MinuteId")
+                        .IsUnique()
+                        .HasFilter("[MinuteId] IS NOT NULL");
+
+                    b.HasIndex("MonthId")
+                        .IsUnique()
+                        .HasFilter("[MonthId] IS NOT NULL");
+
+                    b.HasIndex("YearId")
+                        .IsUnique()
+                        .HasFilter("[YearId] IS NOT NULL");
+
+                    b.HasDiscriminator().HasValue("TimePolicy");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.UserPolicy", b =>
+                {
+                    b.HasBaseType("PolicyServer1.EntityFramework.Storage.Entities.Policy");
+
+                    b.HasDiscriminator().HasValue("UserPolicy");
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientSecret", b =>
+                {
+                    b.HasBaseType("PolicyServer1.EntityFramework.Storage.Entities.Secret");
+
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasDiscriminator().HasValue("ClientSecret");
                 });
 
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicyClient", b =>
@@ -794,19 +754,10 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.GroupPolicy", b =>
-                {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Policy", "Base")
-                        .WithOne()
-                        .HasForeignKey("PolicyServer1.EntityFramework.Storage.Entities.GroupPolicy", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.GroupPolicyGroup", b =>
                 {
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.GroupPolicy", "GroupPolicy")
-                        .WithMany("Users")
+                        .WithMany("Groups")
                         .HasForeignKey("GroupPolicyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -902,21 +853,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmClientSecret", b =>
-                {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Client", "Client")
-                        .WithMany("Secrets")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Secret", "Secret")
-                        .WithMany()
-                        .HasForeignKey("SecretId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.MmPermissionPolicy", b =>
                 {
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Permission", "Permission")
@@ -992,21 +928,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ResourcePermission", b =>
-                {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Permission", "Base")
-                        .WithOne()
-                        .HasForeignKey("PolicyServer1.EntityFramework.Storage.Entities.ResourcePermission", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Resource", "Resource")
-                        .WithMany()
-                        .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ResourceUri", b =>
                 {
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Resource", "Resource")
@@ -1016,27 +937,30 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.RolePolicy", b =>
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.UserPolicyUser", b =>
                 {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Policy", "Base")
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.UserPolicy", "UserPolicy")
+                        .WithMany("Users")
+                        .HasForeignKey("UserPolicyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ResourcePermission", b =>
+                {
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Resource", "Resource")
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("ResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ScopePermission", b =>
                 {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Permission", "Base")
-                        .WithOne()
-                        .HasForeignKey("PolicyServer1.EntityFramework.Storage.Entities.ScopePermission", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Resource", "Resource")
                         .WithMany()
                         .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 
@@ -1051,12 +975,6 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                         .WithOne()
                         .HasForeignKey("PolicyServer1.EntityFramework.Storage.Entities.TimePolicy", "HourId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Policy", "Base")
-                        .WithOne()
-                        .HasForeignKey("PolicyServer1.EntityFramework.Storage.Entities.TimePolicy", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.TimePolicyRange", "Minute")
                         .WithOne()
@@ -1074,20 +992,11 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.UserPolicy", b =>
+            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientSecret", b =>
                 {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Policy", "Base")
-                        .WithOne()
-                        .HasForeignKey("PolicyServer1.EntityFramework.Storage.Entities.UserPolicy", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.UserPolicyUser", b =>
-                {
-                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.UserPolicy", "UserPolicy")
-                        .WithMany("Users")
-                        .HasForeignKey("UserPolicyId")
+                    b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Client", "Client")
+                        .WithMany("Secrets")
+                        .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

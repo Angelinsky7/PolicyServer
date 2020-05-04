@@ -75,7 +75,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             }
 
             _context.Clients.Remove(entity);
-            _context.Set<Entities.Secret>().RemoveRange(entity.Secrets.Select(p => p.Secret));
+            //_context.Set<Entities.Secret>().RemoveRange(entity.Secrets.Select(p => p.Secret));
 
             try {
                 await _context.SaveChangesAsync();
@@ -92,7 +92,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             }
 
             _context.Clients.Remove(entity);
-            _context.Set<Entities.Secret>().RemoveRange(entity.Secrets.Select(p => p.Secret));
+            //_context.Set<Entities.Secret>().RemoveRange(entity.Secrets.Select(p => p.Secret));
 
             try {
                 await _context.SaveChangesAsync();

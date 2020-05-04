@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace PolicyServer1.EntityFramework.Storage.Entities {
-    public class TimePolicy {
-
-        public Guid Id { get; set; }
-        public Policy Base { get; set; }
+    public class TimePolicy : Policy {
 
         public Nullable<DateTime> NotBefore { get; set; }
         public Nullable<DateTime> NotOnOrAfter { get; set; }
@@ -25,10 +22,6 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
 
         public Nullable<Int64> MinuteId{ get; set; }
         public TimePolicyRange Minute { get; set; }
-
-        public DateTime Created { get; set; } = DateTime.UtcNow;
-        public DateTime? Updated { get; set; }
-        public DateTime? LastAccessed { get; set; }
 
     }
 }

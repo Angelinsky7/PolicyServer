@@ -9,7 +9,7 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
 
         public Boolean Enabled { get; set; } = true;
         public String ClientId { get; set; }
-        public ICollection<MmClientSecret> Secrets { get; set; } = new HashSet<MmClientSecret>();
+        public ICollection<ClientSecret> Secrets { get; set; } = new HashSet<ClientSecret>();
         public Boolean RequireClientSecret { get; set; } = true;
         public String ClientName { get; set; }
         public String Description { get; set; }

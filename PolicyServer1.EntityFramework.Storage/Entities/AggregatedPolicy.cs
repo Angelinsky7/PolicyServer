@@ -4,10 +4,7 @@ using System.Text;
 using PolicyServer1.Models;
 
 namespace PolicyServer1.EntityFramework.Storage.Entities {
-    public class AggregatedPolicy {
-
-        public Guid Id { get; set; }
-        public Policy Base { get; set; }
+    public class AggregatedPolicy : Policy {
 
         public DecisionStrategy DecisionStrategy { get; set; }
 

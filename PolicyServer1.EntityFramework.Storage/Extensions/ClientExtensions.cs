@@ -11,7 +11,6 @@ namespace PolicyServer1.EntityFramework.Storage {
         public static IQueryable<Client> IncludeQuery(this IQueryable<Client> src) {
             return src
                 .Include(p => p.Secrets)
-                    .ThenInclude(p => p.Secret)
                 .Include(p => p.Scopes)
                     .ThenInclude(p => p.Scope)
                 .Include(p => p.Resources)

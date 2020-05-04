@@ -64,13 +64,21 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
                 policy.Property(p => p.Created).ValueGeneratedOnAdd().IsRequired();
                 policy.Property(p => p.Updated).ValueGeneratedOnUpdate();
                 policy.Property(p => p.LastAccessed);
+
+                policy.HasDiscriminator<String>("PolicyType")
+                    .HasValue<AggregatedPolicy>(nameof(AggregatedPolicy))
+                    .HasValue<ClientPolicy>(nameof(ClientPolicy))
+                    .HasValue<GroupPolicy>(nameof(GroupPolicy))
+                    .HasValue<RolePolicy>(nameof(RolePolicy))
+                    .HasValue<TimePolicy>(nameof(TimePolicy))
+                    .HasValue<UserPolicy>(nameof(UserPolicy));
             });
 
             modelBuilder.Entity<RolePolicy>(rolePolicy => {
-                rolePolicy.ToTable(storeOptions.RolePolicy);
-                rolePolicy.HasKey(p => p.Id);
+                //rolePolicy.ToTable(storeOptions.RolePolicy);
+                //rolePolicy.HasKey(p => p.Id);
 
-                rolePolicy.HasOne(p => p.Base).WithMany().HasForeignKey(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+                //rolePolicy.HasOne(p => p.Base).WithMany().HasForeignKey(p => p.Id).OnDelete(DeleteBehavior.Cascade);
                 rolePolicy.HasMany(p => p.Roles).WithOne(p => p.RolePolicy).HasForeignKey(p => p.RolePolicyId).OnDelete(DeleteBehavior.ClientCascade);
             });
 
@@ -85,11 +93,12 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
             });
 
             modelBuilder.Entity<TimePolicy>(timePolicy => {
-                timePolicy.ToTable(storeOptions.TimePolicy);
-                timePolicy.HasKey(p => p.Id);
+                //timePolicy.ToTable(storeOptions.TimePolicy);
+                //timePolicy.HasKey(p => p.Id);
 
-                timePolicy.Property(p => p.Id).ValueGeneratedNever();
-                timePolicy.HasOne(p => p.Base).WithOne().HasForeignKey<TimePolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+                //timePolicy.Property(p => p.Id).ValueGeneratedNever();
+                //timePolicy.HasOne(p => p.Base).WithOne().HasForeignKey<TimePolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+
                 timePolicy.HasOne(p => p.DayOfMonth).WithOne().HasForeignKey<TimePolicy>(p => p.DayOfMonthId).OnDelete(DeleteBehavior.Restrict);
                 timePolicy.HasOne(p => p.Month).WithOne().HasForeignKey<TimePolicy>(p => p.MonthId).OnDelete(DeleteBehavior.Restrict);
                 timePolicy.HasOne(p => p.Year).WithOne().HasForeignKey<TimePolicy>(p => p.YearId).OnDelete(DeleteBehavior.Restrict);
@@ -98,10 +107,10 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
             });
 
             modelBuilder.Entity<UserPolicy>(userPolicy => {
-                userPolicy.ToTable(storeOptions.UserPolicy);
-                userPolicy.HasKey(p => p.Id);
+                //userPolicy.ToTable(storeOptions.UserPolicy);
+                //userPolicy.HasKey(p => p.Id);
 
-                userPolicy.HasOne(p => p.Base).WithOne().HasForeignKey<UserPolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+                //userPolicy.HasOne(p => p.Base).WithOne().HasForeignKey<UserPolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
                 userPolicy.HasMany(p => p.Users).WithOne(p => p.UserPolicy).HasForeignKey(p => p.UserPolicyId).OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -115,27 +124,27 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
             });
 
             modelBuilder.Entity<GroupPolicy>(groupPolicy => {
-                groupPolicy.ToTable(storeOptions.GroupPolicy);
-                groupPolicy.HasKey(p => p.Id);
+                //groupPolicy.ToTable(storeOptions.GroupPolicy);
+                //groupPolicy.HasKey(p => p.Id);
 
-                groupPolicy.Property(p => p.Id).ValueGeneratedNever();
-                groupPolicy.HasOne(p => p.Base).WithOne().HasForeignKey<GroupPolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
-                groupPolicy.HasMany(p => p.Users).WithOne(p => p.GroupPolicy).HasForeignKey(p => p.GroupPolicyId).OnDelete(DeleteBehavior.Cascade);
+                //groupPolicy.Property(p => p.Id).ValueGeneratedNever();
+                //groupPolicy.HasOne(p => p.Base).WithOne().HasForeignKey<GroupPolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+                groupPolicy.HasMany(p => p.Groups).WithOne(p => p.GroupPolicy).HasForeignKey(p => p.GroupPolicyId).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<GroupPolicyGroup>(groupPolicyGroup => {
                 groupPolicyGroup.ToTable(storeOptions.GroupPolicyGroup);
                 groupPolicyGroup.HasKey(p => p.Id);
 
-                groupPolicyGroup.HasOne(p => p.GroupPolicy).WithMany(p => p.Users).HasForeignKey(p => p.GroupPolicyId).OnDelete(DeleteBehavior.Cascade);
+                groupPolicyGroup.HasOne(p => p.GroupPolicy).WithMany(p => p.Groups).HasForeignKey(p => p.GroupPolicyId).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<ClientPolicy>((Action<EntityTypeBuilder<ClientPolicy>>)(clientPolicy => {
-                clientPolicy.ToTable((TableConfiguration)storeOptions.ClientPolicy);
-                clientPolicy.HasKey(p => p.Id);
+                //clientPolicy.ToTable((TableConfiguration)storeOptions.ClientPolicy);
+                //clientPolicy.HasKey(p => p.Id);
 
-                clientPolicy.Property(p => p.Id).ValueGeneratedNever();
-                clientPolicy.HasOne(p => p.Base).WithOne().HasForeignKey<ClientPolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+                //clientPolicy.Property(p => p.Id).ValueGeneratedNever();
+                //clientPolicy.HasOne(p => p.Base).WithOne().HasForeignKey<ClientPolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
                 clientPolicy.HasMany(p => p.Users).WithOne(p => p.ClientPolicy).HasForeignKey(p => p.ClientPolicyId).OnDelete(DeleteBehavior.Cascade);
             }));
 
@@ -147,13 +156,13 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
             });
 
             modelBuilder.Entity<AggregatedPolicy>(aggregatedPolicy => {
-                aggregatedPolicy.ToTable(storeOptions.AggregatedPolicy);
-                aggregatedPolicy.HasKey(p => p.Id);
+                //aggregatedPolicy.ToTable(storeOptions.AggregatedPolicy);
+                //aggregatedPolicy.HasKey(p => p.Id);
 
-                aggregatedPolicy.Property(p => p.Id).ValueGeneratedNever();
-                aggregatedPolicy.Property(p => p.DecisionStrategy).IsRequired();
+                //aggregatedPolicy.Property(p => p.Id).ValueGeneratedNever();
+                //aggregatedPolicy.Property(p => p.DecisionStrategy).IsRequired();
 
-                aggregatedPolicy.HasOne(p => p.Base).WithOne().HasForeignKey<AggregatedPolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+                //aggregatedPolicy.HasOne(p => p.Base).WithOne().HasForeignKey<AggregatedPolicy>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
                 aggregatedPolicy.HasMany(p => p.Policies).WithOne(p => p.AggregatedPolicy).HasForeignKey(p => p.AggregatedPolicyId).OnDelete(DeleteBehavior.ClientCascade);
             });
 
@@ -196,7 +205,7 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
 
             modelBuilder.Entity<MmResourceScope>(resourceScope => {
                 resourceScope.ToTable(storeOptions.MmResourceScope);
-                resourceScope.HasKey(p => new { p.ResourceId, p.ScopeId});
+                resourceScope.HasKey(p => new { p.ResourceId, p.ScopeId });
 
                 resourceScope.HasIndex(p => new { p.ResourceId, p.ScopeId }).IsUnique();
 
@@ -216,6 +225,9 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
                 secret.Property(p => p.Created).ValueGeneratedOnAdd().IsRequired();
                 secret.Property(p => p.Updated).ValueGeneratedOnUpdate();
                 secret.Property(p => p.LastAccessed);
+
+                secret.HasDiscriminator<String>("SecretType")
+                    .HasValue<ClientSecret>(nameof(ClientSecret));
             });
 
             modelBuilder.Entity<Permission>(permission => {
@@ -232,6 +244,10 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
                 permission.Property(p => p.LastAccessed);
 
                 permission.HasMany(p => p.Policies).WithOne(p => p.Permission).HasForeignKey(p => p.PermissionId).OnDelete(DeleteBehavior.Cascade);
+
+                permission.HasDiscriminator<String>("PermissionType")
+                    .HasValue<ScopePermission>(nameof(ScopePermission))
+                    .HasValue<ResourcePermission>(nameof(ResourcePermission));
             });
 
             modelBuilder.Entity<MmPermissionPolicy>(permissionPolicy => {
@@ -245,13 +261,13 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
             });
 
             modelBuilder.Entity<ScopePermission>(scopePermission => {
-                scopePermission.ToTable(storeOptions.ScopePermission);
-                scopePermission.HasKey(p => p.Id);
+                //scopePermission.ToTable(storeOptions.ScopePermission);
+                //scopePermission.HasKey(p => p.Id);
 
-                scopePermission.Property(p => p.Id).ValueGeneratedNever();
+                //scopePermission.Property(p => p.Id).ValueGeneratedNever();
 
-                scopePermission.HasOne(p => p.Base).WithOne().HasForeignKey<ScopePermission>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
-                scopePermission.HasOne(p => p.Resource).WithMany().HasForeignKey(p => p.ResourceId).OnDelete(DeleteBehavior.Cascade);
+                //scopePermission.HasOne(p => p.Base).WithOne().HasForeignKey<ScopePermission>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+                scopePermission.HasOne(p => p.Resource).WithMany().HasForeignKey(p => p.ResourceId).OnDelete(DeleteBehavior.ClientCascade);
                 scopePermission.HasMany(p => p.Scopes).WithOne(p => p.ScopePermission).HasForeignKey(p => p.ScopePermissionId).OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -266,13 +282,13 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
             });
 
             modelBuilder.Entity<ResourcePermission>(resourcePermission => {
-                resourcePermission.ToTable(storeOptions.ResourcePermission);
-                resourcePermission.HasKey(p => p.Id);
+                //resourcePermission.ToTable(storeOptions.ResourcePermission);
+                //resourcePermission.HasKey(p => p.Id);
 
-                resourcePermission.Property(p => p.Id).ValueGeneratedNever();
-                resourcePermission.Property(p => p.ResouceType).HasMaxLength(200).IsRequired();
+                //resourcePermission.Property(p => p.Id).ValueGeneratedNever();
+                //resourcePermission.Property(p => p.ResouceType).HasMaxLength(200).IsRequired();
 
-                resourcePermission.HasOne(p => p.Base).WithOne().HasForeignKey<ResourcePermission>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+                //resourcePermission.HasOne(p => p.Base).WithOne().HasForeignKey<ResourcePermission>(p => p.Id).OnDelete(DeleteBehavior.Cascade);
                 resourcePermission.HasOne(p => p.Resource).WithMany().HasForeignKey(p => p.ResourceId).OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -317,14 +333,14 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
                 client.HasMany(p => p.Permissions).WithOne(p => p.Client).HasForeignKey(p => p.ClientId).OnDelete(DeleteBehavior.Cascade);
             });
 
-            modelBuilder.Entity<MmClientSecret>(clientSecret => {
-                clientSecret.ToTable(storeOptions.MmClientSecret);
-                clientSecret.HasKey(p => new { p.ClientId, p.SecretId });
+            modelBuilder.Entity<ClientSecret>(clientSecret => {
+                //clientSecret.ToTable(storeOptions.MmClientSecret);
+                //clientSecret.HasKey(p => new { p.ClientId, p.SecretId });
 
-                clientSecret.HasIndex(p => new { p.ClientId, p.SecretId }).IsUnique();
+                //clientSecret.HasIndex(p => new { p.ClientId, p.SecretId }).IsUnique();
 
                 clientSecret.HasOne(p => p.Client).WithMany(p => p.Secrets).HasForeignKey(p => p.ClientId).OnDelete(DeleteBehavior.Cascade);
-                clientSecret.HasOne(p => p.Secret).WithMany().HasForeignKey(p => p.SecretId).OnDelete(DeleteBehavior.ClientCascade);
+                //clientSecret.HasOne(p => p.Secret).WithMany().HasForeignKey(p => p.SecretId).OnDelete(DeleteBehavior.ClientCascade);
             });
 
             modelBuilder.Entity<MmClientResource>(clientResource => {
