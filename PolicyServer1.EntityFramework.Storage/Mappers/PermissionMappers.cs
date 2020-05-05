@@ -45,11 +45,18 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(p => p.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(p => p.DecisionStrategy, opt => opt.MapFrom(src => src.DecisionStrategy))
-                .ForMember(p => p.Policies, opt => opt.MapFrom(src => src.Policies));
+                .ForMember(p => p.Policies, opt => opt.MapFrom(src => src.Policies))
+
+                .AfterMap((model, entity) => {
+                    if (true) { }
+                })
+                .BeforeMap((model, entitiy) => {
+                    if (true) { }
+                });
 
             #endregion
 
-            #region Policy
+            #region MmPermissionPolicy
 
             CreateMap<Models.Policy, Entities.MmPermissionPolicy>()
                 .ForMember(p => p.PolicyId, opt => opt.MapFrom(src => src.Id))

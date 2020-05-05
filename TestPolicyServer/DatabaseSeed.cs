@@ -39,7 +39,8 @@ namespace TestPolicyServer {
                 //var firstResouce = resources.First().ToEntity();
 
                 if (context.Clients.Any()) {
-                    PolicyServer1.Models.Client entity = clientStore.GetFromClientIdAsync("mvc").Result;
+                    PolicyServer1.Models.Client entityTest001 = clientStore.GetFromClientIdAsync("test001").Result;
+                    PolicyServer1.Models.Client entityMvc = clientStore.GetFromClientIdAsync("mvc").Result;
                 }
 
 #if RESET_DATABASE
@@ -47,9 +48,13 @@ namespace TestPolicyServer {
                 context.SaveChanges();
                 context.Permissions.RemoveRange(context.Permissions);
                 context.SaveChanges();
+                context.Policies.RemoveRange(context.Policies.Where(p => p is AggregatedPolicy).Include(p => (p as AggregatedPolicy).Policies).ThenInclude(p => p.Policy));
+                context.SaveChanges();
                 context.Policies.RemoveRange(context.Policies);
                 context.SaveChanges();
                 context.Resources.RemoveRange(context.Resources);
+                context.SaveChanges();
+                context.Roles.RemoveRange(context.Roles.Include(p => p.Parents).ThenInclude(p => p.Parent));
                 context.SaveChanges();
                 context.Roles.RemoveRange(context.Roles);
                 context.SaveChanges();
@@ -58,13 +63,15 @@ namespace TestPolicyServer {
 #endif
 
                 if (!context.Clients.Any()) {
-                    foreach (PolicyServer1.Models.Client client in Config.GetClients()) {
+                    foreach (PolicyServer1.Models.Client client in Config.GetClients().Take(1)) {
                         //_ = clientStore.CreateAsync(client).Result;
 
                         Client entity = client.ToEntity();
 
-                        Boolean shouldNotBeNull = entity.Resources.FirstOrDefault().Resource.Scopes.FirstOrDefault().Resource != null;
-                        Boolean shouldBeSame = entity.Scopes.First().Scope.CheckId == entity.Resources.First().Resource.Scopes.First().Scope.CheckId;
+                        if (entity.ClientId == "mvc") {
+                            Boolean shouldNotBeNull = entity.Resources.FirstOrDefault().Resource.Scopes.FirstOrDefault().Resource != null;
+                            Boolean shouldBeSame = entity.Scopes.First().Scope.CheckId == entity.Resources.First().Resource.Scopes.First().Scope.CheckId;
+                        }
 
                         context.Clients.Add(entity);
                     }

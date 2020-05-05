@@ -197,6 +197,43 @@ namespace TestPolicyServer {
 
             return new Client[] {
                 new Client {
+                    ClientId = "test001",
+                    ClientName = "Test001",
+                    Secrets = {
+                        new Secret("test".Sha256())
+                    },
+                    ClientUri = "http://test.ch",
+                    Description = "a description",
+                    Enabled = true,
+                    Options = new ClientOption {
+                        AnalyseModeEnabled = true,
+                        DecisionStrategy = DecisionStrategy.Unanimous,
+                        PermissionSplitter = "#",
+                        PolicyEnforcement = PolicyEnforcement.Enforcing
+                    },
+                    RequireClientSecret = true,
+                    
+                    Policies = {
+                        policies[0]
+                    },
+
+                    Permissions = {
+                        new ScopePermission {
+                            Name = "Test Scope Permision 001",
+                            Description = "a description of test",
+                            Resource = resources[0],
+                            DecisionStrategy = DecisionStrategy.Unanimous,
+                            Scopes = {
+                                scopes[0],
+                                scopes[1],
+                            },
+                            Policies = {
+                                policies[0]
+                            }
+                        },
+                    }
+                },
+                new Client {
                     ClientId = "mvc",
                     ClientName = "MVC Client",
                     Secrets = {
