@@ -39,7 +39,7 @@ namespace TestPolicyServer {
                 //var firstResouce = resources.First().ToEntity();
 
                 if (context.Clients.Any()) {
-                    PolicyServer1.Models.Client entityTest001 = clientStore.GetFromClientIdAsync("test001").Result;
+                    //PolicyServer1.Models.Client entityTest001 = clientStore.GetFromClientIdAsync("test001").Result;
                     PolicyServer1.Models.Client entityMvc = clientStore.GetFromClientIdAsync("mvc").Result;
                 }
 
@@ -63,14 +63,14 @@ namespace TestPolicyServer {
 #endif
 
                 if (!context.Clients.Any()) {
-                    foreach (PolicyServer1.Models.Client client in Config.GetClients().Take(1)) {
+                    foreach (PolicyServer1.Models.Client client in Config.GetClients().Skip(1)) {
                         //_ = clientStore.CreateAsync(client).Result;
 
                         Client entity = client.ToEntity();
-
+                         
                         if (entity.ClientId == "mvc") {
-                            Boolean shouldNotBeNull = entity.Resources.FirstOrDefault().Resource.Scopes.FirstOrDefault().Resource != null;
-                            Boolean shouldBeSame = entity.Scopes.First().Scope.CheckId == entity.Resources.First().Resource.Scopes.First().Scope.CheckId;
+                            //Boolean shouldNotBeNull = entity.Resources.FirstOrDefault().Resource.Scopes.FirstOrDefault().Resource != null;
+                            //Boolean shouldBeSame = entity.Scopes.First().Scope.CheckId == entity.Resources.First().Resource.Scopes.First().Scope.CheckId;
                         }
 
                         context.Clients.Add(entity);

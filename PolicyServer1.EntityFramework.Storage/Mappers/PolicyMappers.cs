@@ -79,8 +79,7 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
             CreateMap<Models.Role, Entities.MmRolePolicyRole>()
                 .ForMember(p => p.RoleId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(p => p.Role, opt => opt.MapFrom(src => src))
-                .PreserveReferences();
+                .ForMember(p => p.Role, opt => opt.MapFrom(src => src));
 
             CreateMap<Entities.MmRolePolicyRole, Models.Role>()
                 .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Role>(p.Role));
@@ -220,8 +219,7 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
             CreateMap<Models.Policy, Entities.MmAggregatedPolicyPolicy>()
                 .ForMember(p => p.PolicyId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(p => p.Policy, opt => opt.MapFrom(src => src))
-                .PreserveReferences();
+                .ForMember(p => p.Policy, opt => opt.MapFrom(src => src));
 
             CreateMap<Entities.MmAggregatedPolicyPolicy, Models.Policy>()
                 .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Policy>(p.Policy));

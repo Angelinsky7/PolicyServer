@@ -45,14 +45,7 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(p => p.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(p => p.DecisionStrategy, opt => opt.MapFrom(src => src.DecisionStrategy))
-                .ForMember(p => p.Policies, opt => opt.MapFrom(src => src.Policies))
-
-                .AfterMap((model, entity) => {
-                    if (true) { }
-                })
-                .BeforeMap((model, entitiy) => {
-                    if (true) { }
-                });
+                .ForMember(p => p.Policies, opt => opt.MapFrom(src => src.Policies));
 
             #endregion
 
@@ -60,12 +53,10 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
             CreateMap<Models.Policy, Entities.MmPermissionPolicy>()
                 .ForMember(p => p.PolicyId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(p => p.Policy, opt => opt.MapFrom(src => src))
-                .PreserveReferences();
+                .ForMember(p => p.Policy, opt => opt.MapFrom(src => src));
 
             CreateMap<Entities.MmPermissionPolicy, Models.Policy>()
-                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Policy>(p.Policy))
-                .PreserveReferences();
+                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Policy>(p.Policy));
 
             #endregion
 
@@ -90,12 +81,10 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
             CreateMap<Models.Scope, Entities.MmScopePermissionScope>()
                 .ForMember(p => p.ScopeId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(p => p.Scope, opt => opt.MapFrom(src => src))
-                .PreserveReferences();
+                .ForMember(p => p.Scope, opt => opt.MapFrom(src => src));
 
             CreateMap<Entities.MmScopePermissionScope, Models.Scope>()
-                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Scope>(p.Scope))
-                .PreserveReferences();
+                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Scope>(p.Scope));
 
             #endregion
 

@@ -50,7 +50,7 @@ namespace TestPolicyServer1 {
 
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", opt => {
-                    opt.Authority = "http://localhost:5000";
+                    opt.Authority = "http://localhost:5000"; 
                     opt.RequireHttpsMetadata = false;
                     opt.Audience = "policy";
                 }
@@ -62,11 +62,23 @@ namespace TestPolicyServer1 {
 
 
 
-            services.AddPolicyServer(opt => { })
-                .AddConfigurationStore(opt => {
-                    opt.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), sql => sql.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name))
-                        .EnableSensitiveDataLogging();
-                });
+
+
+
+
+            if (false) {
+                services.AddPolicyServer(opt => {
+                }).AddInMemoryPolicies(Config.GetClients());
+            } else {
+                services.AddPolicyServer(opt => { })
+                    .AddConfigurationStore(opt => {
+                        opt.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), sql => sql.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name))
+                            .EnableSensitiveDataLogging();
+                    });
+            }
+
+
+
 
 
 
@@ -86,7 +98,7 @@ namespace TestPolicyServer1 {
             app.UseForwardedHeaders();
 
             if (env.IsDevelopment()) {
-                app.InitializeDatabase();
+                //app.InitializeDatabase();
                 app.UseDeveloperExceptionPage();
             }
 

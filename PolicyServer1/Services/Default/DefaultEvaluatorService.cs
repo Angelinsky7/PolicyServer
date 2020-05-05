@@ -164,7 +164,7 @@ namespace PolicyServer1.Services.Default {
                 case DecisionStrategy.Affirmative:
                     foreach (IGrouping<Resource, ResouceScopeResult> item in request.ResourceScopeResults
                         .Where(p => p.Granted == true && filterResouce == null || p.Resource.Id == filterResouce.Id)
-                        .GroupBy(p => p.Resource)
+                        .GroupBy(p => p.Resource, ResourceComparer.Instance)
                     ) {
                         result.Results.Add(new EvaluationItem {
                             RsId = item.Key.Id,
@@ -176,7 +176,7 @@ namespace PolicyServer1.Services.Default {
                 case DecisionStrategy.Unanimous:
                     foreach (IGrouping<Resource, ResouceScopeResult> item in request.ResourceScopeResults
                         .Where(p => filterResouce == null || p.Resource.Id == filterResouce.Id)
-                        .GroupBy(p => p.Resource)
+                        .GroupBy(p => p.Resource, ResourceComparer.Instance)
                     ) {
                         result.Results.Add(new EvaluationItem {
                             RsId = item.Key.Id,

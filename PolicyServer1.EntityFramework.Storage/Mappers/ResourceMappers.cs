@@ -65,8 +65,7 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
             CreateMap<Models.Scope, Entities.MmResourceScope>()
                 .ForMember(p => p.ScopeId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(p => p.Scope, opt => opt.MapFrom(src => src))
-                .PreserveReferences();
+                .ForMember(p => p.Scope, opt => opt.MapFrom(src => src));
 
             CreateMap<Entities.MmResourceScope, Models.Scope>()
                 .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Scope>(p.Scope));

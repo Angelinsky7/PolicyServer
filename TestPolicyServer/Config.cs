@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using PolicyServer1.Models;
 
 namespace TestPolicyServer {
@@ -213,8 +214,19 @@ namespace TestPolicyServer {
                     },
                     RequireClientSecret = true,
                     
+                    Scopes = {
+                        scopes[0],
+                        scopes[1]
+                    },
+                    Resources = {
+                        resources[0]
+                    },
+                    Roles = {
+
+                    },
                     Policies = {
-                        policies[0]
+                        policies[0],
+                        policies.Last()
                     },
 
                     Permissions = {
@@ -228,7 +240,8 @@ namespace TestPolicyServer {
                                 scopes[1],
                             },
                             Policies = {
-                                policies[0]
+                                policies[0],
+                                policies.Last()
                             }
                         },
                     }

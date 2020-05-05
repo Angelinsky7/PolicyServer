@@ -42,8 +42,7 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
             CreateMap<Models.Role, Entities.MmRoleRole>()
                 .ForMember(p => p.ParentId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(p => p.Parent, opt => opt.MapFrom(src => src))
-                .PreserveReferences();
+                .ForMember(p => p.Parent, opt => opt.MapFrom(src => src));
 
             CreateMap<Entities.MmRoleRole, Models.Role>()
                 .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Role>(p.Parent));
