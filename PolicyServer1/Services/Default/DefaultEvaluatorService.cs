@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using PolicyServer1.Extensions;
 using PolicyServer1.Models;
@@ -197,7 +198,10 @@ namespace PolicyServer1.Services.Default {
                 if (resourcePermission.Resource != null) {
                     result.Add(resourcePermission.Resource);
                 } else {
-                    result.AddRange(request.Client.Resources.Where(p => p.Type == resourcePermission.ResouceType));
+                    Regex regex = resourcePermission.ResouceType?.WildcardToRegex();
+                    if (regex != null) {
+                        result.AddRange(request.Client.Resources.Where(p => regex.IsMatch(p.Type)));
+                    }
                 }
             } else if (permission is ScopePermission scopePermission) {
                 if (scopePermission.Resource != null) {
@@ -207,6 +211,7 @@ namespace PolicyServer1.Services.Default {
 
             if (result.Count == 0) {
                 //TODO(demarco): add an empty resouce that reprents no resources....
+                if (true) { }
             }
 
             return Task.FromResult(result.AsEnumerable());
@@ -218,7 +223,10 @@ namespace PolicyServer1.Services.Default {
                 if (resourcePermission.Resource != null) {
                     result.AddRange(resourcePermission.Resource.Scopes);
                 } else {
-                    result.AddRange(request.Client.Resources.Where(p => p.Type == resourcePermission.ResouceType).SelectMany(p => p.Scopes).Distinct());
+                    Regex regex = resourcePermission.ResouceType?.WildcardToRegex();
+                    if (regex != null) {
+                        result.AddRange(request.Client.Resources.Where(p => regex.IsMatch(p.Type)).SelectMany(p => p.Scopes).Distinct());
+                    }
                 }
             } else if (permission is ScopePermission scopePermission) {
                 if (scopePermission.Resource != null) {

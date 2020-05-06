@@ -16,8 +16,6 @@ namespace PolicyServer1.Models {
 
         public ICollection<Policy> Policies { get; set; } = new HashSet<Policy>();
 
-        //public abstract Task<Object> EvaluateAsync(ClaimsPrincipal user);
-
     }
 
 }

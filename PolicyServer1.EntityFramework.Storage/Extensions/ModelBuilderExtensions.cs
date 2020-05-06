@@ -245,7 +245,7 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
             });
 
             modelBuilder.Entity<ResourcePermission>(resourcePermission => {
-                resourcePermission.HasOne(p => p.Resource).WithMany().HasForeignKey(p => p.ResourceId).OnDelete(DeleteBehavior.Cascade);
+                resourcePermission.HasOne(p => p.Resource).WithMany().HasForeignKey(p => p.ResourceId).IsRequired(false).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<MmScopePermissionScope>(scopePermissionScope => {

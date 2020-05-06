@@ -7,7 +7,7 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
 
         public String ResouceType { get; set; }
 
-        public Guid ResourceId { get; set; }
+        public Nullable<Guid> ResourceId { get; set; }
         public Resource Resource { get; set; }
 
     }

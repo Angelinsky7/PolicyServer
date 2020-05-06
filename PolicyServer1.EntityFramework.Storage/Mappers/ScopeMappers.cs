@@ -31,7 +31,8 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(p => p.DisplayName, opt => opt.MapFrom(src => src.DisplayName))
-                .ForMember(p => p.IconUri, opt => opt.MapFrom(src => src.IconUri));
+                .ForMember(p => p.IconUri, opt => opt.MapFrom(src => src.IconUri))
+                .PreserveReferences();
 
             #endregion
 

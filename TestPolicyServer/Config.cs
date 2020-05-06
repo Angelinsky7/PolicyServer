@@ -103,7 +103,8 @@ namespace TestPolicyServer {
                     Logic = PolicyLogic.Positive,
                     Users = new String[] {
                         "user1",
-                        "user2"
+                        "user2",
+                        "1195aeee-5589-43b6-aa57-fb18b8a5a138",
                     }
                 },
                 new TimePolicy {
@@ -126,7 +127,7 @@ namespace TestPolicyServer {
                 Name = "Aggregate policy",
                 Description = "a test of an aggreate policy",
                 Logic = PolicyLogic.Positive,
-                DecisionStrategy = DecisionStrategy.Unanimous,
+                DecisionStrategy = DecisionStrategy.Affirmative,
                 Policies = new Policy[] {
                     policies[5],
                     policies[6]
@@ -140,7 +141,7 @@ namespace TestPolicyServer {
                 DecisionStrategy = DecisionStrategy.Unanimous,
                 Policies = new Policy[] {
                     policies[8],
-                    policies[1]
+                    policies[0]
                 }
             });
 
@@ -152,7 +153,7 @@ namespace TestPolicyServer {
                 new Resource{
                     Name = "Activite",
                     DisplayName = "Activié",
-                    Type = "urn:mvc:resources:res1",
+                    Type = "urn:mvc:resources:res",
                     Scopes = {
                         scopes[0],
                         scopes[1],
@@ -162,7 +163,7 @@ namespace TestPolicyServer {
                 new Resource{
                     Name = "Contactes",
                     DisplayName = "Copntact",
-                    Type = "urn:mvc:resources:res1",
+                    Type = "urn:mvc:resources:res",
                     Scopes = {
                         scopes[0],
                         scopes[1],
@@ -171,9 +172,41 @@ namespace TestPolicyServer {
                     }
                 },
                 new Resource{
-                    Name = "Resource With Uris",
+                    Name = "Resource With Uris 1",
                     DisplayName = "Copntact",
                     Type = "urn:mvc:resources:res1",
+                    Scopes = {
+                        scopes[0],
+                        scopes[1],
+                        scopes[2],
+                        scopes[3],
+                    },
+                    Uris = new Uri[]{
+                        new Uri("http://test1.uri.ch"),
+                        new Uri("http://test2.uri.ch"),
+                    },
+                    IconUri = new Uri("http://test3.uri.ch"),
+                },
+                new Resource{
+                    Name = "Resource With Uris 2",
+                    DisplayName = "Copntact",
+                    Type = "urn:mvc:resources:res1",
+                    Scopes = {
+                        scopes[0],
+                        scopes[1],
+                        scopes[2],
+                        scopes[3],
+                    },
+                    Uris = new Uri[]{
+                        new Uri("http://test1.uri.ch"),
+                        new Uri("http://test2.uri.ch"),
+                    },
+                    IconUri = new Uri("http://test3.uri.ch"),
+                },
+                new Resource{
+                    Name = "Resource With Uris 3",
+                    DisplayName = "Copntact",
+                    Type = "urn:mvc:resources:res1:type",
                     Scopes = {
                         scopes[0],
                         scopes[1],
@@ -352,12 +385,32 @@ namespace TestPolicyServer {
                                 policies[3]
                             }
                         },
+                        new ScopePermission {
+                            Name = "Scope Ressource Permission",
+                            Resource = resources[2],
+                            DecisionStrategy = DecisionStrategy.Affirmative,
+                            Description = "test of scope permsion",
+                            Policies = {
+                                policies[9]
+                            },
+                            Scopes = {
+                                scopes[0]
+                            }
+                        },
                         new ResourcePermission {
-                            Name = "Resource Permission",
+                            Name = "Resource Permission by Resource",
                             Resource = resources[2],
                             DecisionStrategy = DecisionStrategy.Affirmative,
                             Description = "test of resource permsion",
-                            ResouceType = "rsc:tyoe:1",
+                            Policies = {
+                                policies[9]
+                            }
+                        }, 
+                        new ResourcePermission {
+                            Name = "Resource Permission by Type",
+                            DecisionStrategy = DecisionStrategy.Affirmative,
+                            Description = "test of resource permsion",
+                            ResouceType = "urn:mvc:resources:res1",
                             Policies = {
                                 policies[9]
                             }

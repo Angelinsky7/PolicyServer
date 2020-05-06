@@ -56,7 +56,8 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(p => p.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(p => p.Logic, opt => opt.MapFrom(src => src.Logic));
+                .ForMember(p => p.Logic, opt => opt.MapFrom(src => src.Logic))
+                .PreserveReferences();
 
             #endregion
 
@@ -105,7 +106,8 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 .ForMember(p => p.Month, opt => opt.MapFrom(src => src.Month))
                 .ForMember(p => p.Year, opt => opt.MapFrom(src => src.Year))
                 .ForMember(p => p.Hour, opt => opt.MapFrom(src => src.Hour))
-                .ForMember(p => p.Minute, opt => opt.MapFrom(src => src.Minute));
+                .ForMember(p => p.Minute, opt => opt.MapFrom(src => src.Minute))
+                .PreserveReferences();
 
             #endregion
 
@@ -120,7 +122,8 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 .ConstructUsing(p => new Models.TimePolicyRange {
                     From = p.From,
                     To = p.To
-                });
+                })
+                .PreserveReferences();
 
             #endregion
 

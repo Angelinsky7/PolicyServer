@@ -11,8 +11,5 @@ namespace PolicyServer1.Models {
         public Resource Resource { get; set; }
         public ICollection<Scope> Scopes { get; set; } = new HashSet<Scope>();
 
-        //public override Task<Object> EvaluateAsync(ClaimsPrincipal user) {
-        //    return Task.FromResult((Object)String.Join(", ", Scopes.Select(p => p.Name)));
-        //}
     }
 }
