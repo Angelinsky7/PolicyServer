@@ -4,6 +4,7 @@ using PolicyServer1.Client.Configuration.Options;
 using PolicyServer1.Extensions;
 using PolicyServer1.Infrastructure;
 using PolicyServer1.Models;
+using PolicyServer1.Models.Evalutation;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -41,7 +42,7 @@ namespace PolicyServer1.Client.Services.Default {
         //public async Task<EvaluationResult> GetPermissionsAsync(HttpContext context) {
         //    String accessToken = await context.GetTokenAsync("access_token");
         //    if (accessToken.IsMissing()) { throw new ArgumentNullException(nameof(accessToken)); }
-            
+
         //    HttpClient client = new HttpClient();
         //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         //    String content = await client.GetStringAsync($"{_options.Authority}/{Constants.ProtocolRoutePaths.Permission}?clientId={_options.ClientId}&response_mode=permissions");
@@ -59,6 +60,19 @@ namespace PolicyServer1.Client.Services.Default {
         public Task<Boolean> HasRoleAsync(ClaimsPrincipal user, String roleName) {
             Boolean result = user.HasClaim(p => p.Type == Constants.Policy.Role && p.Value == roleName);
             return Task.FromResult(result);
+        }
+
+        public async Task<PermissionResult> GetPermissionsAsync(HttpContext context) {
+            String accessToken = await context.GetTokenAsync("access_token");
+            if (accessToken.IsMissing()) { throw new ArgumentNullException(nameof(accessToken)); }
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            String content = await client.GetStringAsync($"{_options.Authority}/{Constants.ProtocolRoutePaths.Permission}?client_id={_options.ClientId}&response_mode=permissions");
+
+            PermissionResult result = ObjectSerializer.FromString<PermissionResult>(content);
+
+            return result;
         }
     }
 }

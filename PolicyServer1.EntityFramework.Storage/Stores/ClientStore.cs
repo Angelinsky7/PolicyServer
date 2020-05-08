@@ -32,7 +32,26 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
 
         public async Task<Guid> CreateAsync(Client item) {
             Entities.Client entity = item.ToEntity();
+
+            _context.DetachEntites<Entities.Role>();
+            _context.DetachEntites<Entities.MmRoleRole>();
+            _context.DetachEntites<Entities.MmRolePolicyRole>();
+            _context.DetachEntites<Entities.Scope>();
+            _context.DetachEntites<Entities.Resource>();
+            _context.DetachEntites<Entities.MmResourceScope>();
+            _context.DetachEntites<Entities.Policy>();
+            _context.DetachEntites<Entities.MmAggregatedPolicyPolicy>();
+
             _context.Clients.Add(entity);
+
+            await _context.CheckExistingAndRemoveAsync<Entities.Role>((existing, added) => existing.Id == added.Id);
+            await _context.CheckExistingAndRemoveAsync<Entities.MmRoleRole>((existing, added) => existing.ParentId == added.ParentId && existing.RoleId == added.RoleId);
+            await _context.CheckExistingAndRemoveAsync<Entities.MmRolePolicyRole>((existing, added) => existing.RoleId == added.RoleId && existing.RolePolicyId == added.RolePolicyId);
+            await _context.CheckExistingAndRemoveAsync<Entities.Scope>((existing, added) => existing.Id == added.Id);
+            await _context.CheckExistingAndRemoveAsync<Entities.Resource>((existing, added) => existing.Id == added.Id);
+            await _context.CheckExistingAndRemoveAsync<Entities.MmResourceScope>((existing, added) => existing.ResourceId == added.ResourceId && existing.ScopeId == added.ScopeId);
+            await _context.CheckExistingAndRemoveAsync<Entities.Policy>((existing, added) => existing.Id == added.Id);
+            await _context.CheckExistingAndRemoveAsync<Entities.MmAggregatedPolicyPolicy>((existing, added) => existing.AggregatedPolicyId == added.AggregatedPolicyId && existing.PolicyId == added.PolicyId);
 
             try {
                 await _context.SaveChangesAsync();

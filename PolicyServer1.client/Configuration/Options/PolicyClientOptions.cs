@@ -16,5 +16,7 @@ namespace PolicyServer1.Client.Configuration.Options {
 
         public String ClientIdentifier { get; set; } = "client_id";
         public String SubIdentifier { get; set; } = "sub";
+
+        public String PermissionSplitter { get; set; } = "#";
     }
 }

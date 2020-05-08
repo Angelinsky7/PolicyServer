@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using PolicyServer1.Client.Configuration.Options;
 using PolicyServer1.Extensions;
 using PolicyServer1.Models;
+using PolicyServer1.Models.Evalutation;
 using PolicyServer1.Services;
 using System;
 using System.Collections.Generic;
@@ -56,9 +57,9 @@ namespace PolicyServer1.Client.Services.Caching {
         //    throw new NotImplementedException();
         //}
 
-        //public Task<EvaluationResult> GetPermissionsAsync(HttpContext context) {
-        //    throw new NotImplementedException();
-        //}
+        public Task<PermissionResult> GetPermissionsAsync(HttpContext context) {
+            throw new NotImplementedException();
+        }
 
         //public Task<PolicyResult> GetPolicyAsync(HttpContext context) {
         //    throw new NotImplementedException();

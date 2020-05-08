@@ -25,21 +25,8 @@ namespace TestPolicyServer {
 
                 context.Database.Migrate();
 
-                //if (!context.Scopes.Any()) {
-                //    foreach (PolicyServer1.Models.Scope scope in Config.GetScopes()) {
-                //        PolicyServer1.EntityFramework.Storage.Entities.Scope entity = scope.ToEntity();
-                //        context.Scopes.Add(entity);
-                //    }
-                //    context.SaveChanges();
-                //}
-
-                //var scopes = Config.GetScopes();
-                //var firstScope = scopes.First().ToEntity();
-                //var resources = Config.GetResouces(scopes);
-                //var firstResouce = resources.First().ToEntity();
-
                 if (context.Clients.Any()) {
-                    //PolicyServer1.Models.Client entityTest001 = clientStore.GetFromClientIdAsync("test001").Result;
+                    PolicyServer1.Models.Client entityTest001 = clientStore.GetFromClientIdAsync("test001").Result;
                     PolicyServer1.Models.Client entityMvc = clientStore.GetFromClientIdAsync("mvc").Result;
                 }
 
@@ -63,17 +50,13 @@ namespace TestPolicyServer {
 #endif
 
                 if (!context.Clients.Any()) {
-                    foreach (PolicyServer1.Models.Client client in Config.GetClients().Skip(1)) {
-                        //_ = clientStore.CreateAsync(client).Result;
+                    foreach (PolicyServer1.Models.Client client in Config.GetClients()) {
+                        _ = clientStore.CreateAsync(client).Result;
 
-                        Client entity = client.ToEntity();
-                         
-                        if (entity.ClientId == "mvc") {
-                            //Boolean shouldNotBeNull = entity.Resources.FirstOrDefault().Resource.Scopes.FirstOrDefault().Resource != null;
-                            //Boolean shouldBeSame = entity.Scopes.First().Scope.CheckId == entity.Resources.First().Resource.Scopes.First().Scope.CheckId;
-                        }
-
-                        context.Clients.Add(entity);
+                        //if (entity.ClientId == "mvc") {
+                        //    //Boolean shouldNotBeNull = entity.Resources.FirstOrDefault().Resource.Scopes.FirstOrDefault().Resource != null;
+                        //    //Boolean shouldBeSame = entity.Scopes.First().Scope.CheckId == entity.Resources.First().Resource.Scopes.First().Scope.CheckId;
+                        //}
                     }
                     context.SaveChanges();
                 }

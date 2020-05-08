@@ -15,7 +15,8 @@ namespace Microsoft.Extensions.DependencyInjection {
 
             builder
                 .AddRequiredPlatformServices()
-                .AddAuthorizationPermissionPolicies();
+                .AddAuthorizationPermissionPolicies()
+                .AddClientServices();
 
             return builder;
         }

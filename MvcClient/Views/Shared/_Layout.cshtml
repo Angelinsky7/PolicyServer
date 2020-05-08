@@ -43,6 +43,11 @@
 						<li class="nav-item">
 							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="PrivateForRole">PrivateForRole</a>
 						</li>
+						@if (User.HasClaim("permission", "Activite#edit")) {
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="PrivateForRole">PrivateForRole (Only visible if user as permission)</a>
+							</li>
+						}
 						@if (User.IsInRole("TestRole1")) {
 							<li class="nav-item">
 								<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="TestPolicy">TestPolicy</a>

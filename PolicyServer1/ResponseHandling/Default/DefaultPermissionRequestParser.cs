@@ -41,19 +41,19 @@ namespace PolicyServer1.ResponseHandling.Default {
 
             String clientId = context.User.FindFirst(_options.ClientIdentifier)?.Value;
 
-            //if (String.IsNullOrEmpty(clientId)) {
-            //    return Task.FromResult(new PermissionRequest {
-            //        IsError = true,
-            //        Error = "clientId is mandatory"
-            //    });
-            //}
+            if (String.IsNullOrEmpty(clientId)) {
+                return Task.FromResult(new PermissionRequest {
+                    IsError = true,
+                    Error = "clientId is mandatory"
+                });
+            }
 
-            //if (cliendIdFromQuery != clientId) {
-            //    return Task.FromResult(new PermissionRequest {
-            //        IsError = true,
-            //        Error = "clientId from query and from token are not the same"
-            //    });
-            //}
+            if (cliendIdFromQuery != clientId) {
+                return Task.FromResult(new PermissionRequest {
+                    IsError = true,
+                    Error = "clientId from query and from token are not the same"
+                });
+            }
 
             if (!_listOfReponseMode.ContainsKey(reponseMode)) {
                 return Task.FromResult(new PermissionRequest {

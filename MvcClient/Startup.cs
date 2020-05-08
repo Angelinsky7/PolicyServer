@@ -84,12 +84,13 @@ namespace MvcClient {
                 opt.Authority = "http://localhost:5001";
                 opt.ClientId = "mvc";
                 opt.RequireHttpsMetadata = false;
+                opt.PermissionSplitter = "#";
 
                 //opt.ClientId = "mvc";
                 //opt.ClientSecret = "secret";
 
                 opt.SaveTokens = true;
-            }).AddClientServices();
+            });
 
             //NOTE(demarco): not used anymore if policyserver is working
             //services.AddAuthorization(opt => {
@@ -119,12 +120,12 @@ namespace MvcClient {
             app.UseRouting();
 
             app.UseAuthentication();
+            app.UsePolicyClient();
+
             app.UseAuthorization();
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
-            app.UsePolicyClient();
 
             //app.UseMvc(routes => {
             //    routes.MapRoute(

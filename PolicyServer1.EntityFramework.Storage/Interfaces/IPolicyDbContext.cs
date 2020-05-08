@@ -19,6 +19,7 @@ namespace PolicyServer1.EntityFramework.Storage.Interfaces {
 
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        ChangeTracker ChangeTracker { get; }
 
         Int32 SaveChanges();
         Task<Int32> SaveChangesAsync();

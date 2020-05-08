@@ -98,7 +98,7 @@ namespace TestPolicyServer1 {
             app.UseForwardedHeaders();
 
             if (env.IsDevelopment()) {
-                app.InitializeDatabase();
+                //app.InitializeDatabase();
                 app.UseDeveloperExceptionPage();
             }
 

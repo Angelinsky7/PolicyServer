@@ -3,6 +3,18 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<p>This is a private page</p>
+<p>This is a private page !!</p>
+<p>Token : </p><br />
 
 @ViewData["token"]
+
+<hr />
+
+@if(ViewData["permissions"] != null) {
+	<p>List of all permissions : </p>
+<ul>
+	@foreach (var item in ViewData["permissions"] as IEnumerable<String>) {
+		<li>@item</li>
+	}
+</ul>
+}

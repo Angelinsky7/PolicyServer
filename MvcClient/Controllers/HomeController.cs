@@ -26,6 +26,7 @@ namespace MvcClient.Controllers {
         public async Task<IActionResult> Private() {
             String accessToken = await HttpContext.GetTokenAsync("access_token");
             ViewData["token"] = accessToken;
+            ViewData["permissions"] = HttpContext.User.Claims.Select(p => p.Value).ToList();
 
             return View();
         }
@@ -47,7 +48,7 @@ namespace MvcClient.Controllers {
             return View();
         }
 
-        [Authorize(Roles = "TestRole1")]
+        [Authorize("Activite#edit")]
         public IActionResult PrivateForRole() {
             return View();
         }

@@ -4,6 +4,7 @@ using PolicyServer1.Client.Configuration.Options;
 using PolicyServer1.Extensions;
 using PolicyServer1.Infrastructure;
 using PolicyServer1.Models;
+using PolicyServer1.Models.Evalutation;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -39,10 +40,10 @@ namespace PolicyServer1.Client.Services.Default {
         //    throw new NotImplementedException();
         //}
 
-        //public Task<EvaluationResult> GetPermissionsAsync(HttpContext context) {
-        //    //return await _options.Policy.EvaluateAsync(context.User);
-        //    throw new NotImplementedException();
-        //}
+        public Task<PermissionResult> GetPermissionsAsync(HttpContext context) {
+            //return await _options.Policy.EvaluateAsync(context.User);
+            throw new NotImplementedException();
+        }
 
     }
 }
