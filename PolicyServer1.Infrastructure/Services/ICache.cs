@@ -8,6 +8,8 @@ namespace PolicyServer1.Services {
 
         Task<T> GetAsync(String key);
         Task SetAsync(String key, T item, TimeSpan expiration);
+        Task RemoveAsync(String key);
+        Task ExpireAsync(String key);
 
     }
 }

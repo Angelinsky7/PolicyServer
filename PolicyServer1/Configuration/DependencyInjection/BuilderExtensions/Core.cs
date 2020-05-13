@@ -34,6 +34,7 @@ namespace Microsoft.Extensions.DependencyInjection {
             builder.Services.TryAddTransient<IClientConfigurationValidator, DefaultClientConfigurationValidator>();
             builder.Services.TryAddTransient<IPermissionConfigurationValidator, DefaultPermissionConfigurationValidator>();
             builder.Services.TryAddTransient<IRoleConfigurationValidator, DefaultRoleConfigurationValidator>();
+            builder.Services.TryAddTransient<IScopeConfigurationValidator, DefaultScopeConfigurationValidator>();
 
             return builder;
         }

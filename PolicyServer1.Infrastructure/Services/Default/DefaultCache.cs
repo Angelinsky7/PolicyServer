@@ -26,6 +26,18 @@ namespace PolicyServer1.Services.Default {
             return Task.CompletedTask;
         }
 
+        public Task RemoveAsync(String key) {
+            key = GetKey(key);
+            _cache.Remove(key);
+            return Task.CompletedTask;
+        }
+        public Task ExpireAsync(String key) {
+            key = GetKey(key);
+            T item = _cache.Get<T>(key);
+            _cache.Set(key, item, TimeSpan.FromSeconds(-1));
+            return Task.CompletedTask;
+        }
+
         private String GetKey(String key) {
             return typeof(T).FullName + KeySeparator + key;
         }

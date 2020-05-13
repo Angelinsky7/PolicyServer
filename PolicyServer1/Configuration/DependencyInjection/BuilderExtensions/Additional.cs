@@ -38,6 +38,13 @@ namespace Microsoft.Extensions.DependencyInjection {
             return builder;
         }
 
+        public static IPolicyServerBuilder AddScopeStore<T>(this IPolicyServerBuilder builder) where T : class, IScopeStore {
+            builder.Services.TryAddTransient(typeof(T));
+            builder.Services.AddTransient<IScopeStore, ValidatingScopeStore<T>>();
+
+            return builder;
+        }
+
         public static IPolicyServerBuilder AddClientStoreCache<T>(this IPolicyServerBuilder builder) where T : IClientStore {
             builder.Services.TryAddTransient(typeof(T));
             builder.Services.AddTransient<ValidatingClientStore<T>>();
@@ -66,6 +73,14 @@ namespace Microsoft.Extensions.DependencyInjection {
             builder.Services.TryAddTransient(typeof(T));
             builder.Services.AddTransient<ValidatingRoleStore<T>>();
             builder.Services.AddTransient<IRoleStore, CachingRoleStore<ValidatingRoleStore<T>>>();
+
+            return builder;
+        }
+
+        public static IPolicyServerBuilder AddScopeStoreCache<T>(this IPolicyServerBuilder builder) where T : IScopeStore {
+            builder.Services.TryAddTransient(typeof(T));
+            builder.Services.AddTransient<ValidatingScopeStore<T>>();
+            builder.Services.AddTransient<IScopeStore, CachingScopeStore<ValidatingScopeStore<T>>>();
 
             return builder;
         }

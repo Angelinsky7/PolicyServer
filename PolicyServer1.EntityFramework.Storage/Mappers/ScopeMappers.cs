@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 namespace PolicyServer1.EntityFramework.Storage.Mappers {
     public static class ScopeMappers {
@@ -12,7 +14,8 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
         public static Models.Scope ToModel(this Entities.Scope entity) => Mapper.Map<Models.Scope>(entity);
         public static Entities.Scope ToEntity(this Models.Scope model) => Mapper.Map<Entities.Scope>(model);
-
+        public static IQueryable<Models.Scope> ToModel(this IQueryable<Entities.Scope> source) => source.ProjectTo<Models.Scope>(Mapper.ConfigurationProvider);
+        public static void UpdateEntity(this Models.Scope model, Entities.Scope entity) => Mapper.Map(model, entity);
     }
 
     public class ScopeMapperProfile : Profile {
