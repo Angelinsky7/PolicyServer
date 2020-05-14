@@ -56,16 +56,17 @@ namespace TestPolicyServer {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services.AddAuthentication(opt => {
-                //opt.DefaultScheme = "Bearer";
-                opt.DefaultScheme = "Cookies";
+                opt.DefaultScheme = "Bearer";
+                //opt.DefaultScheme = "Cookies";
                 opt.DefaultChallengeScheme = "oidc";
             })
-                //.AddJwtBearer("Bearer", opt => {
-                //    opt.Authority = "http://localhost:5000";
-                //    opt.RequireHttpsMetadata = false;
-                //    opt.Audience = "policy";
-                //})
+                .AddJwtBearer("Bearer", opt => {
+                    opt.Authority = "http://localhost:5000";
+                    opt.RequireHttpsMetadata = false;
+                    opt.Audience = "policy";
+                })
                 .AddCookie("Cookies", opt => {
+                    opt.Cookie.Name = "client-policy-admin";
                     //opt.Cookie.Domain = "localhost.policy-admin"; 
                 })
                 .AddOpenIdConnect("oidc", opt => {

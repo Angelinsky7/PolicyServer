@@ -37,6 +37,7 @@ namespace MvcClient {
             }).AddCookie("Cookies", opt => {
                 //opt.SessionStore = new MemoryCacheTicketStore();
                 //opt.Cookie.Domain = "localhost.mvc";
+                opt.Cookie.Name = "client-mvc";
             }).AddOpenIdConnect("oidc", opt => {
                 opt.SignInScheme = "Cookies";
 
@@ -70,7 +71,7 @@ namespace MvcClient {
                 };
             });
 
-           
+
             /*
              * 
              * To test this !!!!
@@ -79,17 +80,17 @@ namespace MvcClient {
              */
 
             //TODO(demarco): What i want
-            //services.AddPolicyClient(opt => {
-            //    opt.Authority = "http://localhost:5001";
-            //    opt.ClientId = "mvc";
-            //    opt.RequireHttpsMetadata = false;
-            //    opt.PermissionSplitter = "#";
+            services.AddPolicyClient(opt => {
+                opt.Authority = "http://localhost:5001";
+                opt.ClientId = "mvc";
+                opt.RequireHttpsMetadata = false;
+                opt.PermissionSplitter = "#";
 
-            //    //opt.ClientId = "mvc";
-            //    //opt.ClientSecret = "secret";
+                //opt.ClientId = "mvc";
+                //opt.ClientSecret = "secret";
 
-            //    opt.SaveTokens = true;
-            //});
+                opt.SaveTokens = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,7 +106,7 @@ namespace MvcClient {
             app.UseRouting();
 
             app.UseAuthentication();
-            //app.UsePolicyClient();
+            app.UsePolicyClient();
 
             app.UseAuthorization();
 

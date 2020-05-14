@@ -81,7 +81,7 @@ namespace IdentityServerAspNetIdentity {
                     AllowOfflineAccess = true,
                     
                     //TODO(demarco): please remove this in prod
-                    RequireConsent = false
+                    //RequireConsent = false
                 },
 
                 new Client {
@@ -105,7 +105,7 @@ namespace IdentityServerAspNetIdentity {
                     AllowOfflineAccess = true,
 
                     //TODO(demarco): please remove this in prod
-                    RequireConsent = false
+                    //RequireConsent = false
                 },
 
                 //new Client {
