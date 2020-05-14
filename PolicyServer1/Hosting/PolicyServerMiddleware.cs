@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace PolicyServer1.Hosting {
-    internal class PolicyServerMiddleware {
+    public class PolicyServerMiddleware {
 
         private readonly RequestDelegate _next;
         private readonly ILogger<PolicyServerMiddleware> _logger;

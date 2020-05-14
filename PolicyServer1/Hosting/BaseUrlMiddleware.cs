@@ -23,7 +23,7 @@ namespace PolicyServer1.Hosting {
                 context.SetPolicyServerOrigin(_options.PublicOrigin);
             }
 
-            context.SetIdentityServerBasePath(request.PathBase.Value.RemoveTrailingSlash());
+            context.SetPolicyServerBasePath(request.PathBase.Value.RemoveTrailingSlash());
 
             await _next(context);
         }

@@ -36,6 +36,7 @@ namespace MvcClient {
                 opt.DefaultChallengeScheme = "oidc";
             }).AddCookie("Cookies", opt => {
                 //opt.SessionStore = new MemoryCacheTicketStore();
+                //opt.Cookie.Domain = "localhost.mvc";
             }).AddOpenIdConnect("oidc", opt => {
                 opt.SignInScheme = "Cookies";
 
@@ -69,9 +70,7 @@ namespace MvcClient {
                 };
             });
 
-            //services.AddPolicyServer();
-            //.AddLocalPolicy(Configuration.GetSection("Policy"));
-
+           
             /*
              * 
              * To test this !!!!
@@ -80,31 +79,17 @@ namespace MvcClient {
              */
 
             //TODO(demarco): What i want
-            services.AddPolicyClient(opt => {
-                opt.Authority = "http://localhost:5001";
-                opt.ClientId = "mvc";
-                opt.RequireHttpsMetadata = false;
-                opt.PermissionSplitter = "#";
+            //services.AddPolicyClient(opt => {
+            //    opt.Authority = "http://localhost:5001";
+            //    opt.ClientId = "mvc";
+            //    opt.RequireHttpsMetadata = false;
+            //    opt.PermissionSplitter = "#";
 
-                //opt.ClientId = "mvc";
-                //opt.ClientSecret = "secret";
+            //    //opt.ClientId = "mvc";
+            //    //opt.ClientSecret = "secret";
 
-                opt.SaveTokens = true;
-            });
-
-            //NOTE(demarco): not used anymore if policyserver is working
-            //services.AddAuthorization(opt => {
-            //    //opt.AddPolicy(PolicyTypes.Users.Manage, policy => { policy.RequireClaim(CustomClaimTypes.Permission, Permissions.Users.Add); });
-            //    //opt.AddPolicy(PolicyTypes.Users.EditRole, policy => {
-            //    //    policy.RequireClaim(CustomClaimTypes.Permission, Permissions.Users.Edit);
-            //    //    policy.RequireClaim(CustomClaimTypes.Permission, Permissions.Users.EditRole);
-            //    //});
-
-            //    opt.AddPolicy("doctors", policy => {
-            //        policy.RequireClaim("doctor");
-            //    });
+            //    opt.SaveTokens = true;
             //});
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -120,7 +105,7 @@ namespace MvcClient {
             app.UseRouting();
 
             app.UseAuthentication();
-            app.UsePolicyClient();
+            //app.UsePolicyClient();
 
             app.UseAuthorization();
 

@@ -22,7 +22,7 @@ namespace PolicyServer1.Extensions {
             return context.Items[Constants.EnvironmentKeys.PolicyServerBasePath] as String;
         }
 
-        public static void SetIdentityServerBasePath(this HttpContext context, String value) {
+        public static void SetPolicyServerBasePath(this HttpContext context, String value) {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
             context.Items[Constants.EnvironmentKeys.PolicyServerBasePath] = value;

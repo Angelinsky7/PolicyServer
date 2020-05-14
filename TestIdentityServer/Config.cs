@@ -28,6 +28,15 @@ namespace IdentityServerAspNetIdentity {
                     IdentityModel.JwtClaimTypes.Name,
                     IdentityModel.JwtClaimTypes.Scope,
                     IdentityModel.JwtClaimTypes.Role
+                }),
+                new ApiResource("policy-admin", "Policy Server Administration panel", new [] {
+                    IdentityModel.JwtClaimTypes.Id,
+                    IdentityModel.JwtClaimTypes.Subject,
+                    IdentityModel.JwtClaimTypes.Profile,
+                    IdentityModel.JwtClaimTypes.Email,
+                    IdentityModel.JwtClaimTypes.Name,
+                    IdentityModel.JwtClaimTypes.Scope,
+                    IdentityModel.JwtClaimTypes.Role
                 })
             };
         }
@@ -69,8 +78,36 @@ namespace IdentityServerAspNetIdentity {
                         "policy"
                         //CustomScopes.Scope
                     },
-                    AllowOfflineAccess = true
+                    AllowOfflineAccess = true,
+                    
+                    //TODO(demarco): please remove this in prod
+                    RequireConsent = false
                 },
+
+                new Client {
+                    ClientId = "policy",
+                    ClientName = "Policy Client",
+                    //AllowedGrantTypes = GrantTypes.Code, 
+                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    //AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    ClientSecrets = {
+                        new Secret("secret".Sha256())
+                    },
+                    RedirectUris = { "http://localhost:5001/signin-oidc" }, 
+                    //FrontChannelLogoutUri = "http://localhost:5001/signout-oidc",
+                    PostLogoutRedirectUris = { "http://localhost:5001/signout-callback.oidc" },
+                    AllowedScopes = {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "policy-admin"
+                        //CustomScopes.Scope
+                    },
+                    AllowOfflineAccess = true,
+
+                    //TODO(demarco): please remove this in prod
+                    RequireConsent = false
+                },
+
                 //new Client {
                 //    ClientId = "js",
                 //    ClientName = "JavaScript Client",

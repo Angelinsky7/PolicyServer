@@ -5,6 +5,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -19,7 +22,7 @@ using PolicyServer1.EntityFramework.Storage.Datas;
 using PolicyServer1.EntityFramework.Storage.Mappers;
 using TestPolicyServer;
 
-namespace TestPolicyServer1 {
+namespace TestPolicyServer {
     public class Startup {
 
         public IConfiguration Configuration { get; }
@@ -32,13 +35,17 @@ namespace TestPolicyServer1 {
 
             //services.AddDbContext<PolicyDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddMvc()
-                .AddJsonOptions(opt => {
-                    opt.JsonSerializerOptions.WriteIndented = true;
-                    opt.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                })
-                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
+            //services.AddMvc()
+            //    .AddJsonOptions(opt => {
+            //        opt.JsonSerializerOptions.WriteIndented = true;
+            //        opt.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            //    })
+            //    .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
 
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services.Configure<ForwardedHeadersOptions>(opt => {
                 opt.ForwardedHeaders = ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
@@ -48,23 +55,62 @@ namespace TestPolicyServer1 {
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", opt => {
+            services.AddAuthentication(opt => {
+                //opt.DefaultScheme = "Bearer";
+                opt.DefaultScheme = "Cookies";
+                opt.DefaultChallengeScheme = "oidc";
+            })
+                //.AddJwtBearer("Bearer", opt => {
+                //    opt.Authority = "http://localhost:5000";
+                //    opt.RequireHttpsMetadata = false;
+                //    opt.Audience = "policy";
+                //})
+                .AddCookie("Cookies", opt => {
+                    //opt.Cookie.Domain = "localhost.policy-admin"; 
+                })
+                .AddOpenIdConnect("oidc", opt => {
+                    opt.SignInScheme = "Cookies";
+                    
                     opt.Authority = "http://localhost:5000"; 
                     opt.RequireHttpsMetadata = false;
-                    opt.Audience = "policy";
+
+                    opt.ClientId = "policy";
+                    opt.ClientSecret = "secret";
+                    opt.ResponseType = "code id_token";
+
+                    opt.SaveTokens = true;
+                    opt.GetClaimsFromUserInfoEndpoint = true;
+                    //opt.UseTokenLifetime = false;
+
+                    //opt.Scope.Add("profile");
+                    //opt.Scope.Add("api1");
+                    opt.Scope.Add("policy-admin");
+                    opt.Scope.Add("offline_access");
+                    //opt.ClaimActions.MapJsonKey("website", "website");
+                    //opt.ClaimActions.MapJsonKey(CustomClaimTypes.Permission, CustomClaimTypes.Permission);
+
+                    opt.SignedOutCallbackPath = "/signout-callback.oidc";
+                    opt.SignedOutRedirectUri = "/";
+
+                    opt.Events = new Microsoft.AspNetCore.Authentication.OpenIdConnect.OpenIdConnectEvents {
+                        OnRemoteFailure = (context) => {
+                            context.Response.Redirect("/");
+                            context.HandleResponse();
+                            return Task.CompletedTask;
+                        }
+                    };
                 }
             );
 
-            //services.AddPolicyServer(opt => {
-            //    //opt.Caching.clientStoreExpiration = ..;
-            //}).AddInMemoryPolicies(Config.GetClients());
 
 
-
-
-
-
+            //services.AddAuthentication("Bearer")
+            //    .AddJwtBearer("Bearer", opt => {
+            //        opt.Authority = "http://localhost:5000"; 
+            //        opt.RequireHttpsMetadata = false;
+            //        opt.Audience = "policy";
+            //    }
+            //);
 
             if (false) {
                 services.AddPolicyServer(opt => {
@@ -76,20 +122,6 @@ namespace TestPolicyServer1 {
                             .EnableSensitiveDataLogging();
                     });
             }
-
-
-
-
-
-
-
-            //    //.AddConfigurationStore(opt => {
-            //    //    opt.ConfigureDbContext = ctx => ctx.UseSqlServer("", sql => sql.MigrationsAssembly(""));
-            //    //})
-            //.AddclientStore<PolicyDbContext>()
-            //.AddclientStore(opt => { opt.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), sql => sql.MigrationsAssembly(...)); })
-            //.AddInMemoryPolicies(Config.GetPolicies())
-            //.AddLocalPolicy(Configuration.GetSection("Policy"));
 
         }
 
@@ -125,7 +157,7 @@ namespace TestPolicyServer1 {
 
             //app.UseMvcWithDefaultRoute();
             app.UseEndpoints(endpoints => {
-                endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
             });
         }
 
