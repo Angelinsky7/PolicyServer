@@ -24,20 +24,9 @@ namespace TestPolicyServer.Quickstart {
         private async Task<ScopesViewModel> BuildViewModelAsync() {
             List<Scope> scopes = _scopeStore.Query().ToList();
 
-            List<ScopeViewModel> list = new List<ScopeViewModel>();
-            foreach (PolicyServer1.Models.Scope scope in scopes) {
-                ScopeViewModel item = new ScopeViewModel() {
-                    //ClientId = client.ClientId,
-                    //ClientName = client.ClientName ?? client.ClientId,
-                    //ClientLogoUrl = client.LogoUri,
-                    //ClientUrl = client.ClientUri,
-                    //Created = grant.CreationTime,
-                    //Expires = grant.Expiration,
-                    //IdentityGrantNames = resources.IdentityResources.Select(x => x.DisplayName ?? x.Name).ToArray(),
-                    //ApiGrantNames = resources.ApiResources.Select(x => x.DisplayName ?? x.Name).ToArray()
-                };
-
-                list.Add(item);
+            List<Scope> list = new List<Scope>();
+            foreach (Scope scope in scopes) {
+                list.Add(scope);
             }
 
             return new ScopesViewModel {

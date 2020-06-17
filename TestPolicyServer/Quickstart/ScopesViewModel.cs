@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PolicyServer1.Models;
 
 namespace TestPolicyServer.Quickstart {
     public class ScopesViewModel {
-        public IEnumerable<ScopeViewModel> Scopes { get; set; }
-    }
-
-    public class ScopeViewModel {
+        public IEnumerable<Scope> Scopes { get; set; }
     }
 
 }

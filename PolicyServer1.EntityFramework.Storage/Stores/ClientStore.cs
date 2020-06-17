@@ -39,6 +39,12 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             _context.DetachEntites<Entities.Scope>();
             _context.DetachEntites<Entities.Resource>();
             _context.DetachEntites<Entities.MmResourceScope>();
+
+            //NOTE(demarco): I'm not sure about that part
+            _context.DetachEntites<Entities.Permission>();
+            _context.DetachEntites<Entities.MmPermissionPolicy>();
+            //NOTE(demarco): I'm not sure about that part
+
             _context.DetachEntites<Entities.Policy>();
             _context.DetachEntites<Entities.MmAggregatedPolicyPolicy>();
 
@@ -50,6 +56,12 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             await _context.CheckExistingAndRemoveAsync<Entities.Scope>((existing, added) => existing.Id == added.Id);
             await _context.CheckExistingAndRemoveAsync<Entities.Resource>((existing, added) => existing.Id == added.Id);
             await _context.CheckExistingAndRemoveAsync<Entities.MmResourceScope>((existing, added) => existing.ResourceId == added.ResourceId && existing.ScopeId == added.ScopeId);
+
+            //NOTE(demarco): I'm not sure about that part
+            await _context.CheckExistingAndRemoveAsync<Entities.Permission>((existing, added) => existing.Id == added.Id);
+            await _context.CheckExistingAndRemoveAsync<Entities.MmPermissionPolicy>((existing, added) => existing.PermissionId == added.PermissionId && existing.PolicyId == added.PolicyId);
+            //NOTE(demarco): I'm not sure about that part
+
             await _context.CheckExistingAndRemoveAsync<Entities.Policy>((existing, added) => existing.Id == added.Id);
             await _context.CheckExistingAndRemoveAsync<Entities.MmAggregatedPolicyPolicy>((existing, added) => existing.AggregatedPolicyId == added.AggregatedPolicyId && existing.PolicyId == added.PolicyId);
 

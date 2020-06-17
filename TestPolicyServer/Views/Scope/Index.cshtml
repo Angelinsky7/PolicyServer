@@ -1,52 +1,55 @@
 ﻿@model ScopesViewModel
-
 @*@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}*@
+		ViewData["Title"] = "Index";
+		Layout = "~/Views/Shared/_Layout.cshtml";
+	}*@
 
 @*<h2>Index</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DisplayName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DisplayName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>*@
+	<p>
+		<a asp-action="Create">Create New</a>
+	</p>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.Id)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Name)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DisplayName)
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+	@foreach (var item in Model) {
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Id)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.DisplayName)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+					@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+					@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+				</td>
+			</tr>
+	}
+		</tbody>
+	</table>*@
 
+
+@*<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+		Button
+	</button>*@
 
 <div class="scopes">
 	<div class="row page-header">
@@ -67,54 +70,88 @@
 			</div>
 		</div>
 	} else {
-		foreach (var grant in Model.Scopes) {
-			<div class="row scope">
 
-				scope...
+		<div class="table-responsive">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Id</th>
+						<th scope="col">Name</th>
+						<th scope="col">DisplayName</th>
+						<th scope="col">IconUri</th>
+						<th scope="col">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@{int i = 0;}
+					@foreach (var scope in Model.Scopes) {
+						<tr>
+							<th scope="row">@scope.Id</th>
+							<td>@scope.Name</td>
+							<td>@scope.DisplayName</td>
+							<td>@scope.IconUri</td>
+							<td>
+								<button id="demo-menu-lower-left-@i" class="mdl-button mdl-js-button mdl-button--icon">
+									<i class="material-icons">more_vert</i>
+								</button>
 
-				@*<div class="col-sm-2">
-					@if (grant.ClientLogoUrl != null) {
-						<img src="@grant.ClientLogoUrl">
+								<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+									for="demo-menu-lower-left-@i">
+									<li class="mdl-menu__item">Some Action</li>
+									<li class="mdl-menu__item mdl-menu__item--full-bleed-divider">Another Action</li>
+									<li disabled class="mdl-menu__item">Disabled Action</li>
+									<li class="mdl-menu__item">Yet Another Action</li>
+								</ul>
+							</td>
+						</tr>
+						++i;
 					}
-				</div>
-				<div class="col-sm-8">
-					<div class="clientname">@grant.ClientName</div>
-					<div>
-						<span class="created">Created:</span> @grant.Created.ToString("yyyy-MM-dd")
-					</div>
-					@if (grant.Expires.HasValue) {
-						<div>
-							<span class="expires">Expires:</span> @grant.Expires.Value.ToString("yyyy-MM-dd")
-						</div>
-					}
-					@if (grant.IdentityGrantNames.Any()) {
-						<div>
-							<div class="granttype">Identity Grants</div>
-							<ul>
-								@foreach (var name in grant.IdentityGrantNames) {
-									<li>@name</li>
-								}
-							</ul>
-						</div>
-					}
-					@if (grant.ApiGrantNames.Any()) {
-						<div>
-							<div class="granttype">API Grants</div>
-							<ul>
-								@foreach (var name in grant.ApiGrantNames) {
-									<li>@name</li>
-								}
-							</ul>
-						</div>
-					}
-				</div>
-				<div class="col-sm-2">
-					<form asp-action="Revoke">
-						<input type="hidden" name="clientId" value="@grant.ClientId">
-						<button class="btn btn-danger">Revoke Access</button>
-					</form>
-				</div>*@
+				</tbody>
+			</table>
+		</div>
+
+		@*<div class="col-sm-2">
+				@if (grant.ClientLogoUrl != null) {
+					<img src="@grant.ClientLogoUrl">
+				}
 			</div>
-		}
+			<div class="col-sm-8">
+				<div class="clientname">@grant.ClientName</div>
+				<div>
+					<span class="created">Created:</span> @grant.Created.ToString("yyyy-MM-dd")
+				</div>
+				@if (grant.Expires.HasValue) {
+					<div>
+						<span class="expires">Expires:</span> @grant.Expires.Value.ToString("yyyy-MM-dd")
+					</div>
+				}
+				@if (grant.IdentityGrantNames.Any()) {
+					<div>
+						<div class="granttype">Identity Grants</div>
+						<ul>
+							@foreach (var name in grant.IdentityGrantNames) {
+								<li>@name</li>
+							}
+						</ul>
+					</div>
+				}
+				@if (grant.ApiGrantNames.Any()) {
+					<div>
+						<div class="granttype">API Grants</div>
+						<ul>
+							@foreach (var name in grant.ApiGrantNames) {
+								<li>@name</li>
+							}
+						</ul>
+					</div>
+				}
+			</div>
+			<div class="col-sm-2">
+				<form asp-action="Revoke">
+					<input type="hidden" name="clientId" value="@grant.ClientId">
+					<button class="btn btn-danger">Revoke Access</button>
+				</form>
+			</div>*@
+
 	}
 </div>
