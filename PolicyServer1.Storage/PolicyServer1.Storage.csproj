@@ -17,6 +17,10 @@
     <None Remove="Services\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+  </ItemGroup>
+
   <Target Name="PostBuildRelease" AfterTargets="Pack" Condition="'$(NuGetSourceReleasePolicy)' != '' And '$(Configuration)' == 'Release'">
     <Exec Command="$(NuGetPath)nuget.exe push &quot;$(OutputPath)$(PackageId).$(PackageVersion).nupkg&quot; -Source &quot;$(NuGetSourceReleasePolicy)&quot; -ApiKey &quot;$(NugetApiKeyPolicyServer)&quot; -Verbosity Detailed" />
   </Target>

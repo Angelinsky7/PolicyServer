@@ -2,34 +2,39 @@
 	var version = typeof(PolicyServer1.Hosting.PolicyServerMiddleware).Assembly.GetName().Version.ToString();
 }
 
-<div class="mdl-grid">
-	<div class="mdl-cell mdl-cell--10-col-desktop">
-		<img class="icon" src="~/icon.jpg">
-		Welcome to PolicyServer1
-		<small>(version @version)</small>
-		<hr />
+<div class="m-10">
+	<div class="">
+		<div class="">
+			@*<img class="icon" src="~/icon.jpg">*@
+			<svg viewBox="0 0 66 66" class="block h-16 w-16 fill-current text-blue-800" xmlns="http://www.w3.org/2000/svg">
+				<path d="M49 33C49 41.8366 41.8366 49 33 49M49 33C49 24.1634 41.8366 17 33 17C24.1634 17 17 24.1634 17 33M49 33C36.2 24.2 33 40.3333 33 49.5M33 49C24.1634 49 17 41.8366 17 33M33 49C33 40 29.8 24.2 17 33M33 30C31.3431 30 30 31.3431 30 33C30 34.6569 31.3431 36 33 36C34.6569 36 36 34.6569 36 33C36 31.3431 34.6569 30 33 30ZM33 30V22M65 33C65 50.6731 50.6731 65 33 65C15.3269 65 1 50.6731 1 33C1 15.3269 15.3269 1 33 1C50.6731 1 65 15.3269 65 33ZM58 33C58 46.8071 46.8071 58 33 58C19.1929 58 8 46.8071 8 33C8 19.1929 19.1929 8 33 8C46.8071 8 58 19.1929 58 33ZM63 33C63 49.5685 49.5685 63 33 63C16.4315 63 3 49.5685 3 33C3 16.4315 16.4315 3 33 3C49.5685 3 63 16.4315 63 33Z" stroke="black" />
+			</svg>
+			<span class="text-xl text-gray-900">Welcome to PolicyServer1</span>
+			<span class="text-sm text-gray-600">(version @version)</span>
+			<hr class="mt-4 mb-4" />
+		</div>
 	</div>
-</div>
 
-<div class="mdl-grid">
-	<div class="mdl-cell mdl-cell--8-col-desktop">
-		<p>
-			PolicyServer publishes a
-			<a href="~/.well-known/policy-configuration">discovery document</a>
-			where you can find metadata and links to all the endpoints, key material, etc.
-		</p>
-		<p>
-			Click <a href="~/grants">here</a> to manage your stored grants.
-		</p>
+	<div class="">
+		<div class="">
+			<p>
+				PolicyServer publishes a
+				<a class="text-blue-800" href="~/.well-known/policy-configuration">discovery document</a>
+				where you can find metadata and links to all the endpoints, key material, etc.
+			</p>
+			<p>
+				Click <a class="text-blue-700 hover:text-blue-800" href="~/grants">here</a> to manage your stored grants.
+			</p>
+		</div>
 	</div>
-</div>
 
-<div class="mdl-grid">
-	<div class="mdl-cell mdl-cell--8-col-desktop">
-		<p>
-			Here are links to the
-			<a href="https://github.com/Angelinsky7/PolicyServer">source code repository</a>,
-			and <a href="https://github.com/Angelinsky7/PolicyServer.Samples">ready to use samples</a>.
-		</p>
+	<div class="">
+		<div class="">
+			<p>
+				Here are links to the
+				<a class="text-blue-800" href="https://github.com/Angelinsky7/PolicyServer">source code repository</a>,
+				and <a class="text-blue-800" href="https://github.com/Angelinsky7/PolicyServer.Samples">ready to use samples</a>.
+			</p>
+		</div>
 	</div>
 </div>

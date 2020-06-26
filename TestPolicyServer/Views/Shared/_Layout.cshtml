@@ -6,7 +6,7 @@
 	}
 }
 <!DOCTYPE html>
-<html>
+<html class="h-full">
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,143 +20,150 @@
 	<link rel="stylesheet" href="~/dist/app.css" />
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<body>
+<body class="h-full">
 
-	<nav class="bg-gray-800">
-  		<div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-   			<div class="relative flex items-center justify-between h-16">
-				<div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-					<!-- Mobile menu button-->
-			        <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:text-white transition duration-150 ease-in-out" aria-label="Main menu" aria-expanded="false">
-			        	<!-- Icon when menu is closed. -->
-			        	<svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-			            	<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-				        </svg>
-				        <!-- Icon when menu is open. -->
-				        <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-				          	<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-				        </svg>
-			        </button>
+	<div class="flex flex-col h-full">
+		<nav class="bg-gray-800" x-data="{isMobileMenuOpen: false}">
+			<div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+				<div class="relative flex items-center justify-between h-16">
+					<div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+						<!-- Mobile menu button-->
+						<button x-on:click="isMobileMenuOpen = !isMobileMenuOpen" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:text-white transition duration-150 ease-in-out" aria-label="Main menu" aria-expanded="false">
+							<!-- Icon when menu is closed. -->
+							<svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+							</svg>
+							<!-- Icon when menu is open. -->
+							<svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+							</svg>
+						</button>
+					</div>
+					<div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+						<div class="flex-shrink-0">
+							<svg viewBox="0 0 66 66" class="block lg:hidden h-10 w-10 fill-current text-blue-200" xmlns="http://www.w3.org/2000/svg">
+								<path d="M49 33C49 41.8366 41.8366 49 33 49M49 33C49 24.1634 41.8366 17 33 17C24.1634 17 17 24.1634 17 33M49 33C36.2 24.2 33 40.3333 33 49.5M33 49C24.1634 49 17 41.8366 17 33M33 49C33 40 29.8 24.2 17 33M33 30C31.3431 30 30 31.3431 30 33C30 34.6569 31.3431 36 33 36C34.6569 36 36 34.6569 36 33C36 31.3431 34.6569 30 33 30ZM33 30V22M65 33C65 50.6731 50.6731 65 33 65C15.3269 65 1 50.6731 1 33C1 15.3269 15.3269 1 33 1C50.6731 1 65 15.3269 65 33ZM58 33C58 46.8071 46.8071 58 33 58C19.1929 58 8 46.8071 8 33C8 19.1929 19.1929 8 33 8C46.8071 8 58 19.1929 58 33ZM63 33C63 49.5685 49.5685 63 33 63C16.4315 63 3 49.5685 3 33C3 16.4315 16.4315 3 33 3C49.5685 3 63 16.4315 63 33Z" stroke="black" />
+							</svg>
+							<svg viewBox="0 0 66 66" class="hidden lg:block h-10 w-10 fill-current text-blue-800" xmlns="http://www.w3.org/2000/svg">
+								<path d="M49 33C49 41.8366 41.8366 49 33 49M49 33C49 24.1634 41.8366 17 33 17C24.1634 17 17 24.1634 17 33M49 33C36.2 24.2 33 40.3333 33 49.5M33 49C24.1634 49 17 41.8366 17 33M33 49C33 40 29.8 24.2 17 33M33 30C31.3431 30 30 31.3431 30 33C30 34.6569 31.3431 36 33 36C34.6569 36 36 34.6569 36 33C36 31.3431 34.6569 30 33 30ZM33 30V22M65 33C65 50.6731 50.6731 65 33 65C15.3269 65 1 50.6731 1 33C1 15.3269 15.3269 1 33 1C50.6731 1 65 15.3269 65 33ZM58 33C58 46.8071 46.8071 58 33 58C19.1929 58 8 46.8071 8 33C8 19.1929 19.1929 8 33 8C46.8071 8 58 19.1929 58 33ZM63 33C63 49.5685 49.5685 63 33 63C16.4315 63 3 49.5685 3 33C3 16.4315 16.4315 3 33 3C49.5685 3 63 16.4315 63 33Z" stroke="black" />
+							</svg>
+							@*<img class="block lg:hidden h-8 w-auto" src="/img/logos/mark-on-dark.svg" alt="Workflow logo" />
+								<img class="hidden lg:block h-8 w-auto" src="/img/logos/logo-on-dark.svg" alt="Workflow logo" />*@
+						</div>
+						<div class="block text-white text-2xl ml-2">PolicServer1</div>
+						<div class="hidden sm:block sm:ml-6">
+							<div class="flex">
+								@if (User.Identity.IsAuthenticated) {
+									<a href="#" class="px-3 py-2 rounded-md text-sm font-medium leading-5 text-white focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
+										Clients
+									</a>
+									<a is-active-route asp-area="" asp-controller="Resource" asp-action="Index" class="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
+										Resources
+									</a>
+									<a is-active-route asp-area="" asp-controller="Scope" asp-action="Index" class="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
+										Scopes
+									</a>
+									<a href="#" class="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
+										Permissions
+									</a>
+									<a href="#" class="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
+										Roles
+									</a>
+								}
+							</div>
+						</div>
+					</div>
+					<div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+						@*<button class="p-1 border-2 border-transparent text-gray-400 rounded-full hover:text-white focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out" aria-label="Notifications">
+							  <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+							  </svg>
+							</button>*@
+
+						<!-- Profile dropdown -->
+						@if (User.Identity.IsAuthenticated) {
+							<div class="ml-3 relative" x-data="{dropdownIsOpen: false}" x-on:click.away="dropdownIsOpen = false">
+								<div>
+									<button x-on:click="dropdownIsOpen = !dropdownIsOpen" class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-white transition duration-150 ease-in-out" id="user-menu" aria-label="User menu" aria-haspopup="true">
+										<img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+									</button>
+								</div>
+
+								<!--
+								  Profile dropdown panel, show/hide based on dropdown state.
+
+								  Entering: "transition ease-out duration-100"
+									From: "transform opacity-0 scale-95"
+									To: "transform opacity-100 scale-100"
+								  Leaving: "transition ease-in duration-75"
+									From: "transform opacity-100 scale-100"
+									To: "transform opacity-0 scale-95"
+								-->
+								<div x-show="dropdownIsOpen" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg">
+									<div class="py-1 rounded-md bg-white shadow-xs" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+										<div class="block px-4 py-2 text-sm leading-5 border-b select-none"><span>Logged as </span><span class="font-bold">@name</span></div>
+										<a href="#" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem">
+											Your Profile
+										</a>
+										<a href="#" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem">
+											Settings
+										</a>
+										@*<a href="#" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem">
+												Sign out
+											</a>*@
+										<a class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+									</div>
+								</div>
+							</div>
+						} else {
+							<a asp-area="" asp-controller="Home" asp-action="Login" asp-route-returnUrl="@Context.Request.Path" class="flex text-sm border-2 border-transparent text-white">Login</a>
+						}
+					</div>
 				</div>
-				<div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-			        <div class="flex-shrink-0">
-			          <img class="block lg:hidden h-8 w-auto" src="/img/logos/mark-on-dark.svg" alt="Workflow logo" />
-			          <img class="hidden lg:block h-8 w-auto" src="/img/logos/logo-on-dark.svg" alt="Workflow logo" />
-			        </div>
-			        <div class="hidden sm:block sm:ml-6">
-			          <div class="flex">
-			            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium leading-5 text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">Dashboard
-			            </a>
-			            <a href="#" class="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">Team
-			            </a>
-			            <a href="#" class="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">Projects
-			            </a>
-			            <a href="#" class="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">Calendar
-			            </a>
-			          </div>
-			        </div>
-			      </div>
-			      <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-			        <button class="p-1 border-2 border-transparent text-gray-400 rounded-full hover:text-white focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out" aria-label="Notifications">
-			          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-			            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-			          </svg>
-			        </button>
-
-			        <!-- Profile dropdown -->
-			        <div class="ml-3 relative" x-data="{dropdownIsOpen: false}" x-on:click.away="dropdownIsOpen = false">
-			          <div>
-			            <button x-on:click="dropdownIsOpen = !dropdownIsOpen" class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-white transition duration-150 ease-in-out" id="user-menu" aria-label="User menu" aria-haspopup="true">
-			              <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-			            </button>
-			          </div>
-			          <!--
-			            Profile dropdown panel, show/hide based on dropdown state.
-
-			            Entering: "transition ease-out duration-100"
-			              From: "transform opacity-0 scale-95"
-			              To: "transform opacity-100 scale-100"
-			            Leaving: "transition ease-in duration-75"
-			              From: "transform opacity-100 scale-100"
-			              To: "transform opacity-0 scale-95"
-			          -->
-			          <div x-show="dropdownIsOpen"  class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg">
-			            <div class="py-1 rounded-md bg-white shadow-xs" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-			              <a href="#" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem">Your Profile
-			              </a>
-			              <a href="#" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem">Settings
-			              </a>
-			              <a href="#" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem">Sign out
-			              </a>
-			            </div>
-			          </div>
-			        </div>
-			      </div>
-			    </div>
-			  </div>
 			</div>
+
+			<!--
+			  Mobile menu, toggle classes based on menu state.
+
+			  Menu open: "block", Menu closed: "hidden"
+			-->
+			<div class="block sm:hidden" x-show="isMobileMenuOpen">
+				<div class="px-2 pt-2 pb-3">
+					<a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
+						Clients
+					</a>
+					<a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
+						Resources
+					</a>
+					<a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
+						Scopes
+					</a>
+					<a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
+						Permissions
+					</a>
+					<a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
+						Roles
+					</a>
+				</div>
+			</div>
+		</nav>
+
+		<div class="m-5 flex-1">
+			<main class="max-w-7xl mx-auto">
+				<div>
+					@RenderBody()
+				</div>
+			</main>
 		</div>
 
-	  <!--
-	    Mobile menu, toggle classes based on menu state.
-
-	    Menu open: "block", Menu closed: "hidden"
-	  -->
-	  <div class="hidden sm:hidden">
-	    <div class="px-2 pt-2 pb-3">
-	      <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">Dashboard
-	      </a>
-	      <a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">Team
-	      </a>
-	      <a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">Projects
-	      </a>
-	      <a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">Calendar
-	      </a>
-	    </div>
-	  </div>
-	</nav>
-
-	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-		<header class="mdl-layout__header">
-			<div class="mdl-layout-icon"><img src="~/icon.png"></div>
-			<div class="mdl-layout__header-row">
-				<!-- Title -->
-				<span class="mdl-layout-title">PolicyServer1</span>
-				<!-- Add spacer, to align navigation to the right -->
-				<div class="mdl-layout-spacer"></div>
-
-				<!-- Navigation. We hide it in small screens. -->
-				<nav class="mdl-navigation mdl-layout--large-screen-only">
-					@if (User.Identity.IsAuthenticated) {
-						<button id="layout-toolbar-login-user-menu" class="mdl-button mdl-js-button mdl-button--icon">
-							<i class="material-icons">face</i>
-							@*<i class="material-icons">arrow_drop_down</i>*@
-						</button>
-
-						<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-							for="layout-toolbar-login-user-menu">
-							<li class="mdl-menu__item mdl-menu__item--full-bleed-divider"><b>@name</b></li>
-							<li class="mdl-menu__item">Manage</li>
-							<li><a class="mdl-menu__item" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a></li>
-						</ul>
-					} else {
-						<a class="mdl-navigation__link" asp-area="" asp-controller="Home" asp-action="Login" asp-route-returnUrl="@Context.Request.Path">Login</a>
-					}
-				</nav>
-			</div>
-		</header>
-		<main class="mdl-layout__content">
-			<div class="page-content">
-				@RenderBody()
-			</div>
-		</main>
+		<div class="w-full text-center border-t border-grey p-4 pin-b bg-gray-300">footer</div>
 	</div>
 
 	@*<script src="~/lib/jquery/dist/jquery.js"></script>*@
 	@*<script src="~/lib/jquery/dist/jquery.js"></script>*@
 	@*<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>*@
 	@*<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-	<script src="~/lib/material-design-lite/js/material.min.js"></script>*@
+		<script src="~/lib/material-design-lite/js/material.min.js"></script>*@
 	<script src="~/dist/app.js" asp-append-version="true"></script>
 	@RenderSection("scripts", required: false)
 </body>

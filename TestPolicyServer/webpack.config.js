@@ -2,6 +2,8 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+//const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
 const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
@@ -34,9 +36,14 @@ module.exports = {
             chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
         }),
         new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
+        //new VueLoaderPlugin()
     ],
     module: {
         rules: [
+            //{
+            //    test: /\.vue$/,
+            //    loader: 'vue-loader'
+            //},
             {
                 test: /\.(sa|sc|c|pc)ss$/,
                 use: [
@@ -46,7 +53,7 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(png|svg|jpg|gif)$/,
+                test: /\.(png|jpg|gif)$/,
                 use: [
                     {
                         loader: 'file-loader',
@@ -58,6 +65,12 @@ module.exports = {
                             esModule: false
                         }
                     }
+                ]
+            },
+            {
+                test: /\.svg$/,
+                use: [
+                    { loader: 'svg-sprite-loader' },
                 ]
             },
             {

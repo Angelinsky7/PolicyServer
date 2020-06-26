@@ -45,7 +45,7 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 .ConstructUsing(src => src.AbsoluteUri);
 
             CreateMap<String, Uri>()
-                .ConstructUsing(src => new Uri(src));
+                .ConvertUsing(src => !String.IsNullOrEmpty(src) ? new Uri(src) : null);
 
             #endregion
 

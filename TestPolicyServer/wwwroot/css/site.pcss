@@ -1,3 +1,11 @@
 ﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input:indeterminate + svg + svg.indeterminate {
+  display: block;
+}
+
+input:checked + svg {
+  display: block;
+}
