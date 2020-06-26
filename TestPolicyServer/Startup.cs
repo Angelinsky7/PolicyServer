@@ -34,7 +34,7 @@ namespace TestPolicyServer {
         public void ConfigureServices(IServiceCollection services) {
 
             //services.AddDbContext<PolicyDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+             
             //services.AddMvc()
             //    .AddJsonOptions(opt => {
             //        opt.JsonSerializerOptions.WriteIndented = true;
