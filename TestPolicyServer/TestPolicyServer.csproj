@@ -35,5 +35,17 @@
     <Watch Include="**\*.js" Exclude="node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\js\modal.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Watch Remove="wwwroot\js\modal.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\modal.js" />
+  </ItemGroup>
+
 
 </Project>

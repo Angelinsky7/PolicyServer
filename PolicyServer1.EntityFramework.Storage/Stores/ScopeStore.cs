@@ -61,6 +61,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
                 //throw new EntityNotFoundException(nameof(Trail), id);
             }
 
+
             _context.Scopes.Remove(entity);
 
             try {

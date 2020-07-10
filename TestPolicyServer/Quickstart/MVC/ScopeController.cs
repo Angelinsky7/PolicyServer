@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PolicyServer1.Models;
@@ -33,9 +34,9 @@ namespace TestPolicyServer.Quickstart.MVC {
             return View(item);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,DisplayName,IconUri")] Scope item) {
+        public async Task<IActionResult> CreatePost([Bind("Id,Name,DisplayName,IconUri")] Scope item) {
             //if (id != movie.ID) {
             //    return NotFound();
             //}
@@ -62,9 +63,9 @@ namespace TestPolicyServer.Quickstart.MVC {
             return View(item);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,DisplayName,IconUri")] Scope item) {
+        public async Task<IActionResult> EditPost(Guid id, [Bind("Id,Name,DisplayName,IconUri")] Scope item) {
             if (id != item.Id) { return NotFound(); }
 
             if (ModelState.IsValid) {
@@ -79,6 +80,36 @@ namespace TestPolicyServer.Quickstart.MVC {
                 }
                 return RedirectToAction("Index");
             }
+            return View(item);
+        }
+
+        [ViewLayoutModal("~/Views/Shared/_Modal.cshtml", Title = "Suppression d'un Scope", OkButton = "Delete")]
+        public async Task<IActionResult> Delete(Guid id) {
+            if (id == null) { return NotFound(); }
+            Scope item = await _scopeStore.GetAsync(id);
+            if (item == null) { return NotFound(); }
+            return View(item);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id) {
+            if (id == null) { return BadRequest(); }
+
+            if (ModelState.IsValid) {
+                try {
+                    await _scopeStore.RemoveAsync(id);
+                } catch (DbUpdateConcurrencyException) {
+                    if (!(await ScopeExistsAsync(id))) {
+                        return NotFound();
+                    } else {
+                        throw;
+                    }
+                }
+                return RedirectToAction("Index");
+            }
+
+            Scope item = await _scopeStore.GetAsync(id);
             return View(item);
         }
 
