@@ -71,15 +71,6 @@ window.modal = {
                 }
             }
         }
-    },
-    openModal(modal_id) {
-
-    },
-    executeFormAction(modal_id) {
-        alert("form action");
-    },
-    closeModal(modal_id) {
-
     }
 };
 
