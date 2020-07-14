@@ -6,11 +6,16 @@
 
 		return {
 			selectedRows: [],
+			deleteMultipleHref(base_href) {
+				if (this.selectedRows.length === 0) { return ""; }
+				return base_href + "?" + this.selectedRows.map(p => `guid=${p}`).join('&');
+			},
 			checkTick(src) {
 				var checkedCount = document.querySelectorAll('input.js-list-check-box:checked').length;
 				this.$refs.checkAll.checked = checkedCount === checkboxes.length;
 				this.$refs.checkAll.indeterminate = checkedCount > 0 && checkedCount < checkboxes.length;
-				src.checked ? this.selectedRows.push(src) : this.selectedRows.remove(src);
+				var srcGuid = src.getAttribute("data-row-id");
+				src.checked ? this.selectedRows.push(srcGuid) : this.selectedRows.remove(srcGuid);
 			},
 			checkAll(ref) {
 				this.selectedRows = [];
@@ -49,9 +54,15 @@
 	<hr class="mt-2 mb-2" />
 
 	<div class="flex items-center">
-		<button href="#create" x-bind:disabled="selectedRows.length === 0" class="px-4 py-2 rounded-md bg-red-800 disabled:bg-gray-500 text-white shadow-lg focus:outline-none focus:text-white focus:bg-gray-700 hover:bg-red-600 transition duration-150 ease-in-out">
+		<a data-remote="true" data-modal="true"
+		   x-ref="linkDeleteMultiple" x-bind:href="deleteMultipleHref($refs.linkDeleteMultiple.getAttribute('data-base-href'))" data-base-href="@Url.ActionLink("deleteMultiple")"
+		   class="px-4 py-2 rounded-md bg-gray-500 disabled:bg-gray-500 text-white shadow-lg focus:outline-none focus:text-white focus:bg-gray-700 hover:bg-red-600 transition duration-150 ease-in-out"
+		   x-bind:class="{
+			'disabled': selectedRows.length === 0,
+			'bg-red-800': selectedRows.length !== 0,
+		   }" x-bind:style="(selectedRows.length === 0 ? 'pointer-events: none;' : '')">
 			Remove scope
-		</button>
+		</a>
 		<template x-if="selectedRows.length > 0">
 			<span class="ml-2" x-text="`${selectedRows.length} scope${selectedRows.length > 1 ? 's' : ''}`"></span>
 		</template>
@@ -85,12 +96,8 @@
 					</th>
 					<th class="px-2 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
 						<div class="flex items-center">
-							@Html.ActionLink("Name", "Index", new ListViewModel(Model) { SortOrder = String.IsNullOrEmpty(Model.SortOrder) ? "name_desc" : "" }, new { @class = (Model.SortOrder == "name_desc" ? "font-semibold" : "normal") })
-							@if (Model.SortOrder == "name_desc") {
-								<svg class="ml-2 h-3 w-3">
-									<use xlink:href="#arrow-down"></use>
-								</svg>
-							}
+							@Html.ActionLink("Name", "Index", new ListViewModel(Model) { SortOrder = SortHelper.NextSortOrder(Model.SortOrder) }, new { @class = (Model.SortOrder != "" ? "font-semibold" : "normal") })
+							<sort-helper sort-order="@Model.SortOrder" />
 						</div>
 					</th>
 					<th class="w-4 px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
@@ -123,7 +130,13 @@
 										<use xlink:href="#dots-horizontal-triple"></use>
 									</svg>
 								</button>
-								<div x-show="dropdownIsOpen" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg z-10">
+								<div x-cloak x-show="dropdownIsOpen" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg z-10"
+									 x-transition:enter="transition ease-out duration-100"
+									 x-transition:enter-start="transform opacity-0 scale-95"
+									 x-transition:enter-end="transform opacity-100 scale-100"
+									 x-transition:leave="transition ease-in duration-75"
+									 x-transition:leave-start="transform opacity-100 scale-100"
+									 x-transition:leave-end="transform opacity-0 scale-95">
 									<div class="py-1 rounded-md bg-white shadow-xs" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
 										<a asp-action="Edit" asp-route-id="@scope.Id"
 										   class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out flex items-center" role="menuitem">
@@ -133,27 +146,16 @@
 												<use xlink:href="#edit-pencil"></use>
 											</svg>
 										</a>
-										@*<div x-data="modal(() => window.location.href = '@Url.Action("Delete", new { id = scope.Id, confirmed = true })')">
-												<a asp-action="Delete" asp-route-id="@scope.Id" x-on:click.prevent="isOpen = true"
-												   class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out flex items-center" role="menuitem">
-													<span>Delete</span>
-													<span class="flex-auto"></span>
-													<svg class="fill-current text-red-600 h-4 w-4">
-														<use xlink:href="#trash"></use>
-													</svg>
-												</a>
-												<partial name="_Modal" model='new TestPolicyServer.Quickstart.ModalItem { Title = "Delete", Caption = $"Are you sure you want to delete this item : {scope.Name} ?" }' />
-											</div>*@
-										<div>
-											<a asp-action="Delete" asp-route-id="@scope.Id" data-remote="true" data-modal="true" onclick="return false;"
-											   class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out flex items-center" role="menuitem">
-												<span>Delete</span>
-												<span class="flex-auto"></span>
-												<svg class="fill-current text-red-600 h-4 w-4">
-													<use xlink:href="#trash"></use>
-												</svg>
-											</a>
-										</div>
+									<div>
+										<a asp-action="Delete" asp-route-id="@scope.Id" data-remote="true" data-modal="true" onclick="return false;"
+											class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out flex items-center" role="menuitem">
+											<span>Delete</span>
+											<span class="flex-auto"></span>
+											<svg class="fill-current text-red-600 h-4 w-4">
+												<use xlink:href="#trash"></use>
+											</svg>
+										</a>
+									</div>
 									</div>
 								</div>
 							</div>
@@ -162,8 +164,11 @@
 				}
 			</tbody>
 		</table>
+		<vc:pagination model="@Model" />
 	</div>
 </div>
 
+<dropdown>
+</dropdown>
 
-<div id="modal"></div>
+@Html.Dropdown(@<text><div>Test</div></text>)

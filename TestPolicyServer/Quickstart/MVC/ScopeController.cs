@@ -22,10 +22,6 @@ namespace TestPolicyServer.Quickstart.MVC {
         public ScopeController(IScopeStore scopeStore) => _scopeStore = scopeStore;
 
         public async Task<IActionResult> Index(ListViewModel viewModel) {
-            //ViewData["NameSortParm"] = String.IsNullOrEmpty(viewModel.SortOrder) ? "name_desc" : "";
-            ////ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
-            //ViewData["CurrentFilter"] = viewModel.SearchString;
-
             return View("Index", await BuildViewModelAsync(viewModel));
         }
 
@@ -36,7 +32,7 @@ namespace TestPolicyServer.Quickstart.MVC {
 
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost([Bind("Id,Name,DisplayName,IconUri")] Scope item) {
+        public async Task<IActionResult> CreatePostAsync([Bind("Id,Name,DisplayName,IconUri")] Scope item) {
             //if (id != movie.ID) {
             //    return NotFound();
             //}
@@ -56,7 +52,7 @@ namespace TestPolicyServer.Quickstart.MVC {
             return View(item);
         }
 
-        public async Task<IActionResult> Edit(Guid id) {
+        public async Task<IActionResult> EditAsync(Guid id) {
             if (id == null) { return NotFound(); }
             Scope item = await _scopeStore.GetAsync(id);
             if (item == null) { return NotFound(); }
@@ -65,7 +61,7 @@ namespace TestPolicyServer.Quickstart.MVC {
 
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPost(Guid id, [Bind("Id,Name,DisplayName,IconUri")] Scope item) {
+        public async Task<IActionResult> EditPostAsync(Guid id, [Bind("Id,Name,DisplayName,IconUri")] Scope item) {
             if (id != item.Id) { return NotFound(); }
 
             if (ModelState.IsValid) {
@@ -84,7 +80,7 @@ namespace TestPolicyServer.Quickstart.MVC {
         }
 
         [ViewLayoutModal("~/Views/Shared/_Modal.cshtml", Title = "Suppression d'un Scope", OkButton = "Delete")]
-        public async Task<IActionResult> Delete(Guid id) {
+        public async Task<IActionResult> DeleteAsync(Guid id) {
             if (id == null) { return NotFound(); }
             Scope item = await _scopeStore.GetAsync(id);
             if (item == null) { return NotFound(); }
@@ -93,7 +89,7 @@ namespace TestPolicyServer.Quickstart.MVC {
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id) {
+        public async Task<IActionResult> DeleteConfirmedAsync(Guid id) {
             if (id == null) { return BadRequest(); }
 
             if (ModelState.IsValid) {
@@ -113,6 +109,51 @@ namespace TestPolicyServer.Quickstart.MVC {
             return View(item);
         }
 
+        [ViewLayoutModal("~/Views/Shared/_Modal.cshtml", Title = "Suppression de plusieurs Scopes", OkButton = "Delete")]
+        public async Task<IActionResult> DeleteMultipleAsync([FromQuery] Guid[] guid) {
+            if (guid == null) { return NotFound(); }
+            List<Scope> items = new List<Scope>();
+            foreach (Guid id in guid) {
+                Scope item = await _scopeStore.GetAsync(id);
+                if (item == null) { return NotFound(); }
+                items.Add(item);
+            }
+            return View("DeleteMultiple", items.ToArray());
+        }
+
+        [HttpPost, ActionName("DeleteMultiple")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteMultipleConfirmedAsync([FromForm] Guid[] guid) {
+            if (guid == null) { return BadRequest(); }
+
+            if (ModelState.IsValid) {
+                try {
+                    foreach (Guid id in guid) {
+                        await _scopeStore.RemoveAsync(id);
+                    }
+                } catch (DbUpdateConcurrencyException) {
+                    foreach (Guid id in guid) {
+                        if (!(await ScopeExistsAsync(id))) {
+                            return NotFound();
+                        } else {
+                            throw;
+                        }
+                    }
+                }
+                return RedirectToAction("Index");
+            }
+
+            {
+                List<Scope> items = new List<Scope>();
+                foreach (Guid id in guid) {
+                    Scope item = await _scopeStore.GetAsync(id);
+                    if (item == null) { return NotFound(); }
+                    items.Add(item);
+                }
+                return View(items.ToArray());
+            }
+        }
+
         private async Task<ScopesViewModel> BuildViewModelAsync(ListViewModel viewModel) {
             IQueryable<Scope> query = _scopeStore.Query();
 
@@ -120,12 +161,20 @@ namespace TestPolicyServer.Quickstart.MVC {
                 case "name_desc":
                     query = query.OrderByDescending(p => p.Name);
                     break;
+                case "name_asc":
+                    query = query.OrderBy(p => p.Name);
+                    break;
             }
 
             if (!String.IsNullOrEmpty(viewModel.SearchString)) {
                 String upperSearchString = viewModel.SearchString.ToUpper();
                 query = query.Where(p => p.Name.ToUpper().Contains(upperSearchString) || p.DisplayName.ToUpper().Contains(upperSearchString));
             }
+
+            Int32 countTotal = query.Count();
+
+            Int32 itemsToSkip = (viewModel.CurrentPage - 1) * viewModel.PageSize;
+            query = query.Skip(itemsToSkip).Take(viewModel.PageSize);
 
             List<Scope> scopes = await query.AsNoTracking().ToListAsync();
 
@@ -136,8 +185,9 @@ namespace TestPolicyServer.Quickstart.MVC {
 
             return new ScopesViewModel {
                 Count = list.Count,
-                CurrentPage = 0,
-                PageSize = 10,
+                TotalItems = countTotal,
+                CurrentPage = viewModel.CurrentPage,
+                PageSize = viewModel.PageSize,
                 SortOrder = viewModel.SortOrder,
                 SearchString = viewModel.SearchString,
                 Scopes = list

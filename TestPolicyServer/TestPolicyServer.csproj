@@ -36,14 +36,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\dropdown.js" />
     <Content Remove="wwwroot\js\modal.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <Watch Remove="wwwroot\js\dropdown.js" />
     <Watch Remove="wwwroot\js\modal.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\js\dropdown.js" />
     <None Include="wwwroot\js\modal.js" />
   </ItemGroup>
 

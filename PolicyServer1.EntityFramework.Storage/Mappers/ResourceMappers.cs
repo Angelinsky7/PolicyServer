@@ -51,16 +51,16 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
             #endregion
 
-            #region Uri
+            //#region Uri
 
-            CreateMap<Uri, Entities.ResourceUri>()
-                .ForMember(p => p.Uri, opt => opt.MapFrom(src => src.AbsoluteUri))
-                .PreserveReferences();
+            //CreateMap<Uri, Entities.ResourceUri>()
+            //    .ForMember(p => p.Uri, opt => opt.MapFrom(src => src.AbsoluteUri))
+            //    .PreserveReferences();
 
-            CreateMap<Entities.ResourceUri, Uri>()
-                .ConstructUsing(src => new Uri(src.Uri));
+            //CreateMap<Entities.ResourceUri, Uri>()
+            //    .ConstructUsing(src => new Uri(src.Uri));
 
-            #endregion
+            //#endregion
 
             #region Scope
 

@@ -1,0 +1,42 @@
+﻿<div class="relative"
+	 x-data="dropdown()"
+	 x-on:click.away="close()">
+	<!-- Template of button -->
+	<button class="p-2 hover:bg-blue-600" x-on:click="toggle()">
+		<svg class="h-4 w-4">
+			<use xlink:href="#dots-horizontal-triple"></use>
+		</svg>
+	</button>
+	<!-- Template of button -->
+
+	<div x-cloak x-show="show" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg z-10"
+		 x-transition:enter="transition ease-out duration-100"
+		 x-transition:enter-start="transform opacity-0 scale-95"
+		 x-transition:enter-end="transform opacity-100 scale-100"
+		 x-transition:leave="transition ease-in duration-75"
+		 x-transition:leave-start="transform opacity-100 scale-100"
+		 x-transition:leave-end="transform opacity-0 scale-95">
+		<div class="py-1 rounded-md bg-white shadow-xs" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+			<!-- Template of actions -->
+			<a asp-action="Edit" asp-route-id="1"
+			   class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out flex items-center" role="menuitem">
+				<span>Edit</span>
+				<span class="flex-auto"></span>
+				<svg class="h-4 w-4">
+					<use xlink:href="#edit-pencil"></use>
+				</svg>
+			</a>
+			<div>
+				<a asp-action="Delete" asp-route-id="2" data-remote="true" data-modal="true" onclick="return false;"
+				   class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out flex items-center" role="menuitem">
+					<span>Delete</span>
+					<span class="flex-auto"></span>
+					<svg class="fill-current text-red-600 h-4 w-4">
+						<use xlink:href="#trash"></use>
+					</svg>
+				</a>
+			</div>
+			<!-- Template of actions -->
+		</div>
+	</div>
+</div>

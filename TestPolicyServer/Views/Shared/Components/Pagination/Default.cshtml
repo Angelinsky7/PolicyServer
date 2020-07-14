@@ -1,0 +1,85 @@
+﻿@model ListViewModel
+
+<div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+	<div class="flex-1 flex justify-between sm:hidden">
+		<a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
+			Previous
+		</a>
+		<a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
+			Next
+		</a>
+	</div>
+	<div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+		<div class="flex items-center">
+			<p class="text-sm leading-5 text-gray-700">
+				Showing
+				<span class="font-medium">@(Model.CurrentPage * Model.PageSize - Model.PageSize + 1)</span>
+				to
+				<span class="font-medium">@(Math.Min(Model.CurrentPage * Model.PageSize, @Model.TotalItems))</span>
+				of
+				<span class="font-medium">@Model.TotalItems</span>
+				results
+			</p>
+			<div x-data="dropdown()" x-on:click.away="close()"
+				 class="ml-4 relative text-left">
+				<span class="rounded-md shadow-sm inline-block">
+					<button type="button" x-on:click="toggle()"
+							class="inline-flex justify-center w-full rounded-md border border-gray-300 px-2 py-1 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition ease-in-out duration-150"
+							id="options-menu" aria-haspopup="true" aria-expanded="true">
+						@Model.PageSize
+						<svg class="-mr-1 ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+						</svg>
+					</button>
+				</span>
+				<div x-show="show" x-cloak class="origin-top-right absolute right-0 mt-2 rounded-md shadow-lg"
+					 x-transition:enter="transition ease-out duration-100"
+					 x-transition:enter-start="transform opacity-0 scale-95"
+					 x-transition:enter-end="transform opacity-100 scale-100"
+					 x-transition:leave="transition ease-in duration-75"
+					 x-transition:leave-start="transform opacity-100 scale-100"
+					 x-transition:leave-end="transform opacity-0 scale-95">
+					<div class="rounded-md bg-white shadow-xs">
+						<div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+							<a href="@Url.Action("Index", new ListViewModel(Model) { PageSize = 10  })" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">10</a>
+							<a href="@Url.Action("Index", new ListViewModel(Model) { PageSize = 50  })" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">50</a>
+							<a href="@Url.Action("Index", new ListViewModel(Model) { PageSize = 100  })" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">100</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		@if (Model.TotalPages > 1) {
+			<div>
+				<nav class="relative z-0 inline-flex shadow-sm select-none">
+					<a href="@Url.Action("Index", new ListViewModel(Model) { CurrentPage = Model.CurrentPage - 1  })" class="@(Model.ShowFirst ? "" : "pointer-events-none") relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150" aria-label="Previous">
+						<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+						</svg>
+					</a>
+					@for (Int32 i = 1; i <= Model.TotalPages; ++i) {
+						if (Model.ShowSpacer && i == Math.Floor((Decimal)Model.TotalPages / 2)) {
+							<span class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700">
+								...
+							</span>
+						}
+						if (i != Model.CurrentPage) {
+							<a href="@Url.Action("Index", new ListViewModel(Model) { CurrentPage = i })" class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
+								@i.ToString()
+							</a>
+						} else {
+							<span class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 font-semibold underline">
+								@i.ToString()
+							</span>
+						}
+					}
+					<a href="@Url.Action("Index", new ListViewModel(Model) { CurrentPage = Model.CurrentPage + 1  })" class="@(Model.ShowLast ? "" : "pointer-events-none") -ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150" aria-label="Next">
+						<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+						</svg>
+					</a>
+				</nav>
+			</div>
+		}
+	</div>
+</div>

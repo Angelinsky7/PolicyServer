@@ -9,3 +9,4 @@ import dotsHorizontalTriple from '../node_modules/zondicons/dots-horizontal-trip
 import editPencil from '../node_modules/zondicons/edit-pencil.svg';
 import trash from '../node_modules/zondicons/trash.svg';
 import arrowDown from '../node_modules/zondicons/arrow-down.svg';
+import arrowUp from '../node_modules/zondicons/arrow-up.svg';

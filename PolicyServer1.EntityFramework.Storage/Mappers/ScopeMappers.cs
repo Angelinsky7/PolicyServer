@@ -39,15 +39,15 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
             #endregion
 
-            #region Uri
+            //#region Uri
 
-            CreateMap<Uri, String>()
-                .ConstructUsing(src => src.AbsoluteUri);
+            //CreateMap<Uri, String>()
+            //    .ConstructUsing(src => src.AbsoluteUri);
 
-            CreateMap<String, Uri>()
-                .ConvertUsing(src => !String.IsNullOrEmpty(src) ? new Uri(src) : null);
+            //CreateMap<String, Uri>()
+            //    .ConvertUsing(src => !String.IsNullOrEmpty(src) ? new Uri(src) : null);
 
-            #endregion
+            //#endregion
 
         }
     }

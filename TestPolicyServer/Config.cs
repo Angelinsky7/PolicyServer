@@ -181,11 +181,11 @@ namespace TestPolicyServer {
                         scopes[2],
                         scopes[3],
                     },
-                    Uris = new Uri[]{
-                        new Uri("http://test1.uri.ch"),
-                        new Uri("http://test2.uri.ch"),
+                    Uris = new String[]{
+                        "http://test1.uri.ch",
+                        "http://test2.uri.ch",
                     },
-                    IconUri = new Uri("http://test3.uri.ch"),
+                    IconUri = "http://test3.uri.ch",
                 },
                 new Resource{
                     Name = "Resource With Uris 2",
@@ -197,11 +197,11 @@ namespace TestPolicyServer {
                         scopes[2],
                         scopes[3],
                     },
-                    Uris = new Uri[]{
-                        new Uri("http://test1.uri.ch"),
-                        new Uri("http://test2.uri.ch"),
+                    Uris = new String[]{
+                        "http://test2.uri.ch",
+                        "http://test1.uri.ch",
                     },
-                    IconUri = new Uri("http://test3.uri.ch"),
+                    IconUri = "http://test3.uri.ch",
                 },
                 new Resource{
                     Name = "Resource With Uris 3",
@@ -213,11 +213,11 @@ namespace TestPolicyServer {
                         scopes[2],
                         scopes[3],
                     },
-                    Uris = new Uri[]{
-                        new Uri("http://test1.uri.ch"),
-                        new Uri("http://test2.uri.ch"),
+                    Uris = new String[]{
+                        "http://test1.uri.ch",
+                        "http://test2.uri.ch",
                     },
-                    IconUri = new Uri("http://test3.uri.ch"),
+                    IconUri = "http://test3.uri.ch",
                 }
             };
             return resources;

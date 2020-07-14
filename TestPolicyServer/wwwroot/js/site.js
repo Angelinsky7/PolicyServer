@@ -1,4 +1,5 @@
 ﻿import './modal.js';
+import './dropdown.js';
 
 window.helper = {
     getClosest(elem, selector) {

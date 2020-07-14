@@ -18,8 +18,8 @@ namespace PolicyServer1.Models {
         [Display(Name = "Diplay name")]
         public String DisplayName { get; set; }
         
-        //[Url]
-        public Uri IconUri { get; set; }
+        [Url]
+        public String IconUri { get; set; }
 
     }
 }
