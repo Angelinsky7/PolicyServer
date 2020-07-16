@@ -19,6 +19,10 @@
             }
             //link_href.searchParams.append('param_1', 'val_1'); 
 
+            if (el.matches("[data-close-dropdown]")) {
+                window.dispatchEvent(new CustomEvent('custom-event', { detail: 'dropdown.action.close', bubbles: true, }));
+            }
+
             fetch(link_href)
                 .then(response => response.text())
                 .then(html => createModal(html, modals));
@@ -42,15 +46,15 @@ function createModal(modal_content, container) {
     }, container)
 }
 
-window.modal = function() {
+window.modal = function () {
     var el;
 
     return {
         isOpen: false,
-        openModal(el, $dispatch) {
+        openModal(el) {
             this.isOpen = true;
             this.el = el;
-            $dispatch('custom-event', 'dropdown.close');
+            // $dispatch('custom-event', 'dropdown.action.close');
         },
         executeFormAction() {
             var modal = window.helper.getClosest(this.el, ".modal");

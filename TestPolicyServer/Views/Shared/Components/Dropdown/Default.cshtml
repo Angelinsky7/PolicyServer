@@ -26,16 +26,14 @@
 					<use xlink:href="#edit-pencil"></use>
 				</svg>
 			</a>
-			<div>
-				<a asp-action="Delete" asp-route-id="2" data-remote="true" data-modal="true" onclick="return false;"
-				   class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out flex items-center" role="menuitem">
-					<span>Delete</span>
-					<span class="flex-auto"></span>
-					<svg class="fill-current text-red-600 h-4 w-4">
-						<use xlink:href="#trash"></use>
-					</svg>
-				</a>
-			</div>
+			<a asp-action="Delete" asp-route-id="2" data-remote="true" data-modal="true" onclick="return false;"
+			   class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out flex items-center" role="menuitem">
+				<span>Delete</span>
+				<span class="flex-auto"></span>
+				<svg class="fill-current text-red-600 h-4 w-4">
+					<use xlink:href="#trash"></use>
+				</svg>
+			</a>
 			<!-- Template of actions -->
 		</div>
 	</div>

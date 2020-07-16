@@ -2,7 +2,7 @@
 
 <div class="fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center" 
 	 x-show="isOpen" x-ref="modal" x-data="modal()" x-cloak
-	 x-init="setTimeout(function() { openModal($refs.modal, $dispatch); })">
+	 x-init="setTimeout(function() { openModal($refs.modal); })">
 
 	<div x-transition:enter="ease-out duration-300"
 		 x-transition:enter-start="opacity-0"
