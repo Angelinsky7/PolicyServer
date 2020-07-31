@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PolicyServer1.Models;
@@ -21,9 +22,7 @@ namespace TestPolicyServer.Quickstart.MVC {
 
         public ScopeController(IScopeStore scopeStore) => _scopeStore = scopeStore;
 
-        public async Task<IActionResult> Index(ListViewModel viewModel) {
-            return View("Index", await BuildViewModelAsync(viewModel));
-        }
+        public async Task<IActionResult> Index(ListViewModel viewModel) => View("Index", await BuildViewModelAsync(viewModel));
 
         public IActionResult Create() {
             Scope item = new Scope();
@@ -98,6 +97,14 @@ namespace TestPolicyServer.Quickstart.MVC {
                 } catch (DbUpdateConcurrencyException) {
                     if (!(await ScopeExistsAsync(id))) {
                         return NotFound();
+                    } else {
+                        throw;
+                    }
+                } catch (DbUpdateException ex) {
+                    String error = CheckHandleError(ex);
+                    if (error != null) {
+                        //TODO(demarco): I want to show a flash message wgen comming back from this showing the error message
+                        return BadRequest(error);
                     } else {
                         throw;
                     }
@@ -196,5 +203,23 @@ namespace TestPolicyServer.Quickstart.MVC {
 
         private async Task<Boolean> ScopeExistsAsync(Guid id) => (await _scopeStore.GetAsync(id)) != null;
 
+        private String CheckHandleError(Exception ex) {
+            //TODO(demarco): We want to generalise this behavior.... autoload injection and check automatically (maybe all activated first then disable some)
+            DbUpdateException dbUpdateEx = ex as DbUpdateException;
+            SqlException sqlEx = dbUpdateEx?.InnerException as SqlException;
+            if (sqlEx != null) {
+                if (sqlEx.Number == SqlErrorDeleteReferenceConstraint.SqlServerErrorNumber) {
+
+                    String valError = SqlErrorDeleteReferenceConstraint.Formatter(sqlEx, dbUpdateEx.Entries);
+                    if (valError != null) {
+                        //TODO(demarco): I want to show a flash message wgen comming back from this showing the error message
+                        ModelState.AddModelError("refDelete", valError);
+                        return valError;
+                    }
+                    //else check for other SQL errors
+                }
+            }
+            return null;
+        }
     }
 }

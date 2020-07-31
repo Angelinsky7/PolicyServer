@@ -27,8 +27,9 @@ namespace Microsoft.Extensions.DependencyInjection {
             builder.AddPolicyStore<PolicyStore>();
             builder.AddPermissionStore<PermissionStore>();
             builder.AddRoleStore<RoleStore>();
-            builder.AddScopeStore<ScopeStore>();
 
+            builder.AddScopeStore<ScopeStore>();
+            builder.AddResourceStore<ResourceStore>();
 
             return builder;
         }
@@ -41,7 +42,9 @@ namespace Microsoft.Extensions.DependencyInjection {
             builder.AddPolicyStoreCache<PolicyStore>();
             builder.AddPermissionStoreCache<PermissionStore>();
             builder.AddRoleStoreCache<RoleStore>();
+
             builder.AddScopeStoreCache<ScopeStore>();
+            builder.AddResourceStoreCache<ResourceStore>();
 
             return builder;
         }

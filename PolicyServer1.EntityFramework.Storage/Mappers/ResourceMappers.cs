@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 namespace PolicyServer1.EntityFramework.Storage.Mappers {
     public static class ResourceMappers {
@@ -17,6 +19,8 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
         public static Models.Resource ToModel(this Entities.Resource entity) => Mapper.Map<Models.Resource>(entity);
         public static Entities.Resource ToEntity(this Models.Resource model) => Mapper.Map<Entities.Resource>(model);
+        public static IQueryable<Models.Resource> ToModel(this IQueryable<Entities.Resource> source) => source.ProjectTo<Models.Resource>(Mapper.ConfigurationProvider);
+        public static void UpdateEntity(this Models.Resource model, Entities.Resource entity) => Mapper.Map(model, entity);
 
     }
 
@@ -51,16 +55,16 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
             #endregion
 
-            //#region Uri
+            #region Uri
 
-            //CreateMap<Uri, Entities.ResourceUri>()
-            //    .ForMember(p => p.Uri, opt => opt.MapFrom(src => src.AbsoluteUri))
-            //    .PreserveReferences();
+            CreateMap<String, Entities.ResourceUri>()
+                .ForMember(p => p.Uri, opt => opt.MapFrom(src => src))
+                .PreserveReferences();
 
-            //CreateMap<Entities.ResourceUri, Uri>()
-            //    .ConstructUsing(src => new Uri(src.Uri));
+            CreateMap<Entities.ResourceUri, String>()
+                .ConvertUsing(src => src.Uri);
 
-            //#endregion
+            #endregion
 
             #region Scope
 

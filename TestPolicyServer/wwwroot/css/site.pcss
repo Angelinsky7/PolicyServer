@@ -1,9 +1,20 @@
-﻿@tailwind base;
+﻿@import "tailwindcss/base";
+/* @import "./custom-base-styles.css"; */
+
+@import "tailwindcss/components";
+/* @import "./custom-components.css"; */
+
+@import "tailwindcss/utilities";
+/* @import "./custom-utilities.css"; */
+
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
+
+@import "./dropdown.pcss";
 
 /* @import "./css/dropdown.pcss"; */
-.dropdown-menu-item {
+/* .dropdown-menu-item {
 	@apply block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out flex items-center;
 }
 
@@ -13,7 +24,7 @@
 
 .dropdown-menu-item:focus {
 	@apply outline-none bg-gray-100;
-}
+} */
 /* @import "./css/dropdown.pcss"; */
 
 

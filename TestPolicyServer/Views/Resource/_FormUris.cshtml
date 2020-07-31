@@ -1,0 +1,46 @@
+﻿@model PolicyServer1.Models.Resource
+
+<div x-data="UriManager(@Model.Uris.ToJson())">
+	<div class="flex flex-row mb-2">
+		<label asp-for="Uris" class="font-bold mb-1 text-gray-700 block text-xs"></label>
+		<span class="flex-auto"></span>
+		<button type="button" x-on:click="addUri()">
+			<svg class="flex-shrink-0 h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+				<use xlink:href="#add-outline"></use>
+			</svg>
+		</button>
+	</div>
+	<ul class="ml-4">
+		<template x-for="(uri, index) in uris" :key="index">
+			<li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5">
+				<div class="w-0 flex-1 flex items-center">
+					<svg class="flex-shrink-0 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+						<use xlink:href="#link"></use>
+					</svg>
+					<input id="Uris[]" name="Uris[]" x-model="uri.value" class="ml-2 flex-1 w-0 truncate w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium" />
+				</div>
+				<div class="ml-4 flex-shrink-0">
+					<button type="button" x-on:click="removeUri(index)" class="font-medium text-indigo-600 hover:text-indigo-500 transition duration-150 ease-in-out">
+						Delete
+					</button>
+				</div>
+			</li>
+		</template>
+	</ul>
+
+	<span asp-validation-for="Uris" class="mt-2 text-sm text-red-800"></span>
+</div>
+
+<script>
+	function UriManager(datas) {
+		return {
+			uris: datas.map(p => ({ value: p })) || [],
+			addUri() {
+				this.uris.push({ value: '' });
+			},
+			removeUri(index) {
+				this.uris.splice(index, 1);
+			}
+		};
+	}
+</script>

@@ -45,6 +45,13 @@ namespace Microsoft.Extensions.DependencyInjection {
             return builder;
         }
 
+        public static IPolicyServerBuilder AddResourceStore<T>(this IPolicyServerBuilder builder) where T : class, IResourceStore {
+            builder.Services.TryAddTransient(typeof(T));
+            builder.Services.AddTransient<IResourceStore, ValidatingResourceStore<T>>();
+
+            return builder;
+        }
+
         public static IPolicyServerBuilder AddClientStoreCache<T>(this IPolicyServerBuilder builder) where T : IClientStore {
             builder.Services.TryAddTransient(typeof(T));
             builder.Services.AddTransient<ValidatingClientStore<T>>();
@@ -81,6 +88,14 @@ namespace Microsoft.Extensions.DependencyInjection {
             builder.Services.TryAddTransient(typeof(T));
             builder.Services.AddTransient<ValidatingScopeStore<T>>();
             builder.Services.AddTransient<IScopeStore, CachingScopeStore<ValidatingScopeStore<T>>>();
+
+            return builder;
+        }
+
+        public static IPolicyServerBuilder AddResourceStoreCache<T>(this IPolicyServerBuilder builder) where T : IResourceStore {
+            builder.Services.TryAddTransient(typeof(T));
+            builder.Services.AddTransient<ValidatingResourceStore<T>>();
+            builder.Services.AddTransient<IResourceStore, CachingResourceStore<ValidatingResourceStore<T>>>();
 
             return builder;
         }

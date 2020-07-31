@@ -42,7 +42,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             return entity.Id;
         }
         public async Task<Scope> GetAsync(Guid id) {
-            Entities.Scope entity = (await _context.Scopes.SingleOrDefaultAsync(p => p.Id == id));
+            Entities.Scope entity = (await _context.Scopes.AsNoTracking().SingleOrDefaultAsync(p => p.Id == id));
 
             if (entity == null) {
                 _logger.LogInformation($"entity with id {id} was not found");
@@ -52,7 +52,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
 
             return entity.ToModel();
         }
-        public IQueryable<Scope> Query() => _context.Scopes.ToModel();
+        public IQueryable<Scope> Query() => _context.Scopes.AsNoTracking().ToModel();
         public async Task RemoveAsync(Guid id) {
             Entities.Scope entity = await _context.Scopes.SingleOrDefaultAsync(p => p.Id == id);
            

@@ -13,6 +13,7 @@ namespace PolicyServer1.Configuration {
         public TimeSpan RoleStoreExpiration { get; set; } = Default;
         public TimeSpan UserPolicyServiceExpiration { get; set; } = Default;
         public TimeSpan ScopeStoreExpiration { get; set; } = Default;
+        public TimeSpan ResourceStoreExpiration { get; set; } = Default;
 
 
     }
