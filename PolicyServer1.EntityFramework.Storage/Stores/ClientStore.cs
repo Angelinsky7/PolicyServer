@@ -33,20 +33,21 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
         public async Task<Guid> CreateAsync(Client item) {
             Entities.Client entity = item.ToEntity();
 
-            _context.DetachEntites<Entities.Role>();
-            _context.DetachEntites<Entities.MmRoleRole>();
-            _context.DetachEntites<Entities.MmRolePolicyRole>();
-            _context.DetachEntites<Entities.Scope>();
-            _context.DetachEntites<Entities.Resource>();
-            _context.DetachEntites<Entities.MmResourceScope>();
+            //TODO(demarco): Make this behavbe like the others store, look at ResourceStore to have an example
+            _context.MarkEntitesAsDetached<Entities.Role>();
+            _context.MarkEntitesAsDetached<Entities.MmRoleRole>();
+            _context.MarkEntitesAsDetached<Entities.MmRolePolicyRole>();
+            _context.MarkEntitesAsDetached<Entities.Scope>();
+            _context.MarkEntitesAsDetached<Entities.Resource>();
+            _context.MarkEntitesAsDetached<Entities.MmResourceScope>();
 
             //NOTE(demarco): I'm not sure about that part
-            _context.DetachEntites<Entities.Permission>();
-            _context.DetachEntites<Entities.MmPermissionPolicy>();
+            _context.MarkEntitesAsDetached<Entities.Permission>();
+            _context.MarkEntitesAsDetached<Entities.MmPermissionPolicy>();
             //NOTE(demarco): I'm not sure about that part
 
-            _context.DetachEntites<Entities.Policy>();
-            _context.DetachEntites<Entities.MmAggregatedPolicyPolicy>();
+            _context.MarkEntitesAsDetached<Entities.Policy>();
+            _context.MarkEntitesAsDetached<Entities.MmAggregatedPolicyPolicy>();
 
             _context.Clients.Add(entity);
 
@@ -110,7 +111,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
                 _logger.LogInformation($"entity with id {id} was not found");
                 //throw new EntityNotFoundException(nameof(Trail), id);
             }
-
+                        
             _context.Clients.Remove(entity);
             //_context.Set<Entities.Secret>().RemoveRange(entity.Secrets.Select(p => p.Secret));
 
@@ -148,6 +149,8 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
                 _logger.LogInformation($"entity with id {id} was not found");
                 //throw new EntityNotFoundException(nameof(Trail), id);
             }
+
+            //TODO(demarco): Make this behavbe like the others store, look at ResourceStore to have an example
 
             item.UpdateEntity(entity);
 

@@ -31,11 +31,11 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
         public async Task<Guid> CreateAsync(Resource item) {
             Entities.Resource entity = item.ToEntity();
 
-            _context.DetachEntites<Entities.Scope>();
+            _context.MarkEntitesAsDetached<Entities.Scope>();
             
             _context.Resources.Add(entity);
 
-            await _context.CheckExistingAndRemoveAsync<Entities.Scope>((existing, added) => existing.Id == added.Id);
+            _context.MarkEntitesAsUnchanged<Entities.Scope>();
 
             try {
                 await _context.SaveChangesAsync();
@@ -98,7 +98,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
 
             item.UpdateEntity(entity);
                         
-            await _context.CheckExistingAndRemoveAsync<Entities.Scope>((existing, added) => existing.Id == added.Id);
+            await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.Scope>();
 
             try {
                 await _context.SaveChangesAsync();

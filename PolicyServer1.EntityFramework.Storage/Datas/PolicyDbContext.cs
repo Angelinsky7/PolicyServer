@@ -42,9 +42,9 @@ namespace PolicyServer1.EntityFramework.Storage.Datas {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
-            modelBuilder.ConfigurePolicyContext(_storeOptions);
-
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ConfigurePolicyContext(_storeOptions);
         }
 
     }
