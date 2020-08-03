@@ -46,9 +46,12 @@ namespace MvcClient {
 
                 opt.ClientId = "mvc";
                 opt.ClientSecret = "secret";
-                opt.ResponseType = "code id_token";
-
+                //opt.ResponseType = "code id_token";
+                opt.ResponseType = "code";
+                //opt.Prompt = "login";
+                
                 opt.SaveTokens = true;
+                opt.UsePkce = true;
                 opt.GetClaimsFromUserInfoEndpoint = true;
                 //opt.UseTokenLifetime = false;
 
@@ -66,7 +69,7 @@ namespace MvcClient {
                     OnRemoteFailure = (context) => {
                         context.Response.Redirect("/");
                         context.HandleResponse();
-                        return Task.CompletedTask;
+                        return Task.CompletedTask; 
                     }
                 };
             });
@@ -101,13 +104,12 @@ namespace MvcClient {
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(); 
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UsePolicyClient();
-
             app.UseAuthorization();
 
             app.UseStaticFiles();
@@ -119,11 +121,16 @@ namespace MvcClient {
             //        template: "{controller=Home}/{action=Index}/{id?}");
             //});
 
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller=Home}/{action=Index}/{id?}");
+            //});
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute();
             });
 
         }

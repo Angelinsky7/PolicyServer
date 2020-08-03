@@ -8,12 +8,13 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace TestPolicyServer.Quickstart {
-    public class SqlErrorDeleteReferenceConstraint {
+    public class SqlErrorDeleteReferenceConstraint : ISqlError {
 
-        public static readonly Int32 SqlServerErrorNumber = 547;
         private static readonly Regex _testConstraintRegex = new Regex("The DELETE statement conflicted with the REFERENCE constraint \"([a-zA-Z0-9_]+)\"", RegexOptions.Compiled);
 
-        public static String Formatter(SqlException ex, IReadOnlyList<EntityEntry> entitiesNotSaved) {
+        public Int32 SqlServerErrorNumber => 547;
+
+        public String Formatter(SqlException ex, IReadOnlyList<EntityEntry> entitiesNotSaved) {
             String message = ex.Errors[0].Message;
             MatchCollection matches = _testConstraintRegex.Matches(message);
 

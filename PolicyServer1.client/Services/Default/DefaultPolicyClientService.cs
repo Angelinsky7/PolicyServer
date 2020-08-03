@@ -63,7 +63,7 @@ namespace PolicyServer1.Client.Services.Default {
         }
 
         public async Task<PermissionResult> GetPermissionsAsync(HttpContext context) {
-            String accessToken = await context.GetTokenAsync("access_token");
+            String accessToken = await context.GetTokenAsync("access_token");            
             if (accessToken.IsMissing()) { throw new ArgumentNullException(nameof(accessToken)); }
 
             HttpClient client = new HttpClient();

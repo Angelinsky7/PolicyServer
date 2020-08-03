@@ -18,5 +18,8 @@ namespace PolicyServer1.Client.Configuration.Options {
         public String SubIdentifier { get; set; } = "sub";
 
         public String PermissionSplitter { get; set; } = "#";
+
+        public Boolean UseJwtToken { get; set; } = false;
+
     }
 }

@@ -45,6 +45,14 @@ namespace TestPolicyServer.Quickstart.MVC {
                     //} else {
                     throw;
                     //}
+                } catch (DbUpdateException ex) {
+                    String error = CheckHandleError(ex);
+                    if (error != null) {
+                        ModelState.AddModelError("flash.error", error);
+                        return View(item);
+                    } else {
+                        throw;
+                    }
                 }
                 return RedirectToAction("Index");
             }
@@ -69,6 +77,14 @@ namespace TestPolicyServer.Quickstart.MVC {
                 } catch (DbUpdateConcurrencyException) {
                     if (!(await ScopeExistsAsync(id))) {
                         return NotFound();
+                    } else {
+                        throw;
+                    }
+                } catch (DbUpdateException ex) {
+                    String error = CheckHandleError(ex);
+                    if (error != null) {
+                        ModelState.AddModelError("flash.error", error);
+                        return View(item);
                     } else {
                         throw;
                     }
@@ -103,8 +119,9 @@ namespace TestPolicyServer.Quickstart.MVC {
                 } catch (DbUpdateException ex) {
                     String error = CheckHandleError(ex);
                     if (error != null) {
-                        //TODO(demarco): I want to show a flash message wgen comming back from this showing the error message
-                        return BadRequest(error);
+                        ModelState.AddModelError("flash.error", error);
+                        TempData["flash.error"] = error;
+                        return RedirectToAction("index");
                     } else {
                         throw;
                     }
@@ -204,22 +221,7 @@ namespace TestPolicyServer.Quickstart.MVC {
         private async Task<Boolean> ScopeExistsAsync(Guid id) => (await _scopeStore.GetAsync(id)) != null;
 
         private String CheckHandleError(Exception ex) {
-            //TODO(demarco): We want to generalise this behavior.... autoload injection and check automatically (maybe all activated first then disable some)
-            DbUpdateException dbUpdateEx = ex as DbUpdateException;
-            SqlException sqlEx = dbUpdateEx?.InnerException as SqlException;
-            if (sqlEx != null) {
-                if (sqlEx.Number == SqlErrorDeleteReferenceConstraint.SqlServerErrorNumber) {
-
-                    String valError = SqlErrorDeleteReferenceConstraint.Formatter(sqlEx, dbUpdateEx.Entries);
-                    if (valError != null) {
-                        //TODO(demarco): I want to show a flash message wgen comming back from this showing the error message
-                        ModelState.AddModelError("refDelete", valError);
-                        return valError;
-                    }
-                    //else check for other SQL errors
-                }
-            }
-            return null;
+            return SqlErrorManager.Instance.FormatError(ex);
         }
     }
 }

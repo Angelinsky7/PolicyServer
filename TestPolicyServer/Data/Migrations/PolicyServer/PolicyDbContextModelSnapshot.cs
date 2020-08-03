@@ -15,7 +15,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -353,6 +353,9 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Permission");
 
                     b.HasDiscriminator<string>("PermissionType").HasValue("Permission");
@@ -384,13 +387,16 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
 
                     b.Property<string>("PolicyType")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("Updated")
                         .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name", "PolicyType")
+                        .IsUnique();
 
                     b.ToTable("Policy");
 
@@ -486,6 +492,9 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Role");
                 });
 
@@ -520,6 +529,9 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Scope");
                 });
@@ -626,7 +638,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                     b.Property<string>("ResouceType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ResourceId")
+                    b.Property<Guid?>("ResourceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasIndex("ResourceId");
@@ -748,7 +760,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicyClient", b =>
                 {
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.ClientPolicy", "ClientPolicy")
-                        .WithMany("Users")
+                        .WithMany("Clients")
                         .HasForeignKey("ClientPolicyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -951,8 +963,7 @@ namespace TestPolicyServer.Data.Migrations.PolicyServer
                     b.HasOne("PolicyServer1.EntityFramework.Storage.Entities.Resource", "Resource")
                         .WithMany()
                         .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("PolicyServer1.EntityFramework.Storage.Entities.ScopePermission", b =>

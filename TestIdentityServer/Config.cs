@@ -17,9 +17,13 @@ namespace IdentityServerAspNetIdentity {
             };
         }
 
-        public static IEnumerable<ApiResource> GetApis() {
+        public static IEnumerable<ApiResource> GetApiResources() {
             return new ApiResource[] {
-                new ApiResource("api1", "My API"),
+                new ApiResource("api1", "My API") {
+                    Scopes = {
+                        "api1"
+                    }
+                },
                 new ApiResource("policy", "Policy Server", new [] {
                     IdentityModel.JwtClaimTypes.Id,
                     IdentityModel.JwtClaimTypes.Subject,
@@ -28,7 +32,14 @@ namespace IdentityServerAspNetIdentity {
                     IdentityModel.JwtClaimTypes.Name,
                     IdentityModel.JwtClaimTypes.Scope,
                     IdentityModel.JwtClaimTypes.Role
-                }),
+                }){
+                    Scopes = {
+                        "policy"
+                    },
+                    ApiSecrets = {
+                        new Secret("secret".Sha256())
+                    }
+                },
                 new ApiResource("policy-admin", "Policy Server Administration panel", new [] {
                     IdentityModel.JwtClaimTypes.Id,
                     IdentityModel.JwtClaimTypes.Subject,
@@ -37,7 +48,37 @@ namespace IdentityServerAspNetIdentity {
                     IdentityModel.JwtClaimTypes.Name,
                     IdentityModel.JwtClaimTypes.Scope,
                     IdentityModel.JwtClaimTypes.Role
-                })
+                }){
+                    Scopes = {
+                        "policy-admin"
+                    }
+                }
+            };
+        }
+
+        public static IEnumerable<ApiScope> GetApiScopes() {
+            return new List<ApiScope> {
+                new ApiScope("api1", "My read API"),
+                new ApiScope("policy", "My Policy manage"),
+                new ApiScope("policy-admin", "My Policy admin"),
+                //new ApiScope("policy", "Policy Server", new [] {
+                //    IdentityModel.JwtClaimTypes.Id,
+                //    IdentityModel.JwtClaimTypes.Subject,
+                //    IdentityModel.JwtClaimTypes.Profile,
+                //    IdentityModel.JwtClaimTypes.Email,
+                //    IdentityModel.JwtClaimTypes.Name,
+                //    IdentityModel.JwtClaimTypes.Scope,
+                //    IdentityModel.JwtClaimTypes.Role
+                //}),
+                //new ApiScope("policy-admin", "Policy Server Administration panel", new [] {
+                //    IdentityModel.JwtClaimTypes.Id,
+                //    IdentityModel.JwtClaimTypes.Subject,
+                //    IdentityModel.JwtClaimTypes.Profile,
+                //    IdentityModel.JwtClaimTypes.Email,
+                //    IdentityModel.JwtClaimTypes.Name,
+                //    IdentityModel.JwtClaimTypes.Scope,
+                //    IdentityModel.JwtClaimTypes.Role
+                //})
             };
         }
 
@@ -62,8 +103,14 @@ namespace IdentityServerAspNetIdentity {
                 new Client {
                     ClientId = "mvc",
                     ClientName = "MVC Client",
+
                     //AllowedGrantTypes = GrantTypes.Code, 
-                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    //AllowedGrantTypes = GrantTypes.Hybrid,
+                    //AllowedGrantTypes = GrantTypes.Code,
+                    AllowedGrantTypes = {
+                        GrantType.AuthorizationCode,
+                        GrantType.ClientCredentials
+                    },
                     //AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
                     ClientSecrets = {
                         new Secret("secret".Sha256())
@@ -79,6 +126,9 @@ namespace IdentityServerAspNetIdentity {
                         //CustomScopes.Scope
                     },
                     AllowOfflineAccess = true,
+                    RequirePkce = true,
+                    //AccessTokenType = AccessTokenType.Jwt,
+                    AccessTokenType = AccessTokenType.Reference
                     
                     //TODO(demarco): please remove this in prod
                     //RequireConsent = false
@@ -87,8 +137,12 @@ namespace IdentityServerAspNetIdentity {
                 new Client {
                     ClientId = "policy",
                     ClientName = "Policy Client",
-                    //AllowedGrantTypes = GrantTypes.Code, 
-                    AllowedGrantTypes = GrantTypes.Hybrid,
+
+                    AllowedGrantTypes = {
+                        GrantType.AuthorizationCode,
+                        GrantType.ClientCredentials,
+                    },
+                    //AllowedGrantTypes = GrantTypes.Hybrid,
                     //AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
                     ClientSecrets = {
                         new Secret("secret".Sha256())
@@ -103,6 +157,8 @@ namespace IdentityServerAspNetIdentity {
                         //CustomScopes.Scope
                     },
                     AllowOfflineAccess = true,
+                    //AccessTokenType = AccessTokenType.Jwt
+                    AccessTokenType = AccessTokenType.Reference
 
                     //TODO(demarco): please remove this in prod
                     //RequireConsent = false

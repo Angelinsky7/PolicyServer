@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using IdentityModel;
+using IdentityModel.AspNetCore.AccessTokenValidation;
+using IdentityModel.AspNetCore.OAuth2Introspection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -59,15 +61,23 @@ namespace TestPolicyServer {
                 opt.DefaultScheme = "Bearer";
                 //opt.DefaultScheme = "Cookies";
                 opt.DefaultChallengeScheme = "oidc";
+                //opt.DefaultChallengeScheme = OAuth2IntrospectionDefaults.AuthenticationScheme;
             })
                 .AddJwtBearer("Bearer", opt => {
                     opt.Authority = "http://localhost:5000";
                     opt.RequireHttpsMetadata = false;
                     opt.Audience = "policy";
+                    opt.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+                    opt.ForwardDefaultSelector = Selector.ForwardReferenceToken("introspection");
                 })
                 .AddCookie("Cookies", opt => {
                     opt.Cookie.Name = "client-policy-admin";
                     //opt.Cookie.Domain = "localhost.policy-admin"; 
+                })
+                .AddOAuth2Introspection("introspection", opt => {
+                    opt.Authority = "http://localhost:5000";
+                    opt.ClientId = "policy";
+                    opt.ClientSecret = "secret";
                 })
                 .AddOpenIdConnect("oidc", opt => {
                     opt.SignInScheme = "Cookies";
@@ -77,7 +87,9 @@ namespace TestPolicyServer {
 
                     opt.ClientId = "policy";
                     opt.ClientSecret = "secret";
-                    opt.ResponseType = "code id_token";
+                    //opt.ResponseType = "code id_token";
+                    opt.ResponseType = "code";
+                    opt.UsePkce = true;
 
                     opt.SaveTokens = true;
                     opt.GetClaimsFromUserInfoEndpoint = true;
@@ -87,6 +99,7 @@ namespace TestPolicyServer {
                     //opt.Scope.Add("api1");
                     opt.Scope.Add("policy-admin");
                     opt.Scope.Add("offline_access");
+
                     //opt.ClaimActions.MapJsonKey("website", "website");
                     //opt.ClaimActions.MapJsonKey(CustomClaimTypes.Permission, CustomClaimTypes.Permission);
 
@@ -114,8 +127,8 @@ namespace TestPolicyServer {
             //);
 
             if (false) {
-                services.AddPolicyServer(opt => {
-                }).AddInMemoryPolicies(Config.GetClients());
+                //services.AddPolicyServer(opt => {
+                //}).AddInMemoryPolicies(Config.GetClients());
             } else {
                 services.AddPolicyServer(opt => { })
                     .AddConfigurationStore(opt => {

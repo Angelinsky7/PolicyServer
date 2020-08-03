@@ -17,6 +17,8 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
                 scope.ToTable(storeOptions.Scope);
                 scope.HasKey(p => p.Id);
 
+                scope.HasIndex(p => p.Name).IsUnique(true);
+
                 scope.Property(p => p.Id).ValueGeneratedNever();
                 scope.Property(p => p.Name).HasMaxLength(200).IsRequired();
                 scope.Property(p => p.DisplayName).HasMaxLength(200).IsRequired();
@@ -30,6 +32,8 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
             modelBuilder.Entity<Role>(role => {
                 role.ToTable(storeOptions.Role);
                 role.HasKey(p => p.Id);
+
+                role.HasIndex(p => p.Name).IsUnique(true);
 
                 role.Property(p => p.Id).ValueGeneratedNever();
                 role.Property(p => p.Name).HasMaxLength(200).IsRequired();
@@ -72,6 +76,9 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
                     .HasValue<RolePolicy>(nameof(RolePolicy))
                     .HasValue<TimePolicy>(nameof(TimePolicy))
                     .HasValue<UserPolicy>(nameof(UserPolicy));
+
+                policy.HasIndex(nameof(Policy.Name), "PolicyType").IsUnique(true);
+
             });
 
             modelBuilder.Entity<RolePolicy>(rolePolicy => {
@@ -149,7 +156,7 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
                 resource.ToTable(storeOptions.Resource);
                 resource.HasKey(p => p.Id);
 
-                resource.HasIndex(p => p.Name).IsUnique();
+                resource.HasIndex(p => p.Name).IsUnique(true);
 
                 resource.Property(p => p.Id).ValueGeneratedNever();
                 resource.Property(p => p.Name).HasMaxLength(200).IsRequired();
@@ -202,6 +209,8 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
             modelBuilder.Entity<Permission>(permission => {
                 permission.ToTable(storeOptions.Permission);
                 permission.HasKey(p => p.Id);
+
+                permission.HasIndex(p => p.Name).IsUnique(true);
 
                 permission.Property(p => p.Id).ValueGeneratedNever();
                 permission.Property(p => p.Name).HasMaxLength(200).IsRequired();

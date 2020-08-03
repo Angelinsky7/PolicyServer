@@ -5,7 +5,7 @@
 using System;
 using IdentityServerAspNetIdentity.Data;
 using IdentityServerAspNetIdentity.Models;
-using IdentityServerAspNetIdentity.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -25,6 +25,8 @@ namespace IdentityServerAspNetIdentity {
         }
 
         public void ConfigureServices(IServiceCollection services) {
+            services.AddControllersWithViews();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 //options.UseSqlite(Configuration.GetConnectionString("SQlServerConnection")));
                 options.UseSqlServer(Configuration.GetConnectionString("SQlServerConnection")));
@@ -33,26 +35,27 @@ namespace IdentityServerAspNetIdentity {
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddControllersWithViews();
-
-            services.Configure<IISOptions>(iis => {
-                iis.AuthenticationDisplayName = "Windows";
-                iis.AutomaticAuthentication = false;
-            });
+            //services.Configure<IISOptions>(iis => {
+            //    iis.AuthenticationDisplayName = "Windows";
+            //    iis.AutomaticAuthentication = false;
+            //});
 
             IIdentityServerBuilder builder = services.AddIdentityServer(options => {
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
+                options.EmitStaticAudienceClaim = true;
+                //options.IssuerUri = "http://localhost:5000";
             })
 
                 //.AddConfigurationStore()
 
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApis())
+                .AddInMemoryApiScopes(Config.GetApiScopes())
+                .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
-                .AddAspNetIdentity<ApplicationUser>();
+                .AddAspNetIdentity<ApplicationUser>(); 
                 //.AddProfileService<CustomProfileService>();
 
             if (Environment.IsDevelopment()) {
@@ -61,7 +64,12 @@ namespace IdentityServerAspNetIdentity {
                 throw new Exception("need to configure key material");
             }
 
-            //services.AddAuthentication()
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //    .AddCookie("Cookies", opt => {
+            //        opt.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
+            //    });
+
+            services.AddAuthentication();
             //    .AddGoogle(options => {
             //        // register your IdentityServer with Google at https://console.developers.google.com
             //        // enable the Google+ API
@@ -85,13 +93,15 @@ namespace IdentityServerAspNetIdentity {
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseIdentityServer();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {
-                endpoints.MapDefaultControllerRoute();
+                endpoints
+                    .MapDefaultControllerRoute()
+                    .RequireAuthorization();
             });
 
         }

@@ -1,0 +1,10 @@
+﻿@if (!ViewData.ModelState.IsValid && ViewData.ModelState["flash.error"].Errors.Count > 0) {
+	<div id="flash-error" class="border border-red-800 m-2 mb-6 px-4 py-2 text-sm text-white bg-red-500">
+		@ViewData.ModelState["flash.error"].Errors.First().ErrorMessage
+	</div>
+}
+@if (TempData.ContainsKey("flash.error")) {
+	<div id="flash-error" class="border border-red-800 m-2 mb-6 px-4 py-2 text-sm text-white bg-red-500">
+		@TempData["flash.error"]
+	</div>
+}
