@@ -1,7 +1,7 @@
 ﻿@model DropdownModel
 
 <div class="relative"
-	 x-data="dropdown()"
+	 x-data="policyServer1.dropdown()"
 	 x-on:click.away="close()"
 	 x-on:custom-event.window="console.log($event.detail); $event.detail === 'dropdown.action.close' ? close() : ''">
 	<!-- Template of button -->

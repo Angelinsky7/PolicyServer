@@ -46,7 +46,7 @@ function createModal(modal_content, container) {
     }, container)
 }
 
-window.modal = function () {
+window.policyServer1.modal = function () {
     var el;
 
     return {

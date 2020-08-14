@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using AutoMapper.QueryableExtensions;
 
 namespace PolicyServer1.EntityFramework.Storage.Mappers {

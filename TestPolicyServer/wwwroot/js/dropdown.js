@@ -1,4 +1,4 @@
-﻿window.dropdown = function () {
+﻿window.policyServer1.dropdown = function () {
     return {
         show: false,
         toggle() { this.show = !this.show; },

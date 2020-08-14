@@ -1,23 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using PolicyServer1.EntityFramework.Storage.Entities;
 
 namespace PolicyServer1.EntityFramework.Storage.Mappers {
     public static class PermissionMappers {
         internal static IMapper Mapper { get; }
 
-        static PermissionMappers() => Mapper = new MapperConfiguration(cfg => cfg.AddProfile<PermissionMapperProfile>()).CreateMapper();
+        static PermissionMappers() => Mapper = new MapperConfiguration(cfg => {
+            cfg.AddProfile<PolicyMapperProfile>();
+            cfg.AddProfile<PermissionMapperProfile>();
+        }).CreateMapper();
 
-        //TODO(demarco): Rebuild this after the changes !
         public static Models.Permission ToModel(this Entities.Permission entity) => Mapper.Map<Models.Permission>(entity);
         public static Entities.Permission ToEntity(this Models.Permission model) => Mapper.Map<Entities.Permission>(model);
-        //public static Entities.Permission ToEntity(this Models.PolicyPermission model, Entities.Permission entity) {
-        //    return Mapper.Map(model, entity);
-        //}
+        public static IQueryable<Models.Permission> ToModel(this IQueryable<Entities.Permission> source) => source.ProjectTo<Models.Permission>(Mapper.ConfigurationProvider);
+        public static void UpdateEntity(this Models.Permission model, Entities.Permission entity) => Mapper.Map(model, entity);
     }
-
+     
     public class PermissionMapperProfile : Profile {
         public PermissionMapperProfile() {
 

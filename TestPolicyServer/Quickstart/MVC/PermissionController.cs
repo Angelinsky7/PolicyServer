@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PolicyServer1.Models;
@@ -16,43 +15,41 @@ namespace TestPolicyServer.Quickstart.MVC {
 
     //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     [Authorize(AuthenticationSchemes = "oidc")]
-    public class ScopeController : Controller {
+    public class PermissionController : Controller {
 
-        private readonly IScopeStore _scopeStore;
+        private readonly IPermissionStore _permissionStore;
 
-        public ScopeController(IScopeStore scopeStore) => _scopeStore = scopeStore;
+        public PermissionController(IPermissionStore scopeStore) => _permissionStore = scopeStore;
 
-        public async Task<IActionResult> Index(ListViewModel viewModel) => View("Index", await BuildViewModelAsync(viewModel));
+        public async Task<IActionResult> Index(ListViewModel viewModel) {
+            return View("Index", await BuildViewModelAsync(viewModel));
+        }
 
         public IActionResult Create() {
-            Scope item = new Scope();
+            //TODO(demarco): We need to decide how we do this... inheritance questionn.
+            //               The problem is that permission is abstract and must stay like that
+            //               So we need to either create 2 Create entry point, 2 Controller or to have viewModel to handle all possibilites
+
+            Permission item = null; // new Permission();
             return View(item);
         }
 
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePostAsync([Bind("Id,Name,DisplayName,IconUri")] Scope item) {
+        public async Task<IActionResult> CreatePostAsync([Bind("Id,Name,DisplayName,Type,Uris,Scopes,IconUri")] Permission item) {
             //if (id != movie.ID) {
             //    return NotFound();
             //}
 
             if (ModelState.IsValid) {
                 try {
-                    Guid guid = await _scopeStore.CreateAsync(item);
+                    Guid guid = await _permissionStore.CreateAsync(item);
                 } catch (DbUpdateConcurrencyException) {
                     //if (!(await ScopeExistsAsync(guid))) {
                     //    return NotFound();
                     //} else {
                     throw;
                     //}
-                } catch (DbUpdateException ex) {
-                    String error = CheckHandleError(ex);
-                    if (error != null) {
-                        ModelState.AddModelError("flash.error", error);
-                        return View(item);
-                    } else {
-                        throw;
-                    }
                 }
                 return RedirectToAction("Index");
             }
@@ -61,30 +58,22 @@ namespace TestPolicyServer.Quickstart.MVC {
 
         public async Task<IActionResult> EditAsync(Guid id) {
             if (id == null) { return NotFound(); }
-            Scope item = await _scopeStore.GetAsync(id);
+            Permission item = await _permissionStore.GetAsync(id);
             if (item == null) { return NotFound(); }
             return View(item);
         }
 
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPostAsync(Guid id, [Bind("Id,Name,DisplayName,IconUri")] Scope item) {
+        public async Task<IActionResult> EditPostAsync(Guid id, [Bind("Id,Name,DisplayName,Type,Uris,Scopes,IconUri")] Permission item) {
             if (id != item.Id) { return NotFound(); }
 
             if (ModelState.IsValid) {
                 try {
-                    await _scopeStore.UpdateAsync(id, item);
+                    await _permissionStore.UpdateAsync(id, item);
                 } catch (DbUpdateConcurrencyException) {
-                    if (!(await ScopeExistsAsync(id))) {
+                    if (!(await PermissionExistsAsync(id))) {
                         return NotFound();
-                    } else {
-                        throw;
-                    }
-                } catch (DbUpdateException ex) {
-                    String error = CheckHandleError(ex);
-                    if (error != null) {
-                        ModelState.AddModelError("flash.error", error);
-                        return View(item);
                     } else {
                         throw;
                     }
@@ -94,10 +83,10 @@ namespace TestPolicyServer.Quickstart.MVC {
             return View(item);
         }
 
-        [ViewLayoutModal("~/Views/Shared/_Modal.cshtml", Title = "Suppression d'un Scope", OkButton = "Delete")]
+        [ViewLayoutModal("~/Views/Shared/_Modal.cshtml", Title = "Suppression d'une Permission", OkButton = "Delete")]
         public async Task<IActionResult> DeleteAsync(Guid id) {
             if (id == null) { return NotFound(); }
-            Scope item = await _scopeStore.GetAsync(id);
+            Permission item = await _permissionStore.GetAsync(id);
             if (item == null) { return NotFound(); }
             return View(item);
         }
@@ -109,19 +98,10 @@ namespace TestPolicyServer.Quickstart.MVC {
 
             if (ModelState.IsValid) {
                 try {
-                    await _scopeStore.RemoveAsync(id);
+                    await _permissionStore.RemoveAsync(id);
                 } catch (DbUpdateConcurrencyException) {
-                    if (!(await ScopeExistsAsync(id))) {
+                    if (!(await PermissionExistsAsync(id))) {
                         return NotFound();
-                    } else {
-                        throw;
-                    }
-                } catch (DbUpdateException ex) {
-                    String error = CheckHandleError(ex);
-                    if (error != null) {
-                        ModelState.AddModelError("flash.error", error);
-                        TempData["flash.error"] = error;
-                        return RedirectToAction("index");
                     } else {
                         throw;
                     }
@@ -129,16 +109,16 @@ namespace TestPolicyServer.Quickstart.MVC {
                 return RedirectToAction("Index");
             }
 
-            Scope item = await _scopeStore.GetAsync(id);
+            Permission item = await _permissionStore.GetAsync(id);
             return View(item);
         }
 
-        [ViewLayoutModal("~/Views/Shared/_Modal.cshtml", Title = "Suppression de plusieurs Scopes", OkButton = "Delete")]
+        [ViewLayoutModal("~/Views/Shared/_Modal.cshtml", Title = "Suppression de plusieurs Permissions", OkButton = "Delete")]
         public async Task<IActionResult> DeleteMultipleAsync([FromQuery] Guid[] guid) {
             if (guid == null) { return NotFound(); }
-            List<Scope> items = new List<Scope>();
+            List<Permission> items = new List<Permission>();
             foreach (Guid id in guid) {
-                Scope item = await _scopeStore.GetAsync(id);
+                Permission item = await _permissionStore.GetAsync(id);
                 if (item == null) { return NotFound(); }
                 items.Add(item);
             }
@@ -153,11 +133,11 @@ namespace TestPolicyServer.Quickstart.MVC {
             if (ModelState.IsValid) {
                 try {
                     foreach (Guid id in guid) {
-                        await _scopeStore.RemoveAsync(id);
+                        await _permissionStore.RemoveAsync(id);
                     }
                 } catch (DbUpdateConcurrencyException) {
                     foreach (Guid id in guid) {
-                        if (!(await ScopeExistsAsync(id))) {
+                        if (!(await PermissionExistsAsync(id))) {
                             return NotFound();
                         } else {
                             throw;
@@ -168,9 +148,9 @@ namespace TestPolicyServer.Quickstart.MVC {
             }
 
             {
-                List<Scope> items = new List<Scope>();
+                List<Permission> items = new List<Permission>();
                 foreach (Guid id in guid) {
-                    Scope item = await _scopeStore.GetAsync(id);
+                    Permission item = await _permissionStore.GetAsync(id);
                     if (item == null) { return NotFound(); }
                     items.Add(item);
                 }
@@ -178,8 +158,8 @@ namespace TestPolicyServer.Quickstart.MVC {
             }
         }
 
-        private async Task<ScopesViewModel> BuildViewModelAsync(ListViewModel viewModel) {
-            IQueryable<Scope> query = _scopeStore.Query();
+        private async Task<PermissionsViewModel> BuildViewModelAsync(ListViewModel viewModel) {
+            IQueryable<Permission> query = _permissionStore.Query();
 
             switch (viewModel.SortOrder) {
                 case "name_desc":
@@ -192,36 +172,33 @@ namespace TestPolicyServer.Quickstart.MVC {
 
             if (!String.IsNullOrEmpty(viewModel.SearchString)) {
                 String upperSearchString = viewModel.SearchString.ToUpper();
-                query = query.Where(p => p.Name.ToUpper().Contains(upperSearchString) || p.DisplayName.ToUpper().Contains(upperSearchString));
+                query = query.Where(p => p.Name.ToUpper().Contains(upperSearchString));
             }
 
             Int32 countTotal = query.Count();
-
+             
             Int32 itemsToSkip = (viewModel.CurrentPage - 1) * viewModel.PageSize;
             query = query.Skip(itemsToSkip).Take(viewModel.PageSize);
 
-            List<Scope> scopes = await query.ToListAsync();
+            List<Permission> permissions = await query.ToListAsync();
 
-            List<Scope> list = new List<Scope>();
-            foreach (Scope scope in scopes) {
-                list.Add(scope);
+            List<Permission> list = new List<Permission>();
+            foreach (Permission permission in permissions) {
+                list.Add(permission);
             }
 
-            return new ScopesViewModel {
+            return new PermissionsViewModel {
                 Count = list.Count,
                 TotalItems = countTotal,
                 CurrentPage = viewModel.CurrentPage,
                 PageSize = viewModel.PageSize,
                 SortOrder = viewModel.SortOrder,
                 SearchString = viewModel.SearchString,
-                Scopes = list
+                Permissions = list
             };
         }
 
-        private async Task<Boolean> ScopeExistsAsync(Guid id) => (await _scopeStore.GetAsync(id)) != null;
+        private async Task<Boolean> PermissionExistsAsync(Guid id) => (await _permissionStore.GetAsync(id)) != null;
 
-        private String CheckHandleError(Exception ex) {
-            return SqlErrorManager.Instance.FormatError(ex);
-        }
     }
 }

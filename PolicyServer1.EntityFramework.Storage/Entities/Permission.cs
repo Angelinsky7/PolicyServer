@@ -4,7 +4,9 @@ using System.Text;
 using PolicyServer1.Models;
 
 namespace PolicyServer1.EntityFramework.Storage.Entities {
-    public abstract class Permission {
+
+    //TODO(demarco): Should be abstract
+    public class Permission {
 
         public Guid Id { get; set; } = Guid.NewGuid();
 
@@ -19,5 +21,5 @@ namespace PolicyServer1.EntityFramework.Storage.Entities {
         public DateTime? Updated { get; set; }
         public DateTime? LastAccessed { get; set; }
 
-    }
+    } 
 }

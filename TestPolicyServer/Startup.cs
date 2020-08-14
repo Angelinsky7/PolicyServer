@@ -145,6 +145,7 @@ namespace TestPolicyServer {
 
             if (env.IsDevelopment()) {
                 //app.InitializeDatabase();
+                
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
             }

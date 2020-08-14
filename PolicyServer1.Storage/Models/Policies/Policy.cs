@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace PolicyServer1.Models {
 
-    public abstract class Policy {
+    //TODO(demarco): Should be abstract
+    public class Policy {
 
         public Guid Id { get; set; } = Guid.NewGuid();
         public String Name { get; set; }
@@ -23,6 +24,6 @@ namespace PolicyServer1.Models {
             return Task.FromResult(request.Result);
         }
 
-    }
+    } 
 
 }

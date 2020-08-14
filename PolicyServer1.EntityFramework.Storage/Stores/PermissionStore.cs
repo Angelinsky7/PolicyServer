@@ -15,93 +15,109 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
     public class PermissionStore : IPermissionStore {
 
         private readonly IPolicyDbContext _context;
+        private readonly IPolicyStore _policyStore;
         private readonly ILogger _logger;
 
         public PermissionStore(
             IPolicyDbContext context,
-            ILogger<PolicyStore> logger
+            IPolicyStore policyStore,
+            ILogger<PermissionStore> logger
         ) {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _policyStore = policyStore;
             _logger = logger;
         }
 
-        public Task<Guid> CreateAsync(Permission item) {
-            throw new NotImplementedException();
+        public async Task<Guid> CreateAsync(Permission item) {
+            Entities.Permission entity = item.ToEntity();
+
+            _context.MarkEntitesAsDetached<Entities.Policy>();
+
+            _context.Permissions.Add(entity);
+
+            _context.MarkEntitesAsUnchanged<Entities.Policy>();
+
+            try {
+                await _context.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException ex) {
+                _logger.LogInformation($"exception adding {entity} to database: {ex.Message}");
+            }
+
+            return entity.Id;
+        }
+        public async Task<Permission> GetAsync(Guid id) {
+            Entities.Permission entity = await _context.Permissions
+                .Include(p => p.Policies)
+                    .ThenInclude(p => p.Policy)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(p => p.Id == id);
+
+            if (entity == null) {
+                _logger.LogInformation($"entity with id {id} was not found");
+                //throw new EntityNotFoundException(nameof(Trail), id);
+                return null;
+            }
+
+            return entity.ToModel();
+        }
+        public IQueryable<Permission> Query() => _context.Permissions.AsNoTracking().ToModel();
+        public async Task RemoveAsync(Guid id) {
+            Entities.Permission entity = await _context.Permissions
+                .Include(p => p.Policies)
+                    .ThenInclude(p => p.Policy)
+                .SingleOrDefaultAsync(p => p.Id == id);
+
+            if (entity == null) {
+                _logger.LogInformation($"entity with id {id} was not found");
+                //throw new EntityNotFoundException(nameof(Trail), id);
+            }
+
+            _context.Permissions.Remove(entity);
+
+            try {
+                await _context.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException ex) {
+                _logger.LogInformation($"exception removing {entity} to database: {ex.Message}");
+            }
+        }
+        public async Task UpdateAsync(Guid id, Permission item) {
+            Entities.Permission entity = await _context.Permissions
+                .Include(p => p.Policies)
+                    .ThenInclude(p => p.Policy)
+                .SingleOrDefaultAsync(p => p.Id == id);
+
+            if (entity == null) {
+                _logger.LogInformation($"entity with id {id} was not found");
+                //throw new EntityNotFoundException(nameof(Trail), id);
+            }
+
+            _context.MarkEntitesAsUnchanged<Entities.Policy>();
+
+            item.UpdateEntity(entity);
+
+            await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.Policy>();
+
+            try {
+                await _context.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException ex) {
+                _logger.LogInformation($"exception updating {item} to database: {ex.Message}");
+            }
         }
 
-        public Task<Permission> GetAsync(Guid id) {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<Permission> Query() {
-            throw new NotImplementedException();
-        }
-
-        public Task<Permission> GetByNameAsync(String name) {
-            throw new NotImplementedException();
-        }
-
-        public Task RemoveAsync(Guid id) {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(Guid id, Permission item) {
-            throw new NotImplementedException();
-        }
-
-        //public async Task<PolicyPermission> GetAsync((Int32 policyId, Int32 permissionId) key) {
-        //    return await GetPermissionAsync(key, p => p.PolicyId == key.policyId && p.Id == key.permissionId);
-        //}
-
-        //public async Task<PolicyPermission> GetByNameAsync(Int32 policyId, String permissionName) {
-        //    return await GetPermissionAsync(policyId, p => p.PolicyId == policyId && p.Name == permissionName);
-        //}
-
-        //private async Task<PolicyPermission> GetPermissionAsync(Object key, Expression<Func<Entities.Permission, Boolean>> predicate) {
-        //    Entities.Permission permission = await _context.Permissions
-        //        .Include(p => p.Policy)
+        //public Task<Permission> GetByNameAsync(String name) {
+        //    Entities.Permission entity = await _context.Permissions
+        //        .Include(p => p.Policies)
+        //            .ThenInclude(p => p.Policy)
         //        .AsNoTracking()
-        //        .FirstOrDefaultAsync(predicate);
+        //        .SingleOrDefaultAsync(p => p.Name == name);
 
-        //    Models.PolicyPermission model = permission?.ToModel();
+        //    if (entity == null) {
+        //        _logger.LogInformation($"entity with id {id} was not found");
+        //        //throw new EntityNotFoundException(nameof(Trail), id);
+        //        return null;
+        //    }
 
-        //    _logger.LogDebug($"{key} found in database: {model != null}");
-
-        //    return model;
-        //}
-
-        //public async Task<Int32> CreateAsync(PolicyPermission newPermission) {
-        //    Entities.Permission model = newPermission.ToEntity();
-
-        //    _context.Permissions.Add(model);
-
-        //    await _context.SaveChangesAsync();
-
-        //    return model.Id;
-        //}
-
-        //public async Task UpdateAsync((Int32 policyId, Int32 permissionId) key, PolicyPermission permission) {
-        //    if (key.policyId != permission.PolicyId || key.permissionId != permission.Id) { throw new ArgumentException(nameof(permission)); }
-
-        //    Entities.Permission model = await _context.Permissions
-        //        .SingleOrDefaultAsync(p => p.PolicyId == key.policyId &&
-        //                                   p.Id == key.permissionId);
-        //    model = permission.ToEntity(model);
-        //    model.Updated = DateTime.UtcNow;
-
-        //    await _context.SaveChangesAsync();
-        //}
-
-        //public async Task RemoveAsync((Int32 policyId, Int32 permissionId) key) {
-        //    Entities.Permission model = await _context.Permissions
-        //        .SingleOrDefaultAsync(p => p.PolicyId == key.policyId &&
-        //                                   p.Id == key.policyId);
-
-        //    if (model == null) { throw new ArgumentException(nameof(model)); }
-
-        //    _context.Permissions.Remove(model);
-
-        //    await _context.SaveChangesAsync();
+        //    return entity.ToModel();
         //}
 
     }

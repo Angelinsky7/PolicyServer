@@ -26,48 +26,11 @@ namespace PolicyServer1.Stores {
             _validatorType = _validator.GetType().FullName;
         }
 
-        public Task<Guid> CreateAsync(Permission item) {
-            throw new NotImplementedException();
-        }
+        public Task<Guid> CreateAsync(Permission item) => _inner.CreateAsync(item);
+        public Task<Permission> GetAsync(Guid id) => _inner.GetAsync(id);
+        public IQueryable<Permission> Query() => _inner.Query();
+        public Task RemoveAsync(Guid id) => _inner.RemoveAsync(id);
+        public Task UpdateAsync(Guid id, Permission item) => _inner.UpdateAsync(id, item);
 
-        public Task<Permission> GetAsync(Guid id) {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<Permission> Query() {
-            throw new NotImplementedException();
-        }
-
-        public Task<Permission> GetByNameAsync(String name) {
-            throw new NotImplementedException();
-        }
-
-        public Task RemoveAsync(Guid id) {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(Guid id, Permission item) {
-            throw new NotImplementedException();
-        }
-
-        //public Task<Int32> CreateAsync(PolicyPermission newPermission) {
-        //    return _inner.CreateAsync(newPermission);
-        //}
-
-        //public Task<PolicyPermission> GetAsync((Int32 policyId, Int32 permissionId) key) {
-        //    return _inner.GetAsync(key);
-        //}
-
-        //public Task<PolicyPermission> GetByNameAsync(Int32 policyId, String permissionName) {
-        //    return _inner.GetByNameAsync(policyId, permissionName);
-        //}
-
-        //public Task RemoveAsync((Int32 policyId, Int32 permissionId) key) {
-        //    return _inner.RemoveAsync(key);
-        //}
-
-        //public Task UpdateAsync((Int32 policyId, Int32 permissionId) key, PolicyPermission permission) {
-        //    return _inner.UpdateAsync(key, permission);
-        //}
     }
 }

@@ -5,8 +5,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PolicyServer1.Models {
-    
-    public abstract class Permission {
+
+    //TODO(demarco): Should be abstract
+    public class Permission {
 
         public Guid Id { get; set; } = Guid.NewGuid();
         public String Name { get; set; }

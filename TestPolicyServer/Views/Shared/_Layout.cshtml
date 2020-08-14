@@ -53,7 +53,7 @@
 						<div class="hidden sm:block sm:ml-6">
 							<div class="flex">
 								@if (User.Identity.IsAuthenticated) {
-									<a href="#" class="px-3 py-2 rounded-md text-sm font-medium leading-5 text-white focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
+									<a is-active-route asp-area="" asp-controller="Client" asp-action="Index"  class="px-3 py-2 rounded-md text-sm font-medium leading-5 text-white focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
 										Clients
 									</a>
 									<a is-active-route asp-area="" asp-controller="Resource" asp-action="Index" class="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
@@ -62,10 +62,10 @@
 									<a is-active-route asp-area="" asp-controller="Scope" asp-action="Index" class="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
 										Scopes
 									</a>
-									<a href="#" class="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
+									<a is-active-route asp-area="" asp-controller="Permission" asp-action="Index"  class="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
 										Permissions
 									</a>
-									<a href="#" class="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
+									<a is-active-route asp-area="" asp-controller="Role" asp-action="Index" class="ml-4 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
 										Roles
 									</a>
 								}

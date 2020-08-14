@@ -60,6 +60,9 @@ namespace TestPolicyServer {
                     }
                     context.SaveChanges();
                 }
+
+                //List<PolicyServer1.Models.Client> test = clientStore.Query().ToList();
+
             }
         }
 

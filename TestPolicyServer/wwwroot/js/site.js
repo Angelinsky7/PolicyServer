@@ -1,7 +1,9 @@
-﻿import './modal.js';
+﻿import './base.js';
+import './modal.js';
 import './dropdown.js';
+import './listController.js';
 
-window.helper = {
+window.policyServer1.helper = {
     getClosest(elem, selector) {
 
         if (!Element.prototype.matches) {

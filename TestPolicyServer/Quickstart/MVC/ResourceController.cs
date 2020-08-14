@@ -176,7 +176,7 @@ namespace TestPolicyServer.Quickstart.MVC {
             Int32 itemsToSkip = (viewModel.CurrentPage - 1) * viewModel.PageSize;
             query = query.Skip(itemsToSkip).Take(viewModel.PageSize);
 
-            List<Resource> scopes = await query.AsNoTracking().ToListAsync();
+            List<Resource> scopes = await query.ToListAsync();
 
             List<Resource> list = new List<Resource>();
             foreach (Resource scope in scopes) {
