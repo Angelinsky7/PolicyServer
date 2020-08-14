@@ -57,7 +57,7 @@ window.policyServer1.modal = function () {
             // $dispatch('custom-event', 'dropdown.action.close');
         },
         executeFormAction() {
-            var modal = window.helper.getClosest(this.el, ".modal");
+            var modal = policyServer1.helper.getClosest(this.el, ".modal");
             if (modal != null) {
                 var form = modal.querySelector("form#modalButton");
                 if (form != null) {
@@ -67,7 +67,7 @@ window.policyServer1.modal = function () {
             }
         },
         closeModal() {
-            var modal = window.helper.getClosest(this.el, ".modal");
+            var modal = policyServer1.helper.getClosest(this.el, ".modal");
             var modals = document.querySelector("#modals-container");
             if (modals != null && modal != null) {
                 modals.removeChild(modal);

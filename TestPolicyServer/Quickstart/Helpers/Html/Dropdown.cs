@@ -10,35 +10,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace TestPolicyServer.Quickstart {
     public static class DropdownHelpers {
 
-        public static async Task<IHtmlContent> DropdownAsync(this IHtmlHelper helper, Func<dynamic, IHtmlContent> templateButton, Func<Int32, IHtmlContent> templateContent) {
-
-            //return new HtmlString(tagBuilder.GetString());
-
-            //var listHtml = new HtmlContentBuilder();
-            //listHtml.AppendHtml("<ol><li>");
-            //listHtml.AppendHtml(helper.ActionLink("foo", "bar", "example"));
-            //listHtml.AppendHtml("</li></ol>");
-            //return listHtml;
-
+        public static async Task<IHtmlContent> DropdownAsync(this IHtmlHelper helper, Func<dynamic, IHtmlContent> templateButton, Func<Int32, IHtmlContent> templateContent, String buttonClass = "hover:bg-blue-600") {
             IHtmlContent content = await helper.PartialAsync("~/Views/Shared/Components/Dropdown/DefaultHelper.cshtml", new DropdownModel {
+                ButtonClass = buttonClass,
                 ButtonTemplate = templateButton(null).GetString(),
                 ContentTemplate = templateContent(1).GetString()
             });
             return content;
-
-            //var result = new HtmlContentBuilder();
-            //result.AppendHtml("<ul>");
-            //result.AppendHtml(new TagBuilder("div").InnerHtml.SetHtmlContent(template(null)));
-
-            //for (Int32 i = 0; i < 4; ++i) {
-            //    TagBuilder tagBuilder = new TagBuilder("span");
-            //    tagBuilder.AddCssClass($"test_{i}");
-            //    tagBuilder.InnerHtml.SetHtmlContent(template2(i));
-            //    result.AppendHtml(tagBuilder);
-            //}
-            //result.AppendHtml("</ul>");
-
-            //return result;
         }
 
     }

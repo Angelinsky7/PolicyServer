@@ -29,6 +29,8 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
         }
 
         public async Task<Guid> CreateAsync(Permission item) {
+            if (item.GetType() == typeof(Permission)) { throw new ArgumentException("Cannot insert an abstract permission."); }
+
             Entities.Permission entity = item.ToEntity();
 
             _context.MarkEntitesAsDetached<Entities.Policy>();
@@ -81,6 +83,8 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             }
         }
         public async Task UpdateAsync(Guid id, Permission item) {
+            if (item.GetType() == typeof(Permission)) { throw new ArgumentException("Cannot update an abstract permission."); }
+
             Entities.Permission entity = await _context.Permissions
                 .Include(p => p.Policies)
                     .ThenInclude(p => p.Policy)

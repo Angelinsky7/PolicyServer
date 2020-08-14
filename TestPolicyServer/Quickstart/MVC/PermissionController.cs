@@ -25,12 +25,17 @@ namespace TestPolicyServer.Quickstart.MVC {
             return View("Index", await BuildViewModelAsync(viewModel));
         }
 
-        public IActionResult Create() {
-            //TODO(demarco): We need to decide how we do this... inheritance questionn.
-            //               The problem is that permission is abstract and must stay like that
-            //               So we need to either create 2 Create entry point, 2 Controller or to have viewModel to handle all possibilites
+        //TODO(demarco): We need to decide how we do this... inheritance questionn.
+        //               The problem is that permission is abstract and must stay like that
+        //               So we need to either create 2 Create entry point, 2 Controller or to have viewModel to handle all possibilites
 
-            Permission item = null; // new Permission();
+        public IActionResult CreateResource() {
+            Permission item = new ResourcePermission();
+            return View(item);
+        }
+
+        public IActionResult CreateScope() {
+            Permission item = new ScopePermission();
             return View(item);
         }
 

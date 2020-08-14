@@ -5,9 +5,27 @@
 	<header class="flex">
 		<h2 class="text-xl font-semibold text-gray-800">Permissions</h2>
 		<span class="flex-auto"></span>
-		<a asp-action="Create" class="px-4 py-2 rounded-md bg-blue-800 text-white shadow-lg focus:outline-none focus:text-white focus:bg-gray-700 hover:bg-blue-600 transition duration-150 ease-in-out">
-			Add permission
-		</a>
+
+		@await Html.DropdownAsync(
+			@<text>
+				<div class="flex flex-row items-center px-4 py-2 rounded-md bg-blue-800 text-white shadow-lg focus:outline-none focus:text-white focus:bg-gray-700 hover:bg-blue-600 transition duration-150 ease-in-out">
+					<span class="mr-8">Add Permission</span>
+					<span class="flex-auto"></span>
+					<svg class="h-4 w-4">
+						<use xlink:href="#cheveron-down"></use>
+					</svg>
+				</div>
+			</text>,
+			@<text>
+				<a asp-action="CreateScope" class="dropdown-menu-item" role="menuitem">
+					<span>Create scope Permission</span>
+				</a>
+				<a asp-action="CreateResource" class="dropdown-menu-item" role="menuitem">
+					<span>Create resource Permission</span>
+				</a>
+			</text>,
+			null
+		)
 	</header>
 
 	<hr class="mt-2 mb-2" />
@@ -87,7 +105,7 @@
 								</text>,
 								@<text>
 									<a asp-action="Edit" asp-route-id="@scope.Id"
-										class="dropdown-menu-item" role="menuitem">
+										class="dropdown-menu-item w-48" role="menuitem">
 										<span>Edit</span>
 										<span class="flex-auto"></span>
 										<svg class="h-4 w-4">
@@ -95,7 +113,7 @@
 										</svg>
 									</a>
 									<a asp-action="Delete" asp-route-id="@scope.Id" data-remote="true" data-modal="true" data-close-dropdown="true" onclick="return false;"
-										class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out flex items-center" role="menuitem">
+										class="dropdown-menu-item w-48" role="menuitem">
 										<span>Delete</span>
 										<span class="flex-auto"></span>
 										<svg class="fill-current text-red-600 h-4 w-4">
