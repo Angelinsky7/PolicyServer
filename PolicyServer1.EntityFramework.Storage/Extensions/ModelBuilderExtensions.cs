@@ -254,6 +254,8 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
             });
 
             modelBuilder.Entity<ResourcePermission>(resourcePermission => {
+                resourcePermission.Property(p => p.ResouceType).HasMaxLength(200);
+
                 resourcePermission.HasOne(p => p.Resource).WithMany().HasForeignKey(p => p.ResourceId).IsRequired(false).OnDelete(DeleteBehavior.Cascade);
             });
 

@@ -1,4 +1,4 @@
-﻿@model PolicyServer1.Models.Permission
+﻿@model PolicyServer1.Models.ResourcePermission
 
 @{
 	ViewData["Title"] = "Edit";
@@ -11,16 +11,12 @@
 <hr />
 <div>
 	<div class="m-5">
-		<form asp-action="Create">
+		<form asp-action="CreateResource">
 			<div asp-validation-summary="ModelOnly" class="mt-2 text-sm text-red-800"></div>
 			<input type="hidden" asp-for="Id" />
 
 			<div class="mb-5">
-				<div class="mb-5">
-					<label asp-for="Name" class="font-bold mb-1 text-gray-700 block text-xs"></label>
-					<input asp-for="Name" class="w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium" />
-					<span asp-validation-for="Name" class="mt-2 text-sm text-red-800"></span>
-				</div>
+				<partial name="_FormResource" />
 			</div>
 			<div class="flex justify-end">
 				<a asp-action="Index" class="px-4 py-2 hover:text-white text-sm rounded-lg hover:bg-gray-800">Back to List</a>

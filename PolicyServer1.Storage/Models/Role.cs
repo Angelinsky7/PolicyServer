@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 
@@ -8,6 +9,10 @@ namespace PolicyServer1.Models {
     public class Role {
 
         public Guid Id { get; set; } = Guid.NewGuid();
+
+        [Required]
+        [StringLength(50, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 3)]
+        [Display(Name = "Name")]
         public String Name { get; set; }
         public String Description { get; set; }
 

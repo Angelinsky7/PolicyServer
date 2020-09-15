@@ -23,6 +23,7 @@ using Newtonsoft.Json.Serialization;
 using PolicyServer1.EntityFramework.Storage.Datas;
 using PolicyServer1.EntityFramework.Storage.Mappers;
 using TestPolicyServer;
+using TestPolicyServer.Quickstart.ModelBinderProviders;
 
 namespace TestPolicyServer {
     public class Startup {
@@ -44,8 +45,9 @@ namespace TestPolicyServer {
             //    })
             //    .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
 
-            services.AddControllersWithViews()
-                .AddRazorRuntimeCompilation();
+            services.AddControllersWithViews(opt => {
+                opt.ModelBinderProviders.Insert(0, new ResourceModelBinderProvider());
+            }).AddRazorRuntimeCompilation();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 

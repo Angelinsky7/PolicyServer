@@ -1,0 +1,21 @@
+﻿@model PolicyServer1.Models.ScopePermission
+
+<partial name="_FormPermission" />
+
+<div class="mb-5">
+	<label asp-for="Resource" class="font-bold mb-1 text-gray-700 block text-xs"></label>
+	<select name="Resource" asp-items="ViewBag.Resources" class="w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium">
+		<option>Select a resource or none</option>
+	</select>
+	<span asp-validation-for="Resource" class="mt-2 text-sm text-red-800"></span>
+</div>
+
+<div class="mb-5">
+	<label asp-for="Scopes" class="font-bold mb-1 text-gray-700 block text-xs"></label>
+	<select name="Scopes" asp-items="ViewBag.Scopes" class="w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium">
+		<option>Select a scope or none</option>
+	</select>
+	<span asp-validation-for="Scopes" class="mt-2 text-sm text-red-800"></span>
+</div>
+
+<div>Missing mulit select scopes here with dynamic render of available by resource....</div>

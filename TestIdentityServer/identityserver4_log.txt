@@ -22885,3 +22885,418 @@ Microsoft.AspNetCore.Server.Kestrel.Core.BadHttpRequestException: Unexpected end
 2020-08-14 17:31:56.762 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
 2020-08-14 17:31:56.762 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
 2020-08-14 17:31:56.763 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2020-09-07 11:39:38.024 +02:00 [INF] Starting IdentityServer4 version 4.0.4+1b36d1b414f4e0f965af97ab2a7e9dd1b5167bca
+2020-09-07 11:39:38.051 +02:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2020-09-07 11:39:38.056 +02:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2020-09-07 11:39:38.056 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2020-09-07 11:39:38.057 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2020-09-07 11:39:38.057 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2020-09-07 11:39:38.057 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2020-09-07 11:39:38.058 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2020-09-07 11:40:06.625 +02:00 [DBG] Login Url: /Account/Login
+2020-09-07 11:40:06.627 +02:00 [DBG] Login Return Url Parameter: ReturnUrl
+2020-09-07 11:40:06.629 +02:00 [DBG] Logout Url: /Account/Logout
+2020-09-07 11:40:06.629 +02:00 [DBG] ConsentUrl Url: /consent
+2020-09-07 11:40:06.629 +02:00 [DBG] Consent Return Url Parameter: returnUrl
+2020-09-07 11:40:06.630 +02:00 [DBG] Error Url: /home/error
+2020-09-07 11:40:06.631 +02:00 [DBG] Error Id Parameter: errorId
+2020-09-07 11:40:06.644 +02:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2020-09-07 11:40:06.756 +02:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2020-09-07 11:40:06.758 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2020-09-07 11:40:06.760 +02:00 [DBG] Start discovery request
+2020-09-07 11:40:06.975 +02:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2020-09-07 11:40:06.977 +02:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2020-09-07 11:40:06.979 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2020-09-07 11:40:06.980 +02:00 [DBG] Start key discovery request
+2020-09-07 11:40:07.045 +02:00 [DBG] Request path /connect/authorize matched to endpoint type Authorize
+2020-09-07 11:40:07.052 +02:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeEndpoint
+2020-09-07 11:40:07.053 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeEndpoint for /connect/authorize
+2020-09-07 11:40:07.055 +02:00 [DBG] Start authorize request
+2020-09-07 11:40:07.064 +02:00 [DBG] No user present in authorize request
+2020-09-07 11:40:07.066 +02:00 [DBG] Start authorize request protocol validation
+2020-09-07 11:40:07.075 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-07 11:40:07.084 +02:00 [DBG] Checking for PKCE parameters
+2020-09-07 11:40:07.097 +02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2020-09-07 11:40:07.109 +02:00 [DBG] ValidatedAuthorizeRequest
+{"ClientId":"policy","ClientName":"Policy Client","RedirectUri":"http://localhost:5001/signin-oidc","AllowedRedirectUris":["http://localhost:5001/signin-oidc"],"SubjectId":"anonymous","ResponseType":"code","ResponseMode":"form_post","GrantType":"authorization_code","RequestedScopes":"openid profile policy-admin offline_access","State":"CfDJ8G1oOiNGuS1EqrOJhPR2KQO9l1rWzGIxX83NeucGkMpRTwW0g5algR2SfuJasf0pDsCb_-UpiE4ULsKv6VdG8G2qrn2piGfaAJbDhormc-LyRK4B_97zgQliXTCBwiEOqo0fF55PH9bQSzevdUNbOzezAZV6pEa4o2XFo5YyfK4pGGS_YYweI1o6SEbXxTK5wfaEMSphlM9cHTUtOmKLMZGM5D2cEuRJU2uig5jXe4QH0RremJNmRrUKuEVD42Za-PEsKo71uGE903xrKhMVzC-GvnLLSmYJfrUXClZeudjHb_qEHMrpyywdoTC_4h0_ZmViHEIVAxYZIZVV12C70Jt2iW1OPJCsdFZ0OnLQZtH19i07vfRQ23Rzzu-t3CTZ5A","UiLocales":null,"Nonce":"637350684070265498.ZjExOTRhMWQtZDdmYi00ZGFlLTk2MDgtNDc4ZDliNjIxMTc4ZDVkODJlMzktZTIxNS00ODJjLTk2NGEtZTMxYzdjNmU4MzY5","AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":"","MaxAge":null,"LoginHint":null,"SessionId":"","Raw":{"client_id":"policy","redirect_uri":"http://localhost:5001/signin-oidc","response_type":"code","scope":"openid profile policy-admin offline_access","code_challenge":"eGh67STyn7PVxp_zIm6WQtZsUwM1laIBqy3IEf865c8","code_challenge_method":"S256","response_mode":"form_post","nonce":"637350684070265498.ZjExOTRhMWQtZDdmYi00ZGFlLTk2MDgtNDc4ZDliNjIxMTc4ZDVkODJlMzktZTIxNS00ODJjLTk2NGEtZTMxYzdjNmU4MzY5","state":"CfDJ8G1oOiNGuS1EqrOJhPR2KQO9l1rWzGIxX83NeucGkMpRTwW0g5algR2SfuJasf0pDsCb_-UpiE4ULsKv6VdG8G2qrn2piGfaAJbDhormc-LyRK4B_97zgQliXTCBwiEOqo0fF55PH9bQSzevdUNbOzezAZV6pEa4o2XFo5YyfK4pGGS_YYweI1o6SEbXxTK5wfaEMSphlM9cHTUtOmKLMZGM5D2cEuRJU2uig5jXe4QH0RremJNmRrUKuEVD42Za-PEsKo71uGE903xrKhMVzC-GvnLLSmYJfrUXClZeudjHb_qEHMrpyywdoTC_4h0_ZmViHEIVAxYZIZVV12C70Jt2iW1OPJCsdFZ0OnLQZtH19i07vfRQ23Rzzu-t3CTZ5A","x-client-SKU":"ID_NETSTANDARD2_0","x-client-ver":"5.5.0.0"},"$type":"AuthorizeRequestValidationLog"}
+2020-09-07 11:40:07.127 +02:00 [INF] Showing login: User is not authenticated
+2020-09-07 11:40:07.184 +02:00 [DBG] Start authorize request protocol validation
+2020-09-07 11:40:07.185 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-07 11:40:07.186 +02:00 [DBG] Checking for PKCE parameters
+2020-09-07 11:40:07.187 +02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2020-09-07 11:40:07.189 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-07 11:40:10.728 +02:00 [DBG] Start authorize request protocol validation
+2020-09-07 11:40:10.729 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-07 11:40:10.732 +02:00 [DBG] Checking for PKCE parameters
+2020-09-07 11:40:10.732 +02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2020-09-07 11:40:10.736 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-07 11:40:13.402 +02:00 [DBG] Start authorize request protocol validation
+2020-09-07 11:40:13.403 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-07 11:40:13.405 +02:00 [DBG] Checking for PKCE parameters
+2020-09-07 11:40:13.406 +02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2020-09-07 11:40:13.407 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-07 11:40:15.163 +02:00 [DBG] CORS request made for path: /Account/Login from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2020-09-07 11:40:15.638 +02:00 [DBG] Start authorize request protocol validation
+2020-09-07 11:40:15.639 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-07 11:40:15.643 +02:00 [DBG] Checking for PKCE parameters
+2020-09-07 11:40:15.644 +02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2020-09-07 11:40:26.607 +02:00 [DBG] Augmenting SignInContext
+2020-09-07 11:40:26.609 +02:00 [DBG] Adding idp claim with value: local
+2020-09-07 11:40:26.610 +02:00 [DBG] Adding auth_time claim with value: 1599471626
+2020-09-07 11:40:26.622 +02:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2020-09-07 11:40:26.642 +02:00 [INF] {"Username":"alice","Provider":null,"ProviderUserId":null,"SubjectId":"8210ed18-f346-4781-a53e-d5741c17981c","DisplayName":"alice","Endpoint":"UI","ClientId":"policy","Category":"Authentication","Name":"User Login Success","EventType":"Success","Id":1000,"Message":null,"ActivityId":"0HM2J27V8J7BC:00000007","TimeStamp":"2020-09-07T09:40:26.0000000Z","ProcessId":1856,"LocalIpAddress":"::1:5000","RemoteIpAddress":"::1","$type":"UserLoginSuccessEvent"}
+2020-09-07 11:40:26.669 +02:00 [DBG] Request path /connect/authorize/callback matched to endpoint type Authorize
+2020-09-07 11:40:26.671 +02:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint
+2020-09-07 11:40:26.672 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint for /connect/authorize/callback
+2020-09-07 11:40:26.675 +02:00 [DBG] Start authorize callback request
+2020-09-07 11:40:26.678 +02:00 [DBG] User in authorize request: 8210ed18-f346-4781-a53e-d5741c17981c
+2020-09-07 11:40:26.678 +02:00 [DBG] Start authorize request protocol validation
+2020-09-07 11:40:26.681 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-07 11:40:26.682 +02:00 [DBG] Checking for PKCE parameters
+2020-09-07 11:40:26.683 +02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2020-09-07 11:40:26.685 +02:00 [DBG] ValidatedAuthorizeRequest
+{"ClientId":"policy","ClientName":"Policy Client","RedirectUri":"http://localhost:5001/signin-oidc","AllowedRedirectUris":["http://localhost:5001/signin-oidc"],"SubjectId":"8210ed18-f346-4781-a53e-d5741c17981c","ResponseType":"code","ResponseMode":"form_post","GrantType":"authorization_code","RequestedScopes":"openid profile policy-admin offline_access","State":"CfDJ8G1oOiNGuS1EqrOJhPR2KQO9l1rWzGIxX83NeucGkMpRTwW0g5algR2SfuJasf0pDsCb_-UpiE4ULsKv6VdG8G2qrn2piGfaAJbDhormc-LyRK4B_97zgQliXTCBwiEOqo0fF55PH9bQSzevdUNbOzezAZV6pEa4o2XFo5YyfK4pGGS_YYweI1o6SEbXxTK5wfaEMSphlM9cHTUtOmKLMZGM5D2cEuRJU2uig5jXe4QH0RremJNmRrUKuEVD42Za-PEsKo71uGE903xrKhMVzC-GvnLLSmYJfrUXClZeudjHb_qEHMrpyywdoTC_4h0_ZmViHEIVAxYZIZVV12C70Jt2iW1OPJCsdFZ0OnLQZtH19i07vfRQ23Rzzu-t3CTZ5A","UiLocales":null,"Nonce":"637350684070265498.ZjExOTRhMWQtZDdmYi00ZGFlLTk2MDgtNDc4ZDliNjIxMTc4ZDVkODJlMzktZTIxNS00ODJjLTk2NGEtZTMxYzdjNmU4MzY5","AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":"","MaxAge":null,"LoginHint":null,"SessionId":"3244E6DAA9E26796502C4891E1B9E3C7","Raw":{"client_id":"policy","redirect_uri":"http://localhost:5001/signin-oidc","response_type":"code","scope":"openid profile policy-admin offline_access","code_challenge":"eGh67STyn7PVxp_zIm6WQtZsUwM1laIBqy3IEf865c8","code_challenge_method":"S256","response_mode":"form_post","nonce":"637350684070265498.ZjExOTRhMWQtZDdmYi00ZGFlLTk2MDgtNDc4ZDliNjIxMTc4ZDVkODJlMzktZTIxNS00ODJjLTk2NGEtZTMxYzdjNmU4MzY5","state":"CfDJ8G1oOiNGuS1EqrOJhPR2KQO9l1rWzGIxX83NeucGkMpRTwW0g5algR2SfuJasf0pDsCb_-UpiE4ULsKv6VdG8G2qrn2piGfaAJbDhormc-LyRK4B_97zgQliXTCBwiEOqo0fF55PH9bQSzevdUNbOzezAZV6pEa4o2XFo5YyfK4pGGS_YYweI1o6SEbXxTK5wfaEMSphlM9cHTUtOmKLMZGM5D2cEuRJU2uig5jXe4QH0RremJNmRrUKuEVD42Za-PEsKo71uGE903xrKhMVzC-GvnLLSmYJfrUXClZeudjHb_qEHMrpyywdoTC_4h0_ZmViHEIVAxYZIZVV12C70Jt2iW1OPJCsdFZ0OnLQZtH19i07vfRQ23Rzzu-t3CTZ5A","x-client-SKU":"ID_NETSTANDARD2_0","x-client-ver":"5.5.0.0"},"$type":"AuthorizeRequestValidationLog"}
+2020-09-07 11:40:26.777 +02:00 [DBG] Client is configured to not require consent, no consent is required
+2020-09-07 11:40:26.781 +02:00 [DBG] Creating Authorization Code Flow response.
+2020-09-07 11:40:26.897 +02:00 [INF] {"ClientId":"policy","ClientName":"Policy Client","RedirectUri":"http://localhost:5001/signin-oidc","Endpoint":"Authorize","SubjectId":"8210ed18-f346-4781-a53e-d5741c17981c","Scopes":"openid profile policy-admin offline_access","GrantType":"authorization_code","Tokens":[{"TokenType":"code","TokenValue":"****3F68","$type":"Token"}],"Category":"Token","Name":"Token Issued Success","EventType":"Success","Id":2000,"Message":null,"ActivityId":"0HM2J27V8J7BC:00000008","TimeStamp":"2020-09-07T09:40:26.0000000Z","ProcessId":1856,"LocalIpAddress":"::1:5000","RemoteIpAddress":"::1","$type":"TokenIssuedSuccessEvent"}
+2020-09-07 11:40:26.903 +02:00 [DBG] Authorize endpoint response
+{"SubjectId":"8210ed18-f346-4781-a53e-d5741c17981c","ClientId":"policy","RedirectUri":"http://localhost:5001/signin-oidc","State":"CfDJ8G1oOiNGuS1EqrOJhPR2KQO9l1rWzGIxX83NeucGkMpRTwW0g5algR2SfuJasf0pDsCb_-UpiE4ULsKv6VdG8G2qrn2piGfaAJbDhormc-LyRK4B_97zgQliXTCBwiEOqo0fF55PH9bQSzevdUNbOzezAZV6pEa4o2XFo5YyfK4pGGS_YYweI1o6SEbXxTK5wfaEMSphlM9cHTUtOmKLMZGM5D2cEuRJU2uig5jXe4QH0RremJNmRrUKuEVD42Za-PEsKo71uGE903xrKhMVzC-GvnLLSmYJfrUXClZeudjHb_qEHMrpyywdoTC_4h0_ZmViHEIVAxYZIZVV12C70Jt2iW1OPJCsdFZ0OnLQZtH19i07vfRQ23Rzzu-t3CTZ5A","Scope":"openid profile policy-admin offline_access","Error":null,"ErrorDescription":null,"$type":"AuthorizeResponseLog"}
+2020-09-07 11:40:26.911 +02:00 [DBG] Augmenting SignInContext
+2020-09-07 11:40:26.912 +02:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2020-09-07 11:40:27.019 +02:00 [DBG] Request path /connect/token matched to endpoint type Token
+2020-09-07 11:40:27.023 +02:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2020-09-07 11:40:27.024 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2020-09-07 11:40:27.028 +02:00 [DBG] Start token request.
+2020-09-07 11:40:27.029 +02:00 [DBG] Start client validation
+2020-09-07 11:40:27.036 +02:00 [DBG] Start parsing Basic Authentication secret
+2020-09-07 11:40:27.038 +02:00 [DBG] Start parsing for secret in post body
+2020-09-07 11:40:27.038 +02:00 [DBG] Parser found secret: PostBodySecretParser
+2020-09-07 11:40:27.039 +02:00 [DBG] Secret id found: policy
+2020-09-07 11:40:27.041 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-07 11:40:27.052 +02:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2020-09-07 11:40:27.053 +02:00 [DBG] Client validation success
+2020-09-07 11:40:27.054 +02:00 [INF] {"ClientId":"policy","AuthenticationMethod":"SharedSecret","Category":"Authentication","Name":"Client Authentication Success","EventType":"Success","Id":1010,"Message":null,"ActivityId":"0HM2J27V8J7BB:00000003","TimeStamp":"2020-09-07T09:40:27.0000000Z","ProcessId":1856,"LocalIpAddress":"::1:5000","RemoteIpAddress":"::1","$type":"ClientAuthenticationSuccessEvent"}
+2020-09-07 11:40:27.058 +02:00 [DBG] Start token request validation
+2020-09-07 11:40:27.062 +02:00 [DBG] Start validation of authorization code token request
+2020-09-07 11:40:27.094 +02:00 [DBG] Client required a proof key for code exchange. Starting PKCE validation
+2020-09-07 11:40:27.110 +02:00 [DBG] Validation of authorization code token request success
+2020-09-07 11:40:27.113 +02:00 [INF] Token request validation success, {"ClientId":"policy","ClientName":"Policy Client","GrantType":"authorization_code","Scopes":null,"AuthorizationCode":"132AE64E49FE17D29355B8B6EB516BA5E62266C9B29CCF619002336C402A3F68","RefreshToken":null,"UserName":null,"AuthenticationContextReferenceClasses":null,"Tenant":null,"IdP":null,"Raw":{"client_id":"policy","client_secret":"***REDACTED***","code":"132AE64E49FE17D29355B8B6EB516BA5E62266C9B29CCF619002336C402A3F68","grant_type":"authorization_code","redirect_uri":"http://localhost:5001/signin-oidc","code_verifier":"4YpjSPI9s2zuvcjwdTpk3-QdAsOSx8jWaqrLHdWl7E4"},"$type":"TokenRequestValidationLog"}
+2020-09-07 11:40:27.129 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-07 11:40:27.141 +02:00 [DBG] Getting claims for access token for client: policy
+2020-09-07 11:40:27.142 +02:00 [DBG] Getting claims for access token for subject: 8210ed18-f346-4781-a53e-d5741c17981c
+2020-09-07 11:40:27.197 +02:00 [DBG] Creating refresh token
+2020-09-07 11:40:27.197 +02:00 [DBG] Setting an absolute lifetime: 2592000
+2020-09-07 11:40:27.204 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-07 11:40:27.210 +02:00 [DBG] Getting claims for identity token for subject: 8210ed18-f346-4781-a53e-d5741c17981c and client: policy
+2020-09-07 11:40:27.211 +02:00 [DBG] In addition to an id_token, an access_token was requested. No claims other than sub are included in the id_token. To obtain more user claims, either use the user info endpoint or set AlwaysIncludeUserClaimsInIdToken on the client configuration.
+2020-09-07 11:40:27.297 +02:00 [INF] {"ClientId":"policy","ClientName":"Policy Client","RedirectUri":null,"Endpoint":"Token","SubjectId":"8210ed18-f346-4781-a53e-d5741c17981c","Scopes":"openid profile policy-admin offline_access","GrantType":"authorization_code","Tokens":[{"TokenType":"id_token","TokenValue":"****Rv3A","$type":"Token"},{"TokenType":"refresh_token","TokenValue":"****2155","$type":"Token"},{"TokenType":"access_token","TokenValue":"****4FC3","$type":"Token"}],"Category":"Token","Name":"Token Issued Success","EventType":"Success","Id":2000,"Message":null,"ActivityId":"0HM2J27V8J7BB:00000003","TimeStamp":"2020-09-07T09:40:27.0000000Z","ProcessId":1856,"LocalIpAddress":"::1:5000","RemoteIpAddress":"::1","$type":"TokenIssuedSuccessEvent"}
+2020-09-07 11:40:27.306 +02:00 [DBG] Token request success.
+2020-09-07 11:40:27.584 +02:00 [DBG] Request path /connect/userinfo matched to endpoint type Userinfo
+2020-09-07 11:40:27.589 +02:00 [DBG] Endpoint enabled: Userinfo, successfully created handler: IdentityServer4.Endpoints.UserInfoEndpoint
+2020-09-07 11:40:27.590 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.UserInfoEndpoint for /connect/userinfo
+2020-09-07 11:40:27.592 +02:00 [DBG] Start userinfo request
+2020-09-07 11:40:27.594 +02:00 [DBG] Bearer token found in header
+2020-09-07 11:40:27.605 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-07 11:40:27.609 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-07 11:40:27.616 +02:00 [DBG] Calling into custom token validator: IdentityServer4.Validation.DefaultCustomTokenValidator
+2020-09-07 11:40:27.618 +02:00 [DBG] Token validation success
+{"ClientId":null,"ClientName":null,"ValidateLifetime":true,"AccessTokenType":"Reference","ExpectedScope":"openid","TokenHandle":"697453D9338146E899580387413801B8EE3A1F00C4F51B189CE6B77C085D4FC3","JwtId":null,"Claims":{"iss":"http://localhost:5000","nbf":1599471627,"exp":1599475227,"aud":["policy-admin","http://localhost:5000/resources"],"client_id":"policy","scope":["openid","profile","policy-admin","offline_access"],"sub":"8210ed18-f346-4781-a53e-d5741c17981c","auth_time":1599471626,"idp":"local","amr":"pwd","name":"Alice Smith","email":"AliceSmith@email.com","role":["Administrator","User"],"jti":"5EA0DB8321DE30106FAC5AC40F7B6509","sid":"3244E6DAA9E26796502C4891E1B9E3C7","iat":1599471627},"$type":"TokenValidationLog"}
+2020-09-07 11:40:27.624 +02:00 [DBG] Creating userinfo response
+2020-09-07 11:40:27.627 +02:00 [DBG] Scopes in access token: openid profile policy-admin offline_access
+2020-09-07 11:40:27.629 +02:00 [DBG] Requested claim types: sub name family_name given_name middle_name nickname preferred_username profile picture website gender birthdate zoneinfo locale updated_at
+2020-09-07 11:40:27.654 +02:00 [INF] Profile service returned the following claim types: sub given_name name family_name website preferred_username
+2020-09-07 11:40:27.655 +02:00 [DBG] End userinfo request
+2020-09-07 11:44:31.179 +02:00 [INF] Starting IdentityServer4 version 4.0.4+1b36d1b414f4e0f965af97ab2a7e9dd1b5167bca
+2020-09-07 11:44:31.233 +02:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2020-09-07 11:44:31.249 +02:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2020-09-07 11:44:31.250 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2020-09-07 11:44:31.250 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2020-09-07 11:44:31.255 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2020-09-07 11:44:31.257 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2020-09-07 11:44:31.258 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2020-09-07 11:56:53.558 +02:00 [INF] Starting IdentityServer4 version 4.0.4+1b36d1b414f4e0f965af97ab2a7e9dd1b5167bca
+2020-09-07 11:56:53.586 +02:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2020-09-07 11:56:53.590 +02:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2020-09-07 11:56:53.590 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2020-09-07 11:56:53.591 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2020-09-07 11:56:53.591 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2020-09-07 11:56:53.591 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2020-09-07 11:56:53.591 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2020-09-07 17:04:33.447 +02:00 [INF] Starting IdentityServer4 version 4.0.4+1b36d1b414f4e0f965af97ab2a7e9dd1b5167bca
+2020-09-07 17:04:33.474 +02:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2020-09-07 17:04:33.479 +02:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2020-09-07 17:04:33.480 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2020-09-07 17:04:33.480 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2020-09-07 17:04:33.480 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2020-09-07 17:04:33.480 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2020-09-07 17:04:33.481 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2020-09-08 15:33:45.834 +02:00 [INF] Starting IdentityServer4 version 4.0.4+1b36d1b414f4e0f965af97ab2a7e9dd1b5167bca
+2020-09-08 15:33:45.865 +02:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2020-09-08 15:33:45.869 +02:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2020-09-08 15:33:45.870 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2020-09-08 15:33:45.870 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2020-09-08 15:33:45.871 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2020-09-08 15:33:45.871 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2020-09-08 15:33:45.871 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2020-09-08 15:34:20.378 +02:00 [DBG] Login Url: /Account/Login
+2020-09-08 15:34:20.379 +02:00 [DBG] Login Return Url Parameter: ReturnUrl
+2020-09-08 15:34:20.380 +02:00 [DBG] Logout Url: /Account/Logout
+2020-09-08 15:34:20.381 +02:00 [DBG] ConsentUrl Url: /consent
+2020-09-08 15:34:20.381 +02:00 [DBG] Consent Return Url Parameter: returnUrl
+2020-09-08 15:34:20.381 +02:00 [DBG] Error Url: /home/error
+2020-09-08 15:34:20.382 +02:00 [DBG] Error Id Parameter: errorId
+2020-09-08 15:34:25.565 +02:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2020-09-08 15:34:25.670 +02:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2020-09-08 15:34:25.672 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2020-09-08 15:34:25.675 +02:00 [DBG] Start discovery request
+2020-09-08 15:34:25.975 +02:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2020-09-08 15:34:25.978 +02:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2020-09-08 15:34:25.978 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2020-09-08 15:34:25.980 +02:00 [DBG] Start key discovery request
+2020-09-08 15:34:26.041 +02:00 [DBG] Request path /connect/authorize matched to endpoint type Authorize
+2020-09-08 15:34:26.046 +02:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeEndpoint
+2020-09-08 15:34:26.046 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeEndpoint for /connect/authorize
+2020-09-08 15:34:26.048 +02:00 [DBG] Start authorize request
+2020-09-08 15:34:26.052 +02:00 [DBG] No user present in authorize request
+2020-09-08 15:34:26.053 +02:00 [DBG] Start authorize request protocol validation
+2020-09-08 15:34:26.061 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-08 15:34:26.068 +02:00 [DBG] Checking for PKCE parameters
+2020-09-08 15:34:26.082 +02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2020-09-08 15:34:26.092 +02:00 [DBG] ValidatedAuthorizeRequest
+{"ClientId":"policy","ClientName":"Policy Client","RedirectUri":"http://localhost:5001/signin-oidc","AllowedRedirectUris":["http://localhost:5001/signin-oidc"],"SubjectId":"anonymous","ResponseType":"code","ResponseMode":"form_post","GrantType":"authorization_code","RequestedScopes":"openid profile policy-admin offline_access","State":"CfDJ8G1oOiNGuS1EqrOJhPR2KQO3dDSE1o3-BzwhEykDnUU3hw_6rBH6NeEehnH3WQXqpnVwOhjp1sNKB_qhwrUxEfT0rwuXXGoNWuLiwOcnmysjZmY4Jo_wOVCO7pCZ8oNUWimKiIW0iwVpbF4zNyXcnTxAlHmyKWvN1NoTRj5EWRob-FTpcJcN-7E_00itoMeuBNArpvZbRgUQyGwCbEydhC-TnWTijDM5D_Mdl-wOvRgWq9yc7ShPjB_h5GvP5NLClLyV-Y7PI2RWs125xqy36traij0qPzjG7g9u0c87md-nKsAVk0oL3JZUexT_OMQPhzB40ckGdeKb_KnV-8MWVpX95wyxwoTfEayxzAQgMcr8KEg43Xw3sQ2goKxBC_6Qog","UiLocales":null,"Nonce":"637351688660196989.ZDAzYjEyODMtOTgyNi00NmQ3LThhYzItYzgwZWJkNmQ4NzY3OTgzYmNjY2UtYjdjMS00Nzk3LWJjM2MtNzc5NWM1MDU3MzE5","AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":"","MaxAge":null,"LoginHint":null,"SessionId":"","Raw":{"client_id":"policy","redirect_uri":"http://localhost:5001/signin-oidc","response_type":"code","scope":"openid profile policy-admin offline_access","code_challenge":"ejZ0iBrBRbdRsIEyhkftIJ50QTyoOrt4yv7uQSA24oc","code_challenge_method":"S256","response_mode":"form_post","nonce":"637351688660196989.ZDAzYjEyODMtOTgyNi00NmQ3LThhYzItYzgwZWJkNmQ4NzY3OTgzYmNjY2UtYjdjMS00Nzk3LWJjM2MtNzc5NWM1MDU3MzE5","state":"CfDJ8G1oOiNGuS1EqrOJhPR2KQO3dDSE1o3-BzwhEykDnUU3hw_6rBH6NeEehnH3WQXqpnVwOhjp1sNKB_qhwrUxEfT0rwuXXGoNWuLiwOcnmysjZmY4Jo_wOVCO7pCZ8oNUWimKiIW0iwVpbF4zNyXcnTxAlHmyKWvN1NoTRj5EWRob-FTpcJcN-7E_00itoMeuBNArpvZbRgUQyGwCbEydhC-TnWTijDM5D_Mdl-wOvRgWq9yc7ShPjB_h5GvP5NLClLyV-Y7PI2RWs125xqy36traij0qPzjG7g9u0c87md-nKsAVk0oL3JZUexT_OMQPhzB40ckGdeKb_KnV-8MWVpX95wyxwoTfEayxzAQgMcr8KEg43Xw3sQ2goKxBC_6Qog","x-client-SKU":"ID_NETSTANDARD2_0","x-client-ver":"5.5.0.0"},"$type":"AuthorizeRequestValidationLog"}
+2020-09-08 15:34:26.107 +02:00 [INF] Showing login: User is not authenticated
+2020-09-08 15:34:26.223 +02:00 [DBG] Start authorize request protocol validation
+2020-09-08 15:34:26.224 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-08 15:34:26.226 +02:00 [DBG] Checking for PKCE parameters
+2020-09-08 15:34:26.228 +02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2020-09-08 15:34:26.230 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-08 15:34:32.207 +02:00 [DBG] CORS request made for path: /Account/Login from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2020-09-08 15:34:32.250 +02:00 [DBG] Start authorize request protocol validation
+2020-09-08 15:34:32.250 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-08 15:34:32.252 +02:00 [DBG] Checking for PKCE parameters
+2020-09-08 15:34:32.253 +02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2020-09-08 15:34:35.338 +02:00 [DBG] Augmenting SignInContext
+2020-09-08 15:34:35.340 +02:00 [DBG] Adding idp claim with value: local
+2020-09-08 15:34:35.342 +02:00 [DBG] Adding auth_time claim with value: 1599572075
+2020-09-08 15:34:35.352 +02:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2020-09-08 15:34:35.363 +02:00 [INF] {"Username":"alice","Provider":null,"ProviderUserId":null,"SubjectId":"8210ed18-f346-4781-a53e-d5741c17981c","DisplayName":"alice","Endpoint":"UI","ClientId":"policy","Category":"Authentication","Name":"User Login Success","EventType":"Success","Id":1000,"Message":null,"ActivityId":"0HM2JVFHMQPR5:00000005","TimeStamp":"2020-09-08T13:34:35.0000000Z","ProcessId":20404,"LocalIpAddress":"::1:5000","RemoteIpAddress":"::1","$type":"UserLoginSuccessEvent"}
+2020-09-08 15:34:35.382 +02:00 [DBG] Request path /connect/authorize/callback matched to endpoint type Authorize
+2020-09-08 15:34:35.383 +02:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint
+2020-09-08 15:34:35.384 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint for /connect/authorize/callback
+2020-09-08 15:34:35.387 +02:00 [DBG] Start authorize callback request
+2020-09-08 15:34:35.390 +02:00 [DBG] User in authorize request: 8210ed18-f346-4781-a53e-d5741c17981c
+2020-09-08 15:34:35.391 +02:00 [DBG] Start authorize request protocol validation
+2020-09-08 15:34:35.393 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-08 15:34:35.394 +02:00 [DBG] Checking for PKCE parameters
+2020-09-08 15:34:35.394 +02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2020-09-08 15:34:35.395 +02:00 [DBG] ValidatedAuthorizeRequest
+{"ClientId":"policy","ClientName":"Policy Client","RedirectUri":"http://localhost:5001/signin-oidc","AllowedRedirectUris":["http://localhost:5001/signin-oidc"],"SubjectId":"8210ed18-f346-4781-a53e-d5741c17981c","ResponseType":"code","ResponseMode":"form_post","GrantType":"authorization_code","RequestedScopes":"openid profile policy-admin offline_access","State":"CfDJ8G1oOiNGuS1EqrOJhPR2KQO3dDSE1o3-BzwhEykDnUU3hw_6rBH6NeEehnH3WQXqpnVwOhjp1sNKB_qhwrUxEfT0rwuXXGoNWuLiwOcnmysjZmY4Jo_wOVCO7pCZ8oNUWimKiIW0iwVpbF4zNyXcnTxAlHmyKWvN1NoTRj5EWRob-FTpcJcN-7E_00itoMeuBNArpvZbRgUQyGwCbEydhC-TnWTijDM5D_Mdl-wOvRgWq9yc7ShPjB_h5GvP5NLClLyV-Y7PI2RWs125xqy36traij0qPzjG7g9u0c87md-nKsAVk0oL3JZUexT_OMQPhzB40ckGdeKb_KnV-8MWVpX95wyxwoTfEayxzAQgMcr8KEg43Xw3sQ2goKxBC_6Qog","UiLocales":null,"Nonce":"637351688660196989.ZDAzYjEyODMtOTgyNi00NmQ3LThhYzItYzgwZWJkNmQ4NzY3OTgzYmNjY2UtYjdjMS00Nzk3LWJjM2MtNzc5NWM1MDU3MzE5","AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":"","MaxAge":null,"LoginHint":null,"SessionId":"42842CD63FF06C0EDD30270873D2BC4B","Raw":{"client_id":"policy","redirect_uri":"http://localhost:5001/signin-oidc","response_type":"code","scope":"openid profile policy-admin offline_access","code_challenge":"ejZ0iBrBRbdRsIEyhkftIJ50QTyoOrt4yv7uQSA24oc","code_challenge_method":"S256","response_mode":"form_post","nonce":"637351688660196989.ZDAzYjEyODMtOTgyNi00NmQ3LThhYzItYzgwZWJkNmQ4NzY3OTgzYmNjY2UtYjdjMS00Nzk3LWJjM2MtNzc5NWM1MDU3MzE5","state":"CfDJ8G1oOiNGuS1EqrOJhPR2KQO3dDSE1o3-BzwhEykDnUU3hw_6rBH6NeEehnH3WQXqpnVwOhjp1sNKB_qhwrUxEfT0rwuXXGoNWuLiwOcnmysjZmY4Jo_wOVCO7pCZ8oNUWimKiIW0iwVpbF4zNyXcnTxAlHmyKWvN1NoTRj5EWRob-FTpcJcN-7E_00itoMeuBNArpvZbRgUQyGwCbEydhC-TnWTijDM5D_Mdl-wOvRgWq9yc7ShPjB_h5GvP5NLClLyV-Y7PI2RWs125xqy36traij0qPzjG7g9u0c87md-nKsAVk0oL3JZUexT_OMQPhzB40ckGdeKb_KnV-8MWVpX95wyxwoTfEayxzAQgMcr8KEg43Xw3sQ2goKxBC_6Qog","x-client-SKU":"ID_NETSTANDARD2_0","x-client-ver":"5.5.0.0"},"$type":"AuthorizeRequestValidationLog"}
+2020-09-08 15:34:35.443 +02:00 [DBG] Client is configured to not require consent, no consent is required
+2020-09-08 15:34:35.445 +02:00 [DBG] Creating Authorization Code Flow response.
+2020-09-08 15:34:35.497 +02:00 [INF] {"ClientId":"policy","ClientName":"Policy Client","RedirectUri":"http://localhost:5001/signin-oidc","Endpoint":"Authorize","SubjectId":"8210ed18-f346-4781-a53e-d5741c17981c","Scopes":"openid profile policy-admin offline_access","GrantType":"authorization_code","Tokens":[{"TokenType":"code","TokenValue":"****8C8D","$type":"Token"}],"Category":"Token","Name":"Token Issued Success","EventType":"Success","Id":2000,"Message":null,"ActivityId":"0HM2JVFHMQPR5:00000006","TimeStamp":"2020-09-08T13:34:35.0000000Z","ProcessId":20404,"LocalIpAddress":"::1:5000","RemoteIpAddress":"::1","$type":"TokenIssuedSuccessEvent"}
+2020-09-08 15:34:35.502 +02:00 [DBG] Authorize endpoint response
+{"SubjectId":"8210ed18-f346-4781-a53e-d5741c17981c","ClientId":"policy","RedirectUri":"http://localhost:5001/signin-oidc","State":"CfDJ8G1oOiNGuS1EqrOJhPR2KQO3dDSE1o3-BzwhEykDnUU3hw_6rBH6NeEehnH3WQXqpnVwOhjp1sNKB_qhwrUxEfT0rwuXXGoNWuLiwOcnmysjZmY4Jo_wOVCO7pCZ8oNUWimKiIW0iwVpbF4zNyXcnTxAlHmyKWvN1NoTRj5EWRob-FTpcJcN-7E_00itoMeuBNArpvZbRgUQyGwCbEydhC-TnWTijDM5D_Mdl-wOvRgWq9yc7ShPjB_h5GvP5NLClLyV-Y7PI2RWs125xqy36traij0qPzjG7g9u0c87md-nKsAVk0oL3JZUexT_OMQPhzB40ckGdeKb_KnV-8MWVpX95wyxwoTfEayxzAQgMcr8KEg43Xw3sQ2goKxBC_6Qog","Scope":"openid profile policy-admin offline_access","Error":null,"ErrorDescription":null,"$type":"AuthorizeResponseLog"}
+2020-09-08 15:34:35.508 +02:00 [DBG] Augmenting SignInContext
+2020-09-08 15:34:35.509 +02:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2020-09-08 15:34:35.599 +02:00 [DBG] Request path /connect/token matched to endpoint type Token
+2020-09-08 15:34:35.602 +02:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2020-09-08 15:34:35.603 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2020-09-08 15:34:35.607 +02:00 [DBG] Start token request.
+2020-09-08 15:34:35.608 +02:00 [DBG] Start client validation
+2020-09-08 15:34:35.612 +02:00 [DBG] Start parsing Basic Authentication secret
+2020-09-08 15:34:35.613 +02:00 [DBG] Start parsing for secret in post body
+2020-09-08 15:34:35.614 +02:00 [DBG] Parser found secret: PostBodySecretParser
+2020-09-08 15:34:35.614 +02:00 [DBG] Secret id found: policy
+2020-09-08 15:34:35.615 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-08 15:34:35.621 +02:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2020-09-08 15:34:35.621 +02:00 [DBG] Client validation success
+2020-09-08 15:34:35.622 +02:00 [INF] {"ClientId":"policy","AuthenticationMethod":"SharedSecret","Category":"Authentication","Name":"Client Authentication Success","EventType":"Success","Id":1010,"Message":null,"ActivityId":"0HM2JVFHMQPR9:00000003","TimeStamp":"2020-09-08T13:34:35.0000000Z","ProcessId":20404,"LocalIpAddress":"::1:5000","RemoteIpAddress":"::1","$type":"ClientAuthenticationSuccessEvent"}
+2020-09-08 15:34:35.625 +02:00 [DBG] Start token request validation
+2020-09-08 15:34:35.628 +02:00 [DBG] Start validation of authorization code token request
+2020-09-08 15:34:35.654 +02:00 [DBG] Client required a proof key for code exchange. Starting PKCE validation
+2020-09-08 15:34:35.665 +02:00 [DBG] Validation of authorization code token request success
+2020-09-08 15:34:35.667 +02:00 [INF] Token request validation success, {"ClientId":"policy","ClientName":"Policy Client","GrantType":"authorization_code","Scopes":null,"AuthorizationCode":"D2CD464CDD33F3EB7E50737EAAF3E392EAECFAC97B2E36ADD674DD626F778C8D","RefreshToken":null,"UserName":null,"AuthenticationContextReferenceClasses":null,"Tenant":null,"IdP":null,"Raw":{"client_id":"policy","client_secret":"***REDACTED***","code":"D2CD464CDD33F3EB7E50737EAAF3E392EAECFAC97B2E36ADD674DD626F778C8D","grant_type":"authorization_code","redirect_uri":"http://localhost:5001/signin-oidc","code_verifier":"tDNX0HPtUfl7dIoAJmkBSraV1hWhC3FQbC1mX7FSwRk"},"$type":"TokenRequestValidationLog"}
+2020-09-08 15:34:35.673 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-08 15:34:35.682 +02:00 [DBG] Getting claims for access token for client: policy
+2020-09-08 15:34:35.683 +02:00 [DBG] Getting claims for access token for subject: 8210ed18-f346-4781-a53e-d5741c17981c
+2020-09-08 15:34:35.725 +02:00 [DBG] Creating refresh token
+2020-09-08 15:34:35.725 +02:00 [DBG] Setting an absolute lifetime: 2592000
+2020-09-08 15:34:35.731 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-08 15:34:35.736 +02:00 [DBG] Getting claims for identity token for subject: 8210ed18-f346-4781-a53e-d5741c17981c and client: policy
+2020-09-08 15:34:35.736 +02:00 [DBG] In addition to an id_token, an access_token was requested. No claims other than sub are included in the id_token. To obtain more user claims, either use the user info endpoint or set AlwaysIncludeUserClaimsInIdToken on the client configuration.
+2020-09-08 15:34:35.777 +02:00 [INF] {"ClientId":"policy","ClientName":"Policy Client","RedirectUri":null,"Endpoint":"Token","SubjectId":"8210ed18-f346-4781-a53e-d5741c17981c","Scopes":"openid profile policy-admin offline_access","GrantType":"authorization_code","Tokens":[{"TokenType":"id_token","TokenValue":"****eDbg","$type":"Token"},{"TokenType":"refresh_token","TokenValue":"****7644","$type":"Token"},{"TokenType":"access_token","TokenValue":"****F03A","$type":"Token"}],"Category":"Token","Name":"Token Issued Success","EventType":"Success","Id":2000,"Message":null,"ActivityId":"0HM2JVFHMQPR9:00000003","TimeStamp":"2020-09-08T13:34:35.0000000Z","ProcessId":20404,"LocalIpAddress":"::1:5000","RemoteIpAddress":"::1","$type":"TokenIssuedSuccessEvent"}
+2020-09-08 15:34:35.782 +02:00 [DBG] Token request success.
+2020-09-08 15:34:36.002 +02:00 [DBG] Request path /connect/userinfo matched to endpoint type Userinfo
+2020-09-08 15:34:36.006 +02:00 [DBG] Endpoint enabled: Userinfo, successfully created handler: IdentityServer4.Endpoints.UserInfoEndpoint
+2020-09-08 15:34:36.007 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.UserInfoEndpoint for /connect/userinfo
+2020-09-08 15:34:36.009 +02:00 [DBG] Start userinfo request
+2020-09-08 15:34:36.010 +02:00 [DBG] Bearer token found in header
+2020-09-08 15:34:36.021 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-08 15:34:36.024 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-08 15:34:36.033 +02:00 [DBG] Calling into custom token validator: IdentityServer4.Validation.DefaultCustomTokenValidator
+2020-09-08 15:34:36.034 +02:00 [DBG] Token validation success
+{"ClientId":null,"ClientName":null,"ValidateLifetime":true,"AccessTokenType":"Reference","ExpectedScope":"openid","TokenHandle":"9DBFF823D2DFEF683ABFA2D767DD5C0DB6CBD09DE8C53B5C829B0D3DA4F2F03A","JwtId":null,"Claims":{"iss":"http://localhost:5000","nbf":1599572075,"exp":1599575675,"aud":["policy-admin","http://localhost:5000/resources"],"client_id":"policy","scope":["openid","profile","policy-admin","offline_access"],"sub":"8210ed18-f346-4781-a53e-d5741c17981c","auth_time":1599572075,"idp":"local","amr":"pwd","name":"Alice Smith","email":"AliceSmith@email.com","role":["Administrator","User"],"jti":"CEBB4B42E344643281980EE1CCF3A66D","sid":"42842CD63FF06C0EDD30270873D2BC4B","iat":1599572075},"$type":"TokenValidationLog"}
+2020-09-08 15:34:36.040 +02:00 [DBG] Creating userinfo response
+2020-09-08 15:34:36.044 +02:00 [DBG] Scopes in access token: openid profile policy-admin offline_access
+2020-09-08 15:34:36.046 +02:00 [DBG] Requested claim types: sub name family_name given_name middle_name nickname preferred_username profile picture website gender birthdate zoneinfo locale updated_at
+2020-09-08 15:34:36.072 +02:00 [INF] Profile service returned the following claim types: sub given_name name family_name website preferred_username
+2020-09-08 15:34:36.074 +02:00 [DBG] End userinfo request
+2020-09-08 15:48:23.637 +02:00 [INF] Starting IdentityServer4 version 4.0.4+1b36d1b414f4e0f965af97ab2a7e9dd1b5167bca
+2020-09-08 15:48:23.665 +02:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2020-09-08 15:48:23.670 +02:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2020-09-08 15:48:23.671 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2020-09-08 15:48:23.671 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2020-09-08 15:48:23.671 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2020-09-08 15:48:23.672 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2020-09-08 15:48:23.672 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2020-09-15 14:05:15.831 +02:00 [INF] Starting IdentityServer4 version 4.0.4+1b36d1b414f4e0f965af97ab2a7e9dd1b5167bca
+2020-09-15 14:05:15.891 +02:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2020-09-15 14:05:15.898 +02:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2020-09-15 14:05:15.899 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2020-09-15 14:05:15.899 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2020-09-15 14:05:15.900 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2020-09-15 14:05:15.900 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2020-09-15 14:05:15.900 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2020-09-15 14:05:41.977 +02:00 [DBG] Login Url: /Account/Login
+2020-09-15 14:05:41.980 +02:00 [DBG] Login Return Url Parameter: ReturnUrl
+2020-09-15 14:05:41.981 +02:00 [DBG] Logout Url: /Account/Logout
+2020-09-15 14:05:41.981 +02:00 [DBG] ConsentUrl Url: /consent
+2020-09-15 14:05:41.982 +02:00 [DBG] Consent Return Url Parameter: returnUrl
+2020-09-15 14:05:41.982 +02:00 [DBG] Error Url: /home/error
+2020-09-15 14:05:41.983 +02:00 [DBG] Error Id Parameter: errorId
+2020-09-15 14:05:41.997 +02:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2020-09-15 14:05:42.114 +02:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2020-09-15 14:05:42.116 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2020-09-15 14:05:42.118 +02:00 [DBG] Start discovery request
+2020-09-15 14:05:42.345 +02:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2020-09-15 14:05:42.358 +02:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2020-09-15 14:05:42.366 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2020-09-15 14:05:42.368 +02:00 [DBG] Start key discovery request
+2020-09-15 14:05:42.437 +02:00 [DBG] Request path /connect/authorize matched to endpoint type Authorize
+2020-09-15 14:05:42.452 +02:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeEndpoint
+2020-09-15 14:05:42.453 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeEndpoint for /connect/authorize
+2020-09-15 14:05:42.455 +02:00 [DBG] Start authorize request
+2020-09-15 14:05:42.469 +02:00 [DBG] No user present in authorize request
+2020-09-15 14:05:42.471 +02:00 [DBG] Start authorize request protocol validation
+2020-09-15 14:05:42.482 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-15 14:05:42.492 +02:00 [DBG] Checking for PKCE parameters
+2020-09-15 14:05:42.513 +02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2020-09-15 14:05:42.525 +02:00 [DBG] ValidatedAuthorizeRequest
+{"ClientId":"policy","ClientName":"Policy Client","RedirectUri":"http://localhost:5001/signin-oidc","AllowedRedirectUris":["http://localhost:5001/signin-oidc"],"SubjectId":"anonymous","ResponseType":"code","ResponseMode":"form_post","GrantType":"authorization_code","RequestedScopes":"openid profile policy-admin offline_access","State":"CfDJ8G1oOiNGuS1EqrOJhPR2KQOvIHB6PVCEoQjgKLtz1vzwWhLF6H3p2Wv75C8-KY8eHl_7F_CUhVf-8j4v3G0poLzr5XW0KaUe7NaPMFUad2qXpT_Ra4ZXc_1zYwdzUUEu3qXCaX59IvnXudD99LiW2e1isCEIcehMLnpGSdudnc9iaGOJadMAl92tEI9_iBXiZVcQVDMWCs810JmOqIq7L1sxexYyP9xgc8s5sHBoraFoAw-HyunPaAUz8Ij-vWhxWTx4XUr7VThRqKD6YeyjP7uOg0ugr3gzSOLjpFrPS_7_q8I0lIuveAAVCKnkOXhwOhpVI4nhM2VzotMtlt6yLWEcw029IX1qT4P2FfFXEJQQF288rd8wAGbBQIHE7NeH-A","UiLocales":null,"Nonce":"637357683424120583.OWZlODgzY2QtNDI3Yy00Y2ViLWE0NjItNDI0YjViMDM2MzI1MTllMTE1ZGQtN2Q4Ny00OTg0LWFlMjAtNmYzYzFkMDc1MzAw","AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":"","MaxAge":null,"LoginHint":null,"SessionId":"","Raw":{"client_id":"policy","redirect_uri":"http://localhost:5001/signin-oidc","response_type":"code","scope":"openid profile policy-admin offline_access","code_challenge":"uMhgLHB6iCYvB7AkFDnaLWXgSfDmyNntsQZW_C3o4SQ","code_challenge_method":"S256","response_mode":"form_post","nonce":"637357683424120583.OWZlODgzY2QtNDI3Yy00Y2ViLWE0NjItNDI0YjViMDM2MzI1MTllMTE1ZGQtN2Q4Ny00OTg0LWFlMjAtNmYzYzFkMDc1MzAw","state":"CfDJ8G1oOiNGuS1EqrOJhPR2KQOvIHB6PVCEoQjgKLtz1vzwWhLF6H3p2Wv75C8-KY8eHl_7F_CUhVf-8j4v3G0poLzr5XW0KaUe7NaPMFUad2qXpT_Ra4ZXc_1zYwdzUUEu3qXCaX59IvnXudD99LiW2e1isCEIcehMLnpGSdudnc9iaGOJadMAl92tEI9_iBXiZVcQVDMWCs810JmOqIq7L1sxexYyP9xgc8s5sHBoraFoAw-HyunPaAUz8Ij-vWhxWTx4XUr7VThRqKD6YeyjP7uOg0ugr3gzSOLjpFrPS_7_q8I0lIuveAAVCKnkOXhwOhpVI4nhM2VzotMtlt6yLWEcw029IX1qT4P2FfFXEJQQF288rd8wAGbBQIHE7NeH-A","x-client-SKU":"ID_NETSTANDARD2_0","x-client-ver":"5.5.0.0"},"$type":"AuthorizeRequestValidationLog"}
+2020-09-15 14:05:42.550 +02:00 [INF] Showing login: User is not authenticated
+2020-09-15 14:05:42.617 +02:00 [DBG] Start authorize request protocol validation
+2020-09-15 14:05:42.618 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-15 14:05:42.621 +02:00 [DBG] Checking for PKCE parameters
+2020-09-15 14:05:42.621 +02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2020-09-15 14:05:42.624 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-15 14:05:44.660 +02:00 [DBG] CORS request made for path: /Account/Login from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2020-09-15 14:05:44.697 +02:00 [DBG] Start authorize request protocol validation
+2020-09-15 14:05:44.698 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-15 14:05:44.700 +02:00 [DBG] Checking for PKCE parameters
+2020-09-15 14:05:44.700 +02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2020-09-15 14:05:47.826 +02:00 [DBG] Augmenting SignInContext
+2020-09-15 14:05:47.828 +02:00 [DBG] Adding idp claim with value: local
+2020-09-15 14:05:47.829 +02:00 [DBG] Adding auth_time claim with value: 1600171547
+2020-09-15 14:05:47.838 +02:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2020-09-15 14:05:47.858 +02:00 [INF] {"Username":"alice","Provider":null,"ProviderUserId":null,"SubjectId":"8210ed18-f346-4781-a53e-d5741c17981c","DisplayName":"alice","Endpoint":"UI","ClientId":"policy","Category":"Authentication","Name":"User Login Success","EventType":"Success","Id":1000,"Message":null,"ActivityId":"0HM2PDUEIF3P8:00000003","TimeStamp":"2020-09-15T12:05:47.0000000Z","ProcessId":20212,"LocalIpAddress":"::1:5000","RemoteIpAddress":"::1","$type":"UserLoginSuccessEvent"}
+2020-09-15 14:05:47.877 +02:00 [DBG] Request path /connect/authorize/callback matched to endpoint type Authorize
+2020-09-15 14:05:47.879 +02:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint
+2020-09-15 14:05:47.881 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint for /connect/authorize/callback
+2020-09-15 14:05:47.884 +02:00 [DBG] Start authorize callback request
+2020-09-15 14:05:47.887 +02:00 [DBG] User in authorize request: 8210ed18-f346-4781-a53e-d5741c17981c
+2020-09-15 14:05:47.887 +02:00 [DBG] Start authorize request protocol validation
+2020-09-15 14:05:47.888 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-15 14:05:47.892 +02:00 [DBG] Checking for PKCE parameters
+2020-09-15 14:05:47.892 +02:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2020-09-15 14:05:47.893 +02:00 [DBG] ValidatedAuthorizeRequest
+{"ClientId":"policy","ClientName":"Policy Client","RedirectUri":"http://localhost:5001/signin-oidc","AllowedRedirectUris":["http://localhost:5001/signin-oidc"],"SubjectId":"8210ed18-f346-4781-a53e-d5741c17981c","ResponseType":"code","ResponseMode":"form_post","GrantType":"authorization_code","RequestedScopes":"openid profile policy-admin offline_access","State":"CfDJ8G1oOiNGuS1EqrOJhPR2KQOvIHB6PVCEoQjgKLtz1vzwWhLF6H3p2Wv75C8-KY8eHl_7F_CUhVf-8j4v3G0poLzr5XW0KaUe7NaPMFUad2qXpT_Ra4ZXc_1zYwdzUUEu3qXCaX59IvnXudD99LiW2e1isCEIcehMLnpGSdudnc9iaGOJadMAl92tEI9_iBXiZVcQVDMWCs810JmOqIq7L1sxexYyP9xgc8s5sHBoraFoAw-HyunPaAUz8Ij-vWhxWTx4XUr7VThRqKD6YeyjP7uOg0ugr3gzSOLjpFrPS_7_q8I0lIuveAAVCKnkOXhwOhpVI4nhM2VzotMtlt6yLWEcw029IX1qT4P2FfFXEJQQF288rd8wAGbBQIHE7NeH-A","UiLocales":null,"Nonce":"637357683424120583.OWZlODgzY2QtNDI3Yy00Y2ViLWE0NjItNDI0YjViMDM2MzI1MTllMTE1ZGQtN2Q4Ny00OTg0LWFlMjAtNmYzYzFkMDc1MzAw","AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":"","MaxAge":null,"LoginHint":null,"SessionId":"1C65010F830180241884B3A5E239A252","Raw":{"client_id":"policy","redirect_uri":"http://localhost:5001/signin-oidc","response_type":"code","scope":"openid profile policy-admin offline_access","code_challenge":"uMhgLHB6iCYvB7AkFDnaLWXgSfDmyNntsQZW_C3o4SQ","code_challenge_method":"S256","response_mode":"form_post","nonce":"637357683424120583.OWZlODgzY2QtNDI3Yy00Y2ViLWE0NjItNDI0YjViMDM2MzI1MTllMTE1ZGQtN2Q4Ny00OTg0LWFlMjAtNmYzYzFkMDc1MzAw","state":"CfDJ8G1oOiNGuS1EqrOJhPR2KQOvIHB6PVCEoQjgKLtz1vzwWhLF6H3p2Wv75C8-KY8eHl_7F_CUhVf-8j4v3G0poLzr5XW0KaUe7NaPMFUad2qXpT_Ra4ZXc_1zYwdzUUEu3qXCaX59IvnXudD99LiW2e1isCEIcehMLnpGSdudnc9iaGOJadMAl92tEI9_iBXiZVcQVDMWCs810JmOqIq7L1sxexYyP9xgc8s5sHBoraFoAw-HyunPaAUz8Ij-vWhxWTx4XUr7VThRqKD6YeyjP7uOg0ugr3gzSOLjpFrPS_7_q8I0lIuveAAVCKnkOXhwOhpVI4nhM2VzotMtlt6yLWEcw029IX1qT4P2FfFXEJQQF288rd8wAGbBQIHE7NeH-A","x-client-SKU":"ID_NETSTANDARD2_0","x-client-ver":"5.5.0.0"},"$type":"AuthorizeRequestValidationLog"}
+2020-09-15 14:05:47.947 +02:00 [DBG] Client is configured to not require consent, no consent is required
+2020-09-15 14:05:47.950 +02:00 [DBG] Creating Authorization Code Flow response.
+2020-09-15 14:05:48.018 +02:00 [INF] {"ClientId":"policy","ClientName":"Policy Client","RedirectUri":"http://localhost:5001/signin-oidc","Endpoint":"Authorize","SubjectId":"8210ed18-f346-4781-a53e-d5741c17981c","Scopes":"openid profile policy-admin offline_access","GrantType":"authorization_code","Tokens":[{"TokenType":"code","TokenValue":"****1496","$type":"Token"}],"Category":"Token","Name":"Token Issued Success","EventType":"Success","Id":2000,"Message":null,"ActivityId":"0HM2PDUEIF3P8:00000004","TimeStamp":"2020-09-15T12:05:48.0000000Z","ProcessId":20212,"LocalIpAddress":"::1:5000","RemoteIpAddress":"::1","$type":"TokenIssuedSuccessEvent"}
+2020-09-15 14:05:48.022 +02:00 [DBG] Authorize endpoint response
+{"SubjectId":"8210ed18-f346-4781-a53e-d5741c17981c","ClientId":"policy","RedirectUri":"http://localhost:5001/signin-oidc","State":"CfDJ8G1oOiNGuS1EqrOJhPR2KQOvIHB6PVCEoQjgKLtz1vzwWhLF6H3p2Wv75C8-KY8eHl_7F_CUhVf-8j4v3G0poLzr5XW0KaUe7NaPMFUad2qXpT_Ra4ZXc_1zYwdzUUEu3qXCaX59IvnXudD99LiW2e1isCEIcehMLnpGSdudnc9iaGOJadMAl92tEI9_iBXiZVcQVDMWCs810JmOqIq7L1sxexYyP9xgc8s5sHBoraFoAw-HyunPaAUz8Ij-vWhxWTx4XUr7VThRqKD6YeyjP7uOg0ugr3gzSOLjpFrPS_7_q8I0lIuveAAVCKnkOXhwOhpVI4nhM2VzotMtlt6yLWEcw029IX1qT4P2FfFXEJQQF288rd8wAGbBQIHE7NeH-A","Scope":"openid profile policy-admin offline_access","Error":null,"ErrorDescription":null,"$type":"AuthorizeResponseLog"}
+2020-09-15 14:05:48.028 +02:00 [DBG] Augmenting SignInContext
+2020-09-15 14:05:48.030 +02:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2020-09-15 14:05:48.080 +02:00 [DBG] Request path /connect/token matched to endpoint type Token
+2020-09-15 14:05:48.084 +02:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2020-09-15 14:05:48.085 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2020-09-15 14:05:48.088 +02:00 [DBG] Start token request.
+2020-09-15 14:05:48.090 +02:00 [DBG] Start client validation
+2020-09-15 14:05:48.094 +02:00 [DBG] Start parsing Basic Authentication secret
+2020-09-15 14:05:48.095 +02:00 [DBG] Start parsing for secret in post body
+2020-09-15 14:05:48.096 +02:00 [DBG] Parser found secret: PostBodySecretParser
+2020-09-15 14:05:48.096 +02:00 [DBG] Secret id found: policy
+2020-09-15 14:05:48.097 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-15 14:05:48.103 +02:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2020-09-15 14:05:48.104 +02:00 [DBG] Client validation success
+2020-09-15 14:05:48.105 +02:00 [INF] {"ClientId":"policy","AuthenticationMethod":"SharedSecret","Category":"Authentication","Name":"Client Authentication Success","EventType":"Success","Id":1010,"Message":null,"ActivityId":"0HM2PDUEIF3P6:00000003","TimeStamp":"2020-09-15T12:05:48.0000000Z","ProcessId":20212,"LocalIpAddress":"::1:5000","RemoteIpAddress":"::1","$type":"ClientAuthenticationSuccessEvent"}
+2020-09-15 14:05:48.108 +02:00 [DBG] Start token request validation
+2020-09-15 14:05:48.111 +02:00 [DBG] Start validation of authorization code token request
+2020-09-15 14:05:48.135 +02:00 [DBG] Client required a proof key for code exchange. Starting PKCE validation
+2020-09-15 14:05:48.147 +02:00 [DBG] Validation of authorization code token request success
+2020-09-15 14:05:48.150 +02:00 [INF] Token request validation success, {"ClientId":"policy","ClientName":"Policy Client","GrantType":"authorization_code","Scopes":null,"AuthorizationCode":"1E903DD7E81C7C36A0E2885FEE914301BAA1499676BF69B0EED01BE9B4A91496","RefreshToken":null,"UserName":null,"AuthenticationContextReferenceClasses":null,"Tenant":null,"IdP":null,"Raw":{"client_id":"policy","client_secret":"***REDACTED***","code":"1E903DD7E81C7C36A0E2885FEE914301BAA1499676BF69B0EED01BE9B4A91496","grant_type":"authorization_code","redirect_uri":"http://localhost:5001/signin-oidc","code_verifier":"lHdK2XiiJpAvG0WqDbqoYHczGX8GvXGHXArjK7-L6Xs"},"$type":"TokenRequestValidationLog"}
+2020-09-15 14:05:48.157 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-15 14:05:48.167 +02:00 [DBG] Getting claims for access token for client: policy
+2020-09-15 14:05:48.167 +02:00 [DBG] Getting claims for access token for subject: 8210ed18-f346-4781-a53e-d5741c17981c
+2020-09-15 14:05:48.212 +02:00 [DBG] Creating refresh token
+2020-09-15 14:05:48.213 +02:00 [DBG] Setting an absolute lifetime: 2592000
+2020-09-15 14:05:48.219 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-15 14:05:48.224 +02:00 [DBG] Getting claims for identity token for subject: 8210ed18-f346-4781-a53e-d5741c17981c and client: policy
+2020-09-15 14:05:48.225 +02:00 [DBG] In addition to an id_token, an access_token was requested. No claims other than sub are included in the id_token. To obtain more user claims, either use the user info endpoint or set AlwaysIncludeUserClaimsInIdToken on the client configuration.
+2020-09-15 14:05:48.282 +02:00 [INF] {"ClientId":"policy","ClientName":"Policy Client","RedirectUri":null,"Endpoint":"Token","SubjectId":"8210ed18-f346-4781-a53e-d5741c17981c","Scopes":"openid profile policy-admin offline_access","GrantType":"authorization_code","Tokens":[{"TokenType":"id_token","TokenValue":"****rL2w","$type":"Token"},{"TokenType":"refresh_token","TokenValue":"****605B","$type":"Token"},{"TokenType":"access_token","TokenValue":"****78DB","$type":"Token"}],"Category":"Token","Name":"Token Issued Success","EventType":"Success","Id":2000,"Message":null,"ActivityId":"0HM2PDUEIF3P6:00000003","TimeStamp":"2020-09-15T12:05:48.0000000Z","ProcessId":20212,"LocalIpAddress":"::1:5000","RemoteIpAddress":"::1","$type":"TokenIssuedSuccessEvent"}
+2020-09-15 14:05:48.288 +02:00 [DBG] Token request success.
+2020-09-15 14:05:48.428 +02:00 [DBG] Request path /connect/userinfo matched to endpoint type Userinfo
+2020-09-15 14:05:48.431 +02:00 [DBG] Endpoint enabled: Userinfo, successfully created handler: IdentityServer4.Endpoints.UserInfoEndpoint
+2020-09-15 14:05:48.432 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.UserInfoEndpoint for /connect/userinfo
+2020-09-15 14:05:48.437 +02:00 [DBG] Start userinfo request
+2020-09-15 14:05:48.439 +02:00 [DBG] Bearer token found in header
+2020-09-15 14:05:48.454 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-15 14:05:48.457 +02:00 [DBG] client configuration validation for client policy succeeded.
+2020-09-15 14:05:48.464 +02:00 [DBG] Calling into custom token validator: IdentityServer4.Validation.DefaultCustomTokenValidator
+2020-09-15 14:05:48.466 +02:00 [DBG] Token validation success
+{"ClientId":null,"ClientName":null,"ValidateLifetime":true,"AccessTokenType":"Reference","ExpectedScope":"openid","TokenHandle":"2A081E22B8929AE2B62ABE7F1F08A33094CBDA6934A4172F81711DD3428878DB","JwtId":null,"Claims":{"iss":"http://localhost:5000","nbf":1600171548,"exp":1600175148,"aud":["policy-admin","http://localhost:5000/resources"],"client_id":"policy","scope":["openid","profile","policy-admin","offline_access"],"sub":"8210ed18-f346-4781-a53e-d5741c17981c","auth_time":1600171547,"idp":"local","amr":"pwd","name":"Alice Smith","email":"AliceSmith@email.com","role":["Administrator","User"],"jti":"34F5F97B051A49F9015E248B2A474A94","sid":"1C65010F830180241884B3A5E239A252","iat":1600171548},"$type":"TokenValidationLog"}
+2020-09-15 14:05:48.476 +02:00 [DBG] Creating userinfo response
+2020-09-15 14:05:48.477 +02:00 [DBG] Scopes in access token: openid profile policy-admin offline_access
+2020-09-15 14:05:48.479 +02:00 [DBG] Requested claim types: sub name family_name given_name middle_name nickname preferred_username profile picture website gender birthdate zoneinfo locale updated_at
+2020-09-15 14:05:48.505 +02:00 [INF] Profile service returned the following claim types: sub given_name name family_name website preferred_username
+2020-09-15 14:05:48.507 +02:00 [DBG] End userinfo request
+2020-09-15 14:06:26.930 +02:00 [INF] Starting IdentityServer4 version 4.0.4+1b36d1b414f4e0f965af97ab2a7e9dd1b5167bca
+2020-09-15 14:06:26.961 +02:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2020-09-15 14:06:26.965 +02:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2020-09-15 14:06:26.966 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2020-09-15 14:06:26.966 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2020-09-15 14:06:26.966 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2020-09-15 14:06:26.966 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2020-09-15 14:06:26.967 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2020-09-15 14:16:51.530 +02:00 [INF] Starting IdentityServer4 version 4.0.4+1b36d1b414f4e0f965af97ab2a7e9dd1b5167bca
+2020-09-15 14:16:51.561 +02:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2020-09-15 14:16:51.565 +02:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2020-09-15 14:16:51.565 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2020-09-15 14:16:51.566 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2020-09-15 14:16:51.566 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2020-09-15 14:16:51.566 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2020-09-15 14:16:51.567 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2020-09-15 14:36:38.479 +02:00 [INF] Starting IdentityServer4 version 4.0.4+1b36d1b414f4e0f965af97ab2a7e9dd1b5167bca
+2020-09-15 14:36:38.502 +02:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2020-09-15 14:36:38.506 +02:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2020-09-15 14:36:38.506 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2020-09-15 14:36:38.507 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2020-09-15 14:36:38.507 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2020-09-15 14:36:38.507 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2020-09-15 14:36:38.507 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2020-09-15 16:25:28.269 +02:00 [INF] Starting IdentityServer4 version 4.0.4+1b36d1b414f4e0f965af97ab2a7e9dd1b5167bca
+2020-09-15 16:25:28.294 +02:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2020-09-15 16:25:28.298 +02:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2020-09-15 16:25:28.298 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2020-09-15 16:25:28.298 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2020-09-15 16:25:28.298 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2020-09-15 16:25:28.298 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2020-09-15 16:25:28.299 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2020-09-15 16:26:30.691 +02:00 [INF] Starting IdentityServer4 version 4.0.4+1b36d1b414f4e0f965af97ab2a7e9dd1b5167bca
+2020-09-15 16:26:30.721 +02:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2020-09-15 16:26:30.726 +02:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2020-09-15 16:26:30.727 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2020-09-15 16:26:30.727 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2020-09-15 16:26:30.727 +02:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2020-09-15 16:26:30.728 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2020-09-15 16:26:30.728 +02:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid

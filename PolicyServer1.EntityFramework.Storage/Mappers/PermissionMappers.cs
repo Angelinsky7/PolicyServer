@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using PolicyServer1.EntityFramework.Storage.Entities;
@@ -12,12 +13,15 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
         static PermissionMappers() => Mapper = new MapperConfiguration(cfg => {
             cfg.AddProfile<PolicyMapperProfile>();
+            cfg.AddProfile<ResourceMapperProfile>();
             cfg.AddProfile<PermissionMapperProfile>();
+            cfg.AddProfile<ScopeMapperProfile>();
         }).CreateMapper();
 
         public static Models.Permission ToModel(this Entities.Permission entity) => Mapper.Map<Models.Permission>(entity);
         public static Entities.Permission ToEntity(this Models.Permission model) => Mapper.Map<Entities.Permission>(model);
         public static IQueryable<Models.Permission> ToModel(this IQueryable<Entities.Permission> source) => source.ProjectTo<Models.Permission>(Mapper.ConfigurationProvider);
+        public static IQueryable<T> ToModel<T, W>(this IQueryable<W> source) where T : Models.Permission where W : Entities.Permission => source.ProjectTo<T>(Mapper.ConfigurationProvider);
         public static void UpdateEntity(this Models.Permission model, Entities.Permission entity) => Mapper.Map(model, entity);
     }
      
@@ -67,6 +71,7 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
             #region ScopePermission
 
             CreateMap<Models.ScopePermission, Entities.ScopePermission>()
+                .IncludeBase<Models.Permission, Entities.Permission>()
                 .ForMember(p => p.Resource, opt => opt.MapFrom(src => src.Resource))
                 .ForMember(p => p.Scopes, opt => opt.MapFrom(src => src.Scopes))
                 .AfterMap((model, entity) => {
@@ -75,6 +80,7 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 .PreserveReferences();
 
             CreateMap<Entities.ScopePermission, Models.ScopePermission>()
+                .IncludeBase<Entities.Permission, Models.Permission>()
                 .ForMember(p => p.Resource, opt => opt.MapFrom(src => src.Resource))
                 .ForMember(p => p.Scopes, opt => opt.MapFrom(src => src.Scopes))
                 .PreserveReferences();
@@ -95,11 +101,13 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
             #region ResourcePermission
 
             CreateMap<Models.ResourcePermission, Entities.ResourcePermission>()
+                .IncludeBase<Models.Permission, Entities.Permission>()
                 .ForMember(p => p.Resource, opt => opt.MapFrom(src => src.Resource))
                 .ForMember(p => p.ResouceType, opt => opt.MapFrom(src => src.ResouceType))
                 .PreserveReferences();
 
             CreateMap<Entities.ResourcePermission, Models.ResourcePermission>()
+                .IncludeBase<Entities.Permission, Models.Permission>()
                 .ForMember(p => p.Resource, opt => opt.MapFrom(src => src.Resource))
                 .ForMember(p => p.ResouceType, opt => opt.MapFrom(src => src.ResouceType))
                 .PreserveReferences();

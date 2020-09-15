@@ -62,7 +62,7 @@ namespace TestPolicyServer.Quickstart.MVC {
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPostAsync(Guid id, [Bind("Id,Name,DisplayName,Type,Uris,Scopes,IconUri")] Resource item) {
-            if (id != item.Id) { return NotFound(); }
+            if (id != item?.Id) { return NotFound(); }
 
             if (ModelState.IsValid) {
                 try {

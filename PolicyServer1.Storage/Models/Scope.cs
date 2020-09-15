@@ -15,7 +15,7 @@ namespace PolicyServer1.Models {
         
         [Required]
         [StringLength(200, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 3)]
-        [Display(Name = "Diplay name")]
+        [Display(Name = "Display name")]
         public String DisplayName { get; set; }
         
         [Url]

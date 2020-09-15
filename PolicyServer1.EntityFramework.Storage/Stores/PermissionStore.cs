@@ -1,15 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using PolicyServer1.EntityFramework.Storage.Interfaces;
-using PolicyServer1.EntityFramework.Storage.Mappers;
-using PolicyServer1.Models;
-using PolicyServer1.Stores;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using PolicyServer1.EntityFramework.Storage.Interfaces;
+using PolicyServer1.EntityFramework.Storage.Mappers;
+using PolicyServer1.Models;
+using PolicyServer1.Stores;
 
 namespace PolicyServer1.EntityFramework.Storage.Stores {
     public class PermissionStore : IPermissionStore {
@@ -33,11 +33,17 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
 
             Entities.Permission entity = item.ToEntity();
 
-            _context.MarkEntitesAsDetached<Entities.Policy>();
+            _context.MarkEntitesAsUnchanged<Entities.Policy>();
+            _context.MarkEntitesAsUnchanged<Entities.Resource>();
+            _context.MarkEntitesAsUnchanged<Entities.Scope>();
+            _context.MarkEntitesAsUnchanged<Entities.MmResourceScope>();
 
             _context.Permissions.Add(entity);
 
             _context.MarkEntitesAsUnchanged<Entities.Policy>();
+            _context.MarkEntitesAsUnchanged<Entities.Resource>();
+            _context.MarkEntitesAsUnchanged<Entities.Scope>();
+            _context.MarkEntitesAsUnchanged<Entities.MmResourceScope>();
 
             try {
                 await _context.SaveChangesAsync();
@@ -51,6 +57,10 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             Entities.Permission entity = await _context.Permissions
                 .Include(p => p.Policies)
                     .ThenInclude(p => p.Policy)
+                .Include(p => (p as Entities.ScopePermission).Resource)
+                .Include(p => (p as Entities.ScopePermission).Scopes)
+                     .ThenInclude(p => p.Scope)
+                .Include(p => (p as Entities.ResourcePermission).Resource)
                 .AsNoTracking()
                 .SingleOrDefaultAsync(p => p.Id == id);
 
@@ -62,7 +72,22 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
 
             return entity.ToModel();
         }
-        public IQueryable<Permission> Query() => _context.Permissions.AsNoTracking().ToModel();
+        public IQueryable<Permission> Query() {
+
+            //TODO(demarco): should not be a in memroy thing....
+            List<Permission> result = new List<Permission>();
+            foreach (var item in _context.Permissions.AsNoTracking()) {
+                result.Add(item.ToModel());
+            }
+            return result.AsQueryable();
+
+            //IQueryable<ScopePermission> scopePermissions = _context.Permissions.OfType<Entities.ScopePermission>().AsNoTracking().ToModel<Models.ScopePermission, Entities.ScopePermission>();
+            //IQueryable<ResourcePermission> resourcePermissions = _context.Permissions.OfType<Entities.ResourcePermission>().AsNoTracking().ToModel<Models.ResourcePermission, Entities.ResourcePermission>();
+
+            //IQueryable<Permission> result = scopePermissions.Cast<Permission>().Concat(resourcePermissions);
+            //return result;
+        }
+
         public async Task RemoveAsync(Guid id) {
             Entities.Permission entity = await _context.Permissions
                 .Include(p => p.Policies)
@@ -96,10 +121,16 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             }
 
             _context.MarkEntitesAsUnchanged<Entities.Policy>();
+            _context.MarkEntitesAsUnchanged<Entities.Resource>();
+            _context.MarkEntitesAsUnchanged<Entities.Scope>();
+            _context.MarkEntitesAsUnchanged<Entities.MmResourceScope>();
 
             item.UpdateEntity(entity);
 
             await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.Policy>();
+            await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.Resource>();
+            await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.Scope>();
+            await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.MmResourceScope>();
 
             try {
                 await _context.SaveChangesAsync();
