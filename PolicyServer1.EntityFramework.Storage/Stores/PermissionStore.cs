@@ -92,6 +92,10 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             Entities.Permission entity = await _context.Permissions
                 .Include(p => p.Policies)
                     .ThenInclude(p => p.Policy)
+                .Include(p => (p as Entities.ScopePermission).Resource)
+                .Include(p => (p as Entities.ScopePermission).Scopes)
+                     .ThenInclude(p => p.Scope)
+                .Include(p => (p as Entities.ResourcePermission).Resource)
                 .SingleOrDefaultAsync(p => p.Id == id);
 
             if (entity == null) {
@@ -113,6 +117,10 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             Entities.Permission entity = await _context.Permissions
                 .Include(p => p.Policies)
                     .ThenInclude(p => p.Policy)
+                .Include(p => (p as Entities.ScopePermission).Resource)
+                .Include(p => (p as Entities.ScopePermission).Scopes)
+                     .ThenInclude(p => p.Scope)
+                .Include(p => (p as Entities.ResourcePermission).Resource)
                 .SingleOrDefaultAsync(p => p.Id == id);
 
             if (entity == null) {
@@ -124,8 +132,9 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             _context.MarkEntitesAsUnchanged<Entities.Resource>();
             _context.MarkEntitesAsUnchanged<Entities.Scope>();
             _context.MarkEntitesAsUnchanged<Entities.MmResourceScope>();
-
+            
             item.UpdateEntity(entity);
+            entity.Updated = DateTime.UtcNow;
 
             await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.Policy>();
             await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.Resource>();

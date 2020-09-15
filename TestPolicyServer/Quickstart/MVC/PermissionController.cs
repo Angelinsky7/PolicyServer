@@ -48,7 +48,7 @@ namespace TestPolicyServer.Quickstart.MVC {
             ScopePermission item = new ScopePermission();
 
             ViewBag.Resources = await GetResourcesAsSelectListAsync(item.Resource);
-            ViewBag.Scopes = await GetScopesAsSelectListAsync(item.Scopes);
+            //ViewBag.Scopes = await GetScopesAsSelectListAsync(item.Scopes);
             ViewBag.DecisionStrategies = await GetDecisionStrategyAsSelectListAsync(item.DecisionStrategy);
 
             return View(item);
@@ -101,7 +101,7 @@ namespace TestPolicyServer.Quickstart.MVC {
             }
 
             ViewBag.Resources = await GetResourcesAsSelectListAsync(item.Resource);
-            ViewBag.Scopes = await GetScopesAsSelectListAsync(item.Scopes);
+            //ViewBag.Scopes = await GetScopesAsSelectListAsync(item.Scopes);
             ViewBag.DecisionStrategies = await GetDecisionStrategyAsSelectListAsync(item.DecisionStrategy);
 
             return View(item);
@@ -151,7 +151,7 @@ namespace TestPolicyServer.Quickstart.MVC {
             if (!(await _permissionStore.GetAsync(id) is ScopePermission item)) { return NotFound(); }
 
             ViewBag.Resources = await GetResourcesAsSelectListAsync(item.Resource);
-            ViewBag.Scopes = await GetScopesAsSelectListAsync(item.Scopes);
+            //ViewBag.Scopes = await GetScopesAsSelectListAsync(item.Scopes);
             ViewBag.DecisionStrategies = await GetDecisionStrategyAsSelectListAsync(item.DecisionStrategy);
 
             return View(item);
@@ -305,11 +305,17 @@ namespace TestPolicyServer.Quickstart.MVC {
 
 
 
-        private async Task<IEnumerable<Resource>> GetResourcesAsync() => await _resourceStore.Query().OrderBy(p => p.DisplayName).ToListAsync();
-        private async Task<IEnumerable<Scope>> GetScopesAsync() => await _scopeStore.Query().OrderBy(p => p.DisplayName).ToListAsync();
+        //private async Task<IEnumerable<Resource>> GetResourcesAsync() => await _resourceStore.Query().OrderBy(p => p.DisplayName).ToListAsync();
+
+        private async Task<IEnumerable<Resource>> GetResourcesAsync() {
+            IOrderedQueryable<Resource> result = _resourceStore.Query().OrderBy(p => p.DisplayName);
+            return await result.ToListAsync();
+        }
+
+        //private async Task<IEnumerable<Scope>> GetScopesAsync() => await _scopeStore.Query().OrderBy(p => p.DisplayName).ToListAsync();
 
         private async Task<SelectList> GetResourcesAsSelectListAsync(Resource resource = null) => new SelectList(await GetResourcesAsync(), "Id", "DisplayName", resource?.Id);
-        private async Task<SelectList> GetScopesAsSelectListAsync(IEnumerable<Scope> scopes = null) => new SelectList(await GetScopesAsync(), "Id", "DisplayName", scopes?.Select(p => p.Id));
+        //private async Task<SelectList> GetScopesAsSelectListAsync(IEnumerable<Scope> scopes = null) => new SelectList(await GetScopesAsync(), "Id", "DisplayName", scopes?.Select(p => p.Id));
         private Task<SelectList> GetDecisionStrategyAsSelectListAsync(DecisionStrategy decisionStrategy = DecisionStrategy.Affirmative) => Task.FromResult(new SelectList(EnumExtensions.GetAsList<DecisionStrategy>(), decisionStrategy));
 
     }

@@ -21,7 +21,10 @@ namespace TestPolicyServer.Quickstart.Api {
         public ResourceApiController(IResourceStore resourceStore) => _resourceStore = resourceStore;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Resource>>> Get() => await _resourceStore.Query().AsNoTracking().ToListAsync();
+        public async Task<ActionResult<IEnumerable<Resource>>> Get() {
+            IQueryable<Resource> result = _resourceStore.Query();
+            return await result.ToListAsync();
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Resource>> Get(Guid id) {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -39,7 +40,8 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
         public static void UpdateEntity(this Models.Client model, Entities.Client entity) => Mapper.Map(model, entity);
 
-        public static IQueryable<Models.Client> ToModel(this IQueryable<Entities.Client> source) => source.ProjectTo<Models.Client>(Mapper.ConfigurationProvider);
+        //public static IQueryable<Models.Client> ToModel(this IQueryable<Entities.Client> source) => source.ProjectTo<Models.Client>(Mapper.ConfigurationProvider);
+        public static Expression<Func<Entities.Client, Models.Client>> Projection => entity => Mapper.Map<Models.Client>(entity);
 
     }
 
@@ -155,6 +157,7 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
             CreateMap<Entities.MmClientPermission, Models.Permission>()
                 .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Permission>(p.Permission));
+                //.ForMember(p => p.Id, opt => opt.MapFrom(src => src.))
 
             #endregion
 

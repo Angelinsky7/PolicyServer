@@ -61,7 +61,15 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
 
             return entity.ToModel();
         }
-        public IQueryable<Resource> Query() => _context.Resources.AsNoTracking().ToModel();
+        public IQueryable<Resource> Query() => _context.Resources
+            .Include(p => p.Uris)
+            .Include(p => p.Scopes)
+                .ThenInclude(p => p.Scope)
+            .AsNoTracking()
+            //.ToModel();
+            //.Select(ResourceMappers.Projection);
+            .ProjectTo<Resource>(ResourceMappers.Mapper.ConfigurationProvider);
+
         public async Task RemoveAsync(Guid id) {
             Entities.Resource entity = await _context.Resources
                 .Include(p => p.Uris)
@@ -97,7 +105,8 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             _context.MarkEntitesAsUnchanged<Entities.Scope>();
 
             item.UpdateEntity(entity);
-                        
+            entity.Updated = DateTime.UtcNow;
+
             await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.Scope>();
 
             try {

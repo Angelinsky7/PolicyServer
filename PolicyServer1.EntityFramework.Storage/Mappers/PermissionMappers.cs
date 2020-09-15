@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Xml.Serialization;
 using AutoMapper;
@@ -20,8 +21,9 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
         public static Models.Permission ToModel(this Entities.Permission entity) => Mapper.Map<Models.Permission>(entity);
         public static Entities.Permission ToEntity(this Models.Permission model) => Mapper.Map<Entities.Permission>(model);
-        public static IQueryable<Models.Permission> ToModel(this IQueryable<Entities.Permission> source) => source.ProjectTo<Models.Permission>(Mapper.ConfigurationProvider);
-        public static IQueryable<T> ToModel<T, W>(this IQueryable<W> source) where T : Models.Permission where W : Entities.Permission => source.ProjectTo<T>(Mapper.ConfigurationProvider);
+        //public static IQueryable<Models.Permission> ToModel(this IQueryable<Entities.Permission> source) => source.ProjectTo<Models.Permission>(Mapper.ConfigurationProvider);
+        //public static IQueryable<T> ToModel<T, W>(this IQueryable<W> source) where T : Models.Permission where W : Entities.Permission => source.ProjectTo<T>(Mapper.ConfigurationProvider);
+        public static Expression<Func<Entities.Permission, Models.Permission>> Projection => entity => Mapper.Map<Models.Permission>(entity);
         public static void UpdateEntity(this Models.Permission model, Entities.Permission entity) => Mapper.Map(model, entity);
     }
      
@@ -94,7 +96,11 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 .ForMember(p => p.Scope, opt => opt.MapFrom(src => src));
 
             CreateMap<Entities.MmScopePermissionScope, Models.Scope>()
-                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Scope>(p.Scope));
+                //.ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Scope>(p.Scope));
+                .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Scope.Id))
+                .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Scope.Name))
+                .ForMember(p => p.DisplayName, opt => opt.MapFrom(src => src.Scope.DisplayName))
+                .ForMember(p => p.IconUri, opt => opt.MapFrom(src => src.Scope.IconUri));
 
             #endregion
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Net.Sockets;
 using System.Text;
 using AutoMapper;
 using AutoMapper.EquivalencyExpression;
@@ -21,6 +23,7 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
         public static Models.Resource ToModel(this Entities.Resource entity) => Mapper.Map<Models.Resource>(entity);
         public static Entities.Resource ToEntity(this Models.Resource model) => Mapper.Map<Entities.Resource>(model);
         public static IQueryable<Models.Resource> ToModel(this IQueryable<Entities.Resource> source) => source.ProjectTo<Models.Resource>(Mapper.ConfigurationProvider);
+        public static Expression<Func<Entities.Resource, Models.Resource>> Projection => entity => Mapper.Map<Models.Resource>(entity);
         public static void UpdateEntity(this Models.Resource model, Entities.Resource entity) => Mapper.Map(model, entity);
 
     }
@@ -74,7 +77,14 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 .ForMember(p => p.Scope, opt => opt.MapFrom(src => src));
 
             CreateMap<Entities.MmResourceScope, Models.Scope>()
-                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Scope>(p.Scope));
+                //.ConvertUsing((src, dest, ctx) => ctx.Mapper.Map<Models.Scope>(src.Scope));
+                //.ConstructUsing((p, ctx) => p.Scope.ToModel());
+                //.ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Scope>(p.Scope));
+                //TODO(demarco): beaware that we should not do that....
+                .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Scope.Id))
+                .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Scope.Name))
+                .ForMember(p => p.DisplayName, opt => opt.MapFrom(src => src.Scope.DisplayName))
+                .ForMember(p => p.IconUri, opt => opt.MapFrom(src => src.Scope.IconUri));
 
             #endregion
 

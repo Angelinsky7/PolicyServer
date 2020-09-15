@@ -88,7 +88,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             return entity.ToModel();
         }
 
-        public IQueryable<Client> Query() => _context.Clients.IncludeQuery().ToModel();
+        public IQueryable<Client> Query() => _context.Clients.IncludeQuery().Select(ClientMappers.Projection);
 
         public async Task<Client> GetFromClientIdAsync(String clientId) {
             Entities.Client entity = await _context.Clients.SingleOrDefaultAsync(p => p.ClientId == clientId);
