@@ -1,6 +1,6 @@
 ﻿@model PolicyServer1.Models.ScopePermission
 
-<div x-data="ScopeManager(@Model.Scopes.ToJson())" x-init="fetchScopes('@Model.Resource?.Id')">
+<div x-data="ScopeManager(@Model.Scopes.ToJson())" x-init="fetchScopes('@Model.Resource?.Id')" x-on:resource-changed.window="fetchScopes($event.detail.id)">
 	<div class="flex flex-row mb-2">
 		<label asp-for="Scopes" class="font-bold mb-1 text-gray-700 block text-xs"></label>
 		<span class="flex-auto"></span>
@@ -56,6 +56,8 @@
 			selectedScopes: [],
 			fetchScopes(guid) {
 				if (guid != null) {
+					this.availableScopes = [];
+
 					fetch(`/api/resource/${guid}`)
 						.then(response => response.json())
 						.then(json => {

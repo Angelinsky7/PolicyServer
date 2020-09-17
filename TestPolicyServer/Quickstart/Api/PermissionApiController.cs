@@ -21,7 +21,7 @@ namespace TestPolicyServer.Quickstart.Api {
         public PermissionApiController(IPermissionStore resourceStore) => _permissionStore = resourceStore;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Permission>>> Get() => await _permissionStore.Query().AsNoTracking().ToListAsync();
+        public async Task<ActionResult<IEnumerable<Permission>>> Get() => _permissionStore.Query().ToList();
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Permission>> Get(Guid id) {

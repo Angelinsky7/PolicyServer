@@ -2,10 +2,9 @@
 
 <partial name="_FormPermission" />
 
-<div class="mb-5">
+<div class="mb-5" x-data="{}">
 	<label asp-for="Resource" class="font-bold mb-1 text-gray-700 block text-xs"></label>
-	<select name="Resource" asp-items="ViewBag.Resources" class="w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium">
-		<option>Select a resource or none</option>
+	<select x-on:change="$dispatch('resource-changed', { id: $event.target.value })" name="Resource" asp-items="ViewBag.Resources" class="w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none focus:shadow-outline text-gray-600 font-medium">
 	</select>
 	<span asp-validation-for="Resource" class="mt-2 text-sm text-red-800"></span>
 </div>

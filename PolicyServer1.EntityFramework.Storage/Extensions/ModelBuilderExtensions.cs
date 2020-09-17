@@ -168,7 +168,7 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
                 resource.Property(p => p.Updated).ValueGeneratedOnUpdate();
                 resource.Property(p => p.LastAccessed);
 
-                resource.HasMany(p => p.Uris).WithOne(p => p.Resource).HasForeignKey(p => p.ResouceId).OnDelete(DeleteBehavior.Cascade);
+                resource.HasMany(p => p.Uris).WithOne(p => p.Resource).HasForeignKey(p => p.ResourceId).OnDelete(DeleteBehavior.Cascade);
                 resource.HasMany(p => p.Scopes).WithOne(p => p.Resource).HasForeignKey(p => p.ResourceId).OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -176,7 +176,7 @@ namespace PolicyServer1.EntityFramework.Storage.Extensions {
                 resourceUri.ToTable(storeOptions.ResourceUri);
                 resourceUri.HasKey(p => p.Id);
 
-                resourceUri.HasOne(p => p.Resource).WithMany(p => p.Uris).HasForeignKey(p => p.ResouceId).OnDelete(DeleteBehavior.Cascade);
+                resourceUri.HasOne(p => p.Resource).WithMany(p => p.Uris).HasForeignKey(p => p.ResourceId).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<MmResourceScope>(resourceScope => {

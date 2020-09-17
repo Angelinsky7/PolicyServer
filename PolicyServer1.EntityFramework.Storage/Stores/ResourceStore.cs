@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper.Extensions.ExpressionMapping;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -66,10 +67,11 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             .Include(p => p.Scopes)
                 .ThenInclude(p => p.Scope)
             .AsNoTracking()
+            //.UseAsDataSource(ResourceMappers.Mapper.ConfigurationProvider)
+            //.For<Resource>();
             //.ToModel();
-            //.Select(ResourceMappers.Projection);
-            .ProjectTo<Resource>(ResourceMappers.Mapper.ConfigurationProvider);
-
+            .Select(ResourceMappers.Resource.Projection);
+            //.ProjectTo<Resource>(ResourceMappers.Mapper.ConfigurationProvider);
         public async Task RemoveAsync(Guid id) {
             Entities.Resource entity = await _context.Resources
                 .Include(p => p.Uris)

@@ -20,11 +20,11 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 //cfg.UseEntityFrameworkCoreModel<PolicyDbContext>();
 
                 cfg.AddProfile<ClientMapperProfile>();
-                cfg.AddProfile<ScopeMapperProfile>();
-                cfg.AddProfile<ResourceMapperProfile>();
+                //cfg.AddProfile<ScopeMapperProfile>();
+                //cfg.AddProfile<ResourceMapperProfile>();
                 cfg.AddProfile<RoleMapperProfile>();
                 cfg.AddProfile<PolicyMapperProfile>();
-                cfg.AddProfile<PermissionMapperProfile>();
+                //cfg.AddProfile<PermissionMapperProfile>();
             });
 
             //#if DEBUG

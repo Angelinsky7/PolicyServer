@@ -52,7 +52,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
 
             return entity.ToModel();
         }
-        public IQueryable<Scope> Query() => _context.Scopes.AsNoTracking().ProjectTo<Scope>(ScopeMappers.Mapper.ConfigurationProvider);
+        public IQueryable<Scope> Query() => _context.Scopes.AsNoTracking().Select(ScopeMappers.Scope.Projection);
         public async Task RemoveAsync(Guid id) {
             Entities.Scope entity = await _context.Scopes.SingleOrDefaultAsync(p => p.Id == id);
            

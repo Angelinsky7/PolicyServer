@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper.Extensions.ExpressionMapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PolicyServer1.EntityFramework.Storage.Interfaces;
@@ -72,11 +73,19 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
 
             return entity.ToModel();
         }
+
         public IQueryable<Permission> Query() {
 
             //TODO(demarco): should not be a in memroy thing....
             List<Permission> result = new List<Permission>();
-            foreach (var item in _context.Permissions.AsNoTracking()) {
+            foreach (var item in _context.Permissions
+                .Include(p => p.Policies)
+                    .ThenInclude(p => p.Policy)
+                .Include(p => (p as Entities.ScopePermission).Resource)
+                .Include(p => (p as Entities.ScopePermission).Scopes)
+                     .ThenInclude(p => p.Scope)
+                .Include(p => (p as Entities.ResourcePermission).Resource)
+                .AsNoTracking()) {
                 result.Add(item.ToModel());
             }
             return result.AsQueryable();
@@ -87,6 +96,17 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             //IQueryable<Permission> result = scopePermissions.Cast<Permission>().Concat(resourcePermissions);
             //return result;
         }
+
+        //public IQueryable<Permission> Query() => _context.Permissions
+        //    .Include(p => p.Policies)
+        //        .ThenInclude(p => p.Policy)
+        //    .Include(p => (p as Entities.ScopePermission).Resource)
+        //    .Include(p => (p as Entities.ScopePermission).Scopes)
+        //            .ThenInclude(p => p.Scope)
+        //    .Include(p => (p as Entities.ResourcePermission).Resource)
+        //    .AsNoTracking()
+        //    .UseAsDataSource(PermissionMappers.Mapper)
+        //    .For<Permission>();
 
         public async Task RemoveAsync(Guid id) {
             Entities.Permission entity = await _context.Permissions
@@ -132,7 +152,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             _context.MarkEntitesAsUnchanged<Entities.Resource>();
             _context.MarkEntitesAsUnchanged<Entities.Scope>();
             _context.MarkEntitesAsUnchanged<Entities.MmResourceScope>();
-            
+
             item.UpdateEntity(entity);
             entity.Updated = DateTime.UtcNow;
 

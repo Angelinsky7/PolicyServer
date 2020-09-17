@@ -309,7 +309,7 @@ namespace TestPolicyServer.Quickstart.MVC {
 
         private async Task<IEnumerable<Resource>> GetResourcesAsync() {
             IOrderedQueryable<Resource> result = _resourceStore.Query().OrderBy(p => p.DisplayName);
-            return await result.ToListAsync();
+            return result.ToList();
         }
 
         //private async Task<IEnumerable<Scope>> GetScopesAsync() => await _scopeStore.Query().OrderBy(p => p.DisplayName).ToListAsync();
