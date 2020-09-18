@@ -112,7 +112,8 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 .ForMember(p => p.Resource, opt => opt.MapFrom(src => src));
 
             CreateMap<Entities.MmClientResource, Models.Resource>()
-                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Resource>(p.Resource));
+                //.ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Resource>(p.Resource));
+                .ConstructUsing((p, ctx) => ResourceMappers.Resource.ToModel(p.Resource));
 
             #endregion
 
@@ -123,7 +124,8 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 .ForMember(p => p.Scope, opt => opt.MapFrom(src => src));
 
             CreateMap<Entities.MmClientScope, Models.Scope>()
-                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Scope>(p.Scope));
+                //.ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Scope>(p.Scope));
+                .ConstructUsing((p, ctx) => ScopeMappers.Scope.ToModel(p.Scope));
 
             #endregion
 
@@ -135,6 +137,8 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
             CreateMap<Entities.MmClientRole, Models.Role>()
                 .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Role>(p.Role));
+                //.ConstructUsing((p, ctx) => RoleMappers.Role.ToModel(p.Role));
+
 
             #endregion
 
@@ -156,8 +160,9 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 .ForMember(p => p.Permission, opt => opt.MapFrom(src => src));
 
             CreateMap<Entities.MmClientPermission, Models.Permission>()
-                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Permission>(p.Permission));
-                //.ForMember(p => p.Id, opt => opt.MapFrom(src => src.))
+                //.ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Permission>(p.Permission));
+                .ConstructUsing((p, ctx) => PermissionMappers.Permission.ToModel(p.Permission));
+            //.ForMember(p => p.Id, opt => opt.MapFrom(src => src.))
 
             #endregion
 

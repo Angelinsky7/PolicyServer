@@ -10,9 +10,10 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
     public static class PolicyMappers {
         internal static IMapper Mapper { get; }
 
-        static PolicyMappers() {
-            Mapper = new MapperConfiguration(cfg => cfg.AddProfile<PolicyMapperProfile>()).CreateMapper();
-        }
+        static PolicyMappers() => Mapper = new MapperConfiguration(cfg => {
+            cfg.AddProfile<RoleMapperProfile>();
+            cfg.AddProfile<PolicyMapperProfile>();
+        }).CreateMapper();
 
         public static Models.Policy ToModel(this Entities.Policy entity) {
             return Mapper.Map<Models.Policy>(entity);
@@ -231,4 +232,5 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
         }
     }
+
 }

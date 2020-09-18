@@ -1,0 +1,113 @@
+﻿@model RolesViewModel
+
+<vc:flash-message-error />
+<div class="flex flex-col m-2" x-data="policyServer1.listController()">
+	<header class="flex">
+		<h2 class="text-xl font-semibold text-gray-800">Scopes</h2>
+		<span class="flex-auto"></span>
+		<a asp-action="Create" class="px-4 py-2 rounded-md bg-blue-800 text-white shadow-lg focus:outline-none focus:text-white focus:bg-gray-700 hover:bg-blue-600 transition duration-150 ease-in-out">
+			Add role
+		</a>
+	</header>
+
+	<hr class="mt-2 mb-2" />
+
+	<div class="flex items-center">
+		<a data-remote="true" data-modal="true"
+		   x-ref="linkDeleteMultiple" x-bind:href="deleteMultipleHref($refs.linkDeleteMultiple.getAttribute('data-base-href'))" data-base-href="@Url.ActionLink("deleteMultiple")"
+		   class="px-4 py-2 rounded-md bg-gray-500 disabled:bg-gray-500 text-white shadow-lg focus:outline-none focus:text-white focus:bg-gray-700 hover:bg-red-600 transition duration-150 ease-in-out"
+		   x-bind:class="{
+			'disabled': selectedRows.length === 0,
+			'bg-red-800': selectedRows.length !== 0,
+		   }" x-bind:style="(selectedRows.length === 0 ? 'pointer-events: none;' : '')">
+			Remove role
+		</a>
+		<template x-if="selectedRows.length > 0">
+			<span class="ml-2" x-text="`${selectedRows.length} role${selectedRows.length > 1 ? 's' : ''}`"></span>
+		</template>
+		<span class="flex-auto"></span>
+		<form>
+			<div class="relative">
+				<input class="w-full pl-10 pr-4 py-2 rounded-lg shadow focus:outline-none focus:shadow-outline text-gray-600 font-medium" type="text" name="SearchString" value="@Model.SearchString" placeholder="Search" />
+				<div class="absolute top-0 left-0 inline-flex items-center p-2">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-400" viewBox="0 0 24 24"
+						 stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+						 stroke-linejoin="round">
+						<rect x="0" y="0" width="24" height="24" stroke="none"></rect>
+						<circle cx="10" cy="10" r="7" />
+						<line x1="21" y1="21" x2="15" y2="15" />
+					</svg>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="mt-2 border shadow-2xl">
+		<table class="min-w-full">
+			<thead>
+				<tr>
+					<th class="w-4 px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+						<div class="bg-white border-2 rounded border-gray-400 w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
+							<input x-ref="checkAll" autocomplete="off" type="checkbox" class="opacity-0 absolute" x-on:input="checkAll($event.target)">
+							<svg class="fill-current hidden w-3 h-3 text-green-500 pointer-events-none" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
+							<svg class="indeterminate fill-current hidden w-3 h-3 text-green-500 pointer-events-none" viewBox="0 0 20 20"><path d="M2,9 18,9 18,11 2,11" /></svg>
+						</div>
+					</th>
+					<th class="px-2 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+						<div class="flex items-center">
+							@Html.ActionLink("Name", "Index", new ListViewModel(Model) { SortOrder = SortHelper.NextSortOrder(Model.SortOrder) }, new { @class = (Model.SortOrder != "" ? "font-semibold" : "normal") })
+							<sort-helper sort-order="@Model.SortOrder" />
+						</div>
+					</th>
+					<th class="w-4 px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
+				</tr>
+			</thead>
+			<tbody class="bg-white">
+				@foreach (var role in Model.Roles) {
+					<tr>
+						<td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+							<div class="bg-white border-2 rounded border-gray-400 w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
+								<input type="checkbox" autocomplete="off" data-row-id="@role.Id" class="js-list-check-box opacity-0 absolute" x-on:input="checkTick($event.target)">
+								<svg class="fill-current hidden w-3 h-3 text-green-500 pointer-events-none" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
+							</div>
+						</td>
+						<td class="flex items-center px-2 py-4 whitespace-no-wrap border-b border-gray-200">
+							<div class="h-8">
+								<div class="text-sm leading-5 font-medium text-gray-900">@role.Name</div>
+								<div class="text-sm leading-5 text-gray-500">@role.Description</div>
+							</div>
+						</td>
+						<td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+							@await Html.DropdownAsync(
+								@<text>
+									<svg class="h-4 w-4">
+										<use xlink:href="#dots-horizontal-triple"></use>
+									</svg>
+								</text>,
+								@<text>
+									<a asp-action="Edit" asp-route-id="@role.Id"
+										class="dropdown-menu-item w-48" role="menuitem">
+										<span>Edit</span>
+										<span class="flex-auto"></span>
+										<svg class="h-4 w-4">
+											<use xlink:href="#edit-pencil"></use>
+										</svg>
+									</a>
+									<a asp-action="Delete" asp-route-id="@role.Id" data-remote="true" data-modal="true" data-close-dropdown="true" onclick="return false;"
+										class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out flex items-center" role="menuitem">
+										<span>Delete</span>
+										<span class="flex-auto"></span>
+										<svg class="fill-current text-red-600 h-4 w-4">
+											<use xlink:href="#trash"></use>
+										</svg>
+									</a>
+								</text>
+							)
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		<vc:pagination model="@Model" />
+	</div>
+</div>

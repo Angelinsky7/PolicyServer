@@ -1,0 +1,96 @@
+﻿@model PolicyServer1.Models.Role
+
+<div x-data="ScopeManager(@Model.Parents.ToJson(), @Model.ToJson())" x-init="fetchRoles()">
+	<div class="flex flex-row mb-2">
+		<label asp-for="Parents" class="font-bold mb-1 text-gray-700 block text-xs"></label>
+		<span class="flex-auto"></span>
+	</div>
+
+	<div class="flex flex-row w-full">
+		<ul class="flex-1 border border-gray-200 rounded-md m-5 ml-0 select-none overflow-y-auto h-48">
+			<template x-for="(scope, index) in availableRoles" :key="index">
+				<li x-on:click="toogleSelect(index, selectedAvailableRoles, $event)" x-bind:class="{'bg-blue-400': selectedAvailableRoles.indexOf(index) != -1}" class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5 hover:bg-blue-200">
+					<span x-text="scope.name"></span>
+				</li>
+			</template>
+		</ul>
+		<div class="w-16 flex flex-col justify-center items-center">
+			<button type="button" x-on:click="add()" class="mb-4 disabled:text-gray-400 text-blue-400 focus:outline-none" x-bind:disabled="selectedAvailableRoles.length == 0">
+				<svg class="flex-shrink-0 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+					<use xlink:href="#arrow-outline-right"></use>
+				</svg>
+			</button>
+			<button type="button" x-on:click="remove()" class="disabled:text-gray-400 text-blue-400 focus:outline-none" x-bind:disabled="selectedRoles.length == 0">
+				<svg class="flex-shrink-0 h-5 w-5  " viewBox="0 0 20 20" fill="currentColor">
+					<use xlink:href="#arrow-outline-left"></use>
+				</svg>
+			</button>
+		</div>
+		<ul class="flex-1 border border-gray-200 rounded-md m-5 mr-0 select-none overflow-y-auto h-48">
+			<template x-for="(scope, index) in scopes" :key="index">
+				<li x-on:click="toogleSelect(index, selectedRoles, $event)" x-bind:class="{'bg-blue-400': selectedRoles.indexOf(index) != -1}" class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5 hover:bg-blue-200">
+					<span x-text="scope.name"></span>
+				</li>
+			</template>
+		</ul>
+		<div class="hidden">
+			<template x-for="(scope, index) in scopes" :key="index">
+				<div>
+					<input type="hidden" x-bind:id="`Roles[${index}].Id`" x-bind:name="`Roles[${index}].Id`" x-bind:value="scope.id" />
+					<input type="hidden" x-bind:id="`Roles[${index}].Name`" x-bind:name="`Roles[${index}].Name`" x-bind:value="scope.name" />
+					<input type="hidden" x-bind:id="`Roles[${index}].DisplayName`" x-bind:name="`Roles[${index}].DisplayName`" x-bind:value="scope.displayName" />
+					<input type="hidden" x-bind:id="`Roles[${index}].IconUri`" x-bind:name="`Roles[${index}].IconUri`" x-bind:value="scope.iconUri" />
+				</div>
+			</template>
+		</div>
+	</div>
+	<span asp-validation-for="Parents" class="mt-2 text-sm text-red-800"></span>
+</div>
+
+<script>
+	function ScopeManager(datas, item) {
+		console.log(datas, item);
+		return {
+			availableRoles: [],
+			selectedAvailableRoles: [],
+			scopes: datas.map(p => ({ id: p.Id, name: p.Name, displayName: p.DisplayName, iconUri: p.IconUri })) || [],
+			selectedRoles: [],
+			fetchRoles() {
+				fetch('/api/role')
+					.then(response => response.json())
+					.then(json => { this.availableRoles = json
+						.filter(p => this.scopes.find(a => a.id === p.id) == null)
+						.filter(p => (item == null && item.Id == null) || p.id != item.Id)
+						.map(p => ({ id: p.id, name: p.name, description: p.description})) || [] });
+			},
+			add() {
+				for(var i = this.selectedAvailableRoles.length - 1; i >= 0 ; --i){
+					var index = this.selectedAvailableRoles[i];
+					var scope = this.availableRoles[index];
+					this.availableRoles.splice(index, 1);
+					this.scopes.push(scope);	
+				}
+				this.selectedAvailableRoles.splice(0, this.selectedAvailableRoles.length);
+			},
+			remove() {
+				for(var i = this.selectedRoles.length - 1; i >= 0 ; --i){
+					var index = this.selectedRoles[i];
+					var scope = this.scopes[index];
+					this.scopes.splice(index, 1);
+					this.availableRoles.push(scope);	
+				}
+				this.selectedRoles.splice(0, this.selectedRoles.length);
+			},
+			toogleSelect(item, list, event) {
+				var index = list.indexOf(item);
+				if(!event.ctrlKey){ list.splice(0, list.length); }
+					
+				if(index != -1){
+					list.splice(index, 1);
+				}else{
+					list.push(item);
+				}
+			}
+		};
+	}
+</script>

@@ -1,14 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PolicyServer1.EntityFramework.Storage.Interfaces;
 using PolicyServer1.EntityFramework.Storage.Mappers;
 using PolicyServer1.Models;
 using PolicyServer1.Stores;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PolicyServer1.EntityFramework.Storage.Stores {
     public class RoleStore : IRoleStore {
@@ -24,25 +24,91 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             _logger = logger;
         }
 
-        public Task<Guid> CreateAsync(Role item) {
-            throw new NotImplementedException();
+        public async Task<Guid> CreateAsync(Role item) {
+            Entities.Role entity = item.ToEntity();
+
+            _context.Roles.Add(entity);
+
+            try {
+                await _context.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException ex) {
+                _logger.LogInformation($"exception adding {entity} to database: {ex.Message}");
+            }
+
+            return entity.Id;
         }
 
         public Task<Role> GetAsync(Guid id) {
-            throw new NotImplementedException();
+            //Entities.Role entity = (await _context.Roles
+            //    .Include(p => p.Parents)
+            //        .ThenInclude(p => p.Role)
+            //    //.AsNoTracking()
+            //    .SingleOrDefaultAsync(p => p.Id == id));
+            Entities.Role entity = GetRoles().SingleOrDefault(p => p.Id == id);
+
+            if (entity == null) {
+                _logger.LogInformation($"entity with id {id} was not found");
+                //throw new EntityNotFoundException(nameof(Trail), id);
+                return null;
+            }
+
+            return Task.FromResult(entity.ToModel());
         }
 
-        public IQueryable<Role> Query() {
-            throw new NotImplementedException();
+        //public IQueryable<Role> Query() => _context.Roles
+        //    .Include(p => p.Parents)
+        //        .ThenInclude(p => p.Role)
+        //    .AsNoTracking()
+        //    .Select(RoleMappers.Role.Projection);
+
+        public IQueryable<Role> Query() => GetRoles().Select(RoleMappers.Role.Projection);
+
+        public async Task RemoveAsync(Guid id) {
+            Entities.Role entity = await _context.Roles
+                .Include(p => p.Parents)
+                    .ThenInclude(p => p.Role)
+                .SingleOrDefaultAsync(p => p.Id == id);
+
+            if (entity == null) {
+                _logger.LogInformation($"entity with id {id} was not found");
+                //throw new EntityNotFoundException(nameof(Trail), id);
+            }
+
+            _context.Roles.Remove(entity);
+
+            try {
+                await _context.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException ex) {
+                _logger.LogInformation($"exception removing {entity} to database: {ex.Message}");
+            }
         }
 
-        public Task RemoveAsync(Guid id) {
-            throw new NotImplementedException();
+        public async Task UpdateAsync(Guid id, Role item) {
+            Entities.Role entity = await _context.Roles
+                .Include(p => p.Parents)
+                    .ThenInclude(p => p.Role)
+                .SingleOrDefaultAsync(p => p.Id == id);
+
+            if (entity == null) {
+                _logger.LogInformation($"entity with id {id} was not found");
+                //throw new EntityNotFoundException(nameof(Trail), id);
+            }
+
+            item.UpdateEntity(entity);
+            entity.Updated = DateTime.UtcNow;
+
+            try {
+                await _context.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException ex) {
+                _logger.LogInformation($"exception updating {item} to database: {ex.Message}");
+            }
         }
 
-        public Task UpdateAsync(Guid id, Role item) {
-            throw new NotImplementedException();
-        }
+        private IQueryable<Entities.Role> GetRoles() => _context.Roles
+            .Include(p => p.Parents)
+                .ThenInclude(p => p.Parent)
+            .ToList()
+            .AsQueryable();
 
         //public async Task<PolicyRole> GetAsync((Int32 policyId, Int32 roleId) key) {
         //    Entities.Role role = await _context.Roles

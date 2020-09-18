@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace PolicyServer1.Models {
 
-    //TODO(demarco): Should be abstract
-    public class Policy {
+    public abstract class Policy {
 
         public Guid Id { get; set; } = Guid.NewGuid();
         public String Name { get; set; }

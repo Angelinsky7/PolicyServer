@@ -1,0 +1,37 @@
+﻿@model PolicyServer1.Models.Role
+
+@{
+	ViewData["Title"] = "Delete";
+	Layout = ViewData["Layout"] as String ?? "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-2xl font-bold">Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div class="mt-2">
+	<h4 class="font-semibold">Scope</h4>
+	<hr />
+	<dl class="mt-2 flex flex-wrap">
+		<dt class="font-semibold" style="flex: 0 120px;">
+			@Html.DisplayNameFor(model => model.Name)
+		</dt>
+		<dd style="flex: 0 calc(100% - 120px);">
+			@Html.DisplayFor(model => model.Name)
+		</dd>
+		<dt class="font-semibold" style="flex: 0 120px;">
+			@Html.DisplayNameFor(model => model.Description)
+		</dt>
+		<dd style="flex: 0 calc(100% - 120px);">
+			@Html.DisplayFor(model => model.Description)
+		</dd>
+	</dl>
+
+	<view-layout-modal class="mt-4 mr-4 justify-end" layout="@ViewData["Layout"]">
+		<form asp-action="Delete" id="modalButton">
+			<input type="hidden" asp-for="Id" />
+			<a asp-action="Index" class="px-4 py-2 hover:text-white text-sm rounded-lg hover:bg-gray-800">Back to List</a>
+			<input type="submit" value="Delete" class="ml-2 bg-red-500 rounded-lg text-white px-4 py-2 cursor-pointer hover:bg-red-600" />
+		</form>
+	</view-layout-modal>
+
+</div>

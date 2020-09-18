@@ -117,12 +117,13 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
         }
 
         internal static class MmPermissionPolicy {
-            internal static Expression<Func<Entities.MmPermissionPolicy, Models.Policy>> Projection => entity => new Models.Policy {
-                Id = entity.Policy.Id,
-                Description = entity.Policy.Description,
-                Name = entity.Policy.Name,
-                Logic = entity.Policy.Logic
-            };
+            internal static Expression<Func<Entities.MmPermissionPolicy, Models.Policy>> Projection => entity => PolicyMappers.ToModel(entity.Policy);
+            //new Models.Policy {
+            //    Id = entity.Policy.Id,
+            //    Description = entity.Policy.Description,
+            //    Name = entity.Policy.Name,
+            //    Logic = entity.Policy.Logic
+            //};
             internal static Expression<Func<Models.Policy, Entities.MmPermissionPolicy>> Transform => model => new Entities.MmPermissionPolicy {
                 PolicyId = model.Id,
                 Policy = PolicyMappers.ToEntity(model)

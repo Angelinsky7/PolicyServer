@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using PolicyServer1.Extensions;
 using PolicyServer1.Models;
 using PolicyServer1.ResponseHandling.Models;
 using PolicyServer1.Services;
@@ -82,7 +83,7 @@ namespace PolicyServer1.ResponseHandling.Default {
                 case PermissionRequestReponseMode.Permissions: {
                         Dictionary<String, Object> result = new Dictionary<String, Object> {
                             { nameof(client.ClientId),                        client.ClientId },
-                            { nameof(evaluation.Results),                     evaluation.Results },
+                            { nameof(evaluation.Results),                     evaluation.Results.OnlyWithScopes() },
                             //{ nameof(evaluation.LastPolicyChangeDate),      evaluation.LastPolicyChangeDate },
                             //{ nameof(evaluation.Roles),                     evaluation.Roles },
                             //{ nameof(evaluation.Permissions),               evaluation.Permissions }
