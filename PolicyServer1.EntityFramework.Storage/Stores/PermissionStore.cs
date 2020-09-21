@@ -55,13 +55,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             return entity.Id;
         }
         public async Task<Permission> GetAsync(Guid id) {
-            Entities.Permission entity = await _context.Permissions
-                .Include(p => p.Policies)
-                    .ThenInclude(p => p.Policy)
-                .Include(p => (p as Entities.ScopePermission).Resource)
-                .Include(p => (p as Entities.ScopePermission).Scopes)
-                     .ThenInclude(p => p.Scope)
-                .Include(p => (p as Entities.ResourcePermission).Resource)
+            Entities.Permission entity = await GetPermissions()
                 .AsNoTracking()
                 .SingleOrDefaultAsync(p => p.Id == id);
 
@@ -78,13 +72,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
 
             //TODO(demarco): should not be a in memroy thing....
             List<Permission> result = new List<Permission>();
-            foreach (var item in _context.Permissions
-                .Include(p => p.Policies)
-                    .ThenInclude(p => p.Policy)
-                .Include(p => (p as Entities.ScopePermission).Resource)
-                .Include(p => (p as Entities.ScopePermission).Scopes)
-                     .ThenInclude(p => p.Scope)
-                .Include(p => (p as Entities.ResourcePermission).Resource)
+            foreach (var item in GetPermissions()
                 .AsNoTracking()) {
                 result.Add(item.ToModel());
             }
@@ -109,13 +97,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
         //    .For<Permission>();
 
         public async Task RemoveAsync(Guid id) {
-            Entities.Permission entity = await _context.Permissions
-                .Include(p => p.Policies)
-                    .ThenInclude(p => p.Policy)
-                .Include(p => (p as Entities.ScopePermission).Resource)
-                .Include(p => (p as Entities.ScopePermission).Scopes)
-                     .ThenInclude(p => p.Scope)
-                .Include(p => (p as Entities.ResourcePermission).Resource)
+            Entities.Permission entity = await GetPermissions()
                 .SingleOrDefaultAsync(p => p.Id == id);
 
             if (entity == null) {
@@ -134,13 +116,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
         public async Task UpdateAsync(Guid id, Permission item) {
             if (item.GetType() == typeof(Permission)) { throw new ArgumentException("Cannot update an abstract permission."); }
 
-            Entities.Permission entity = await _context.Permissions
-                .Include(p => p.Policies)
-                    .ThenInclude(p => p.Policy)
-                .Include(p => (p as Entities.ScopePermission).Resource)
-                .Include(p => (p as Entities.ScopePermission).Scopes)
-                     .ThenInclude(p => p.Scope)
-                .Include(p => (p as Entities.ResourcePermission).Resource)
+            Entities.Permission entity = await GetPermissions()
                 .SingleOrDefaultAsync(p => p.Id == id);
 
             if (entity == null) {
@@ -167,6 +143,14 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
                 _logger.LogInformation($"exception updating {item} to database: {ex.Message}");
             }
         }
+
+        private IQueryable<Entities.Permission> GetPermissions() => _context.Permissions
+                .Include(p => p.Policies)
+                    .ThenInclude(p => p.Policy)
+                .Include(p => (p as Entities.ScopePermission).Resource)
+                .Include(p => (p as Entities.ScopePermission).Scopes)
+                     .ThenInclude(p => p.Scope)
+                .Include(p => (p as Entities.ResourcePermission).Resource);
 
         //public Task<Permission> GetByNameAsync(String name) {
         //    Entities.Permission entity = await _context.Permissions

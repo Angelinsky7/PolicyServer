@@ -42,7 +42,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             return entity.Id;
         }
         public async Task<Scope> GetAsync(Guid id) {
-            Entities.Scope entity = (await _context.Scopes.AsNoTracking().SingleOrDefaultAsync(p => p.Id == id));
+            Entities.Scope entity = (await GetScopes().AsNoTracking().SingleOrDefaultAsync(p => p.Id == id));
 
             if (entity == null) {
                 _logger.LogInformation($"entity with id {id} was not found");
@@ -52,9 +52,9 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
 
             return entity.ToModel();
         }
-        public IQueryable<Scope> Query() => _context.Scopes.AsNoTracking().Select(ScopeMappers.Scope.Projection);
+        public IQueryable<Scope> Query() => GetScopes().Select(ScopeMappers.Scope.Projection);
         public async Task RemoveAsync(Guid id) {
-            Entities.Scope entity = await _context.Scopes.SingleOrDefaultAsync(p => p.Id == id);
+            Entities.Scope entity = await GetScopes().SingleOrDefaultAsync(p => p.Id == id);
            
             if (entity == null) {
                 _logger.LogInformation($"entity with id {id} was not found");
@@ -70,7 +70,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             }
         }
         public async Task UpdateAsync(Guid id, Scope item) {
-            Entities.Scope entity = await _context.Scopes.SingleOrDefaultAsync(p => p.Id == id);
+            Entities.Scope entity = await GetScopes().SingleOrDefaultAsync(p => p.Id == id);
             
             if (entity == null) {
                 _logger.LogInformation($"entity with id {id} was not found");
@@ -86,5 +86,8 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
                 _logger.LogInformation($"exception updating {item} to database: {ex.Message}");
             }
         }
+
+        private IQueryable<Entities.Scope> GetScopes() => _context.Scopes;
+
     }
 }

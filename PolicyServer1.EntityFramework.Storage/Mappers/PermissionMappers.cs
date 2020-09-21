@@ -87,7 +87,7 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 Name = entity.Name,
                 DecisionStrategy = entity.DecisionStrategy,
                 Description = entity.Description,
-                Policies = new Collection<Models.Policy>(entity.Policies.Select(p => MmPermissionPolicy.ToModel(p)).ToList()),
+                Policies = entity.Policies.AsQueryable().Select(MmPermissionPolicy.Projection).ToList(),
                 ResouceType = (entity as ResourcePermission).ResouceType,
                 Resource = (entity as ResourcePermission).Resource != null ? ResourceMappers.ToModel((entity as ResourcePermission).Resource) : null,
             } : null;
@@ -108,7 +108,7 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 Name = model.Name,
                 DecisionStrategy = model.DecisionStrategy,
                 Description = model.Description,
-                Policies = new Collection<Entities.MmPermissionPolicy>(model.Policies.Select(p => MmPermissionPolicy.ToEntity(p)).ToList()),
+                Policies = model.Policies.AsQueryable().Select(MmPermissionPolicy.Transform).ToList(),
                 Resource = ResourceMappers.ToEntity((model as Models.ResourcePermission).Resource),
                 ResouceType = (model as Models.ResourcePermission).ResouceType
             } : null;

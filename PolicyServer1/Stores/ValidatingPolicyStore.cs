@@ -26,25 +26,11 @@ namespace PolicyServer1.Stores {
             _validatorType = _validator.GetType().FullName;
         }
 
-        public Task<Guid> CreateAsync(Policy item) {
-            throw new NotImplementedException();
-        }
-
-        public Task<Policy> GetAsync(Guid id) {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<Policy> Query() {
-            throw new NotImplementedException();
-        }
-
-        public Task RemoveAsync(Guid id) {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(Guid id, Policy item) {
-            throw new NotImplementedException();
-        }
+        public Task<Guid> CreateAsync(Policy item) => _inner.CreateAsync(item);
+        public Task<Policy> GetAsync(Guid id) => _inner.GetAsync(id);
+        public IQueryable<Policy> Query() => _inner.Query();
+        public Task RemoveAsync(Guid id) => _inner.RemoveAsync(id);
+        public Task UpdateAsync(Guid id, Policy item) => _inner.UpdateAsync(id, item);
 
         //public Task<Int32> CreateAsync(Policy newPolicy) {
         //    return _inner.CreateAsync(newPolicy);

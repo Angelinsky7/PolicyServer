@@ -47,10 +47,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             return entity.Id;
         }
         public async Task<Resource> GetAsync(Guid id) {
-            Entities.Resource entity = await _context.Resources
-                .Include(p => p.Uris)
-                .Include(p => p.Scopes)
-                    .ThenInclude(p => p.Scope)
+            Entities.Resource entity = await GetResources()
                 .AsNoTracking()
                 .SingleOrDefaultAsync(p => p.Id == id);
 
@@ -62,10 +59,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
 
             return entity.ToModel();
         }
-        public IQueryable<Resource> Query() => _context.Resources
-            .Include(p => p.Uris)
-            .Include(p => p.Scopes)
-                .ThenInclude(p => p.Scope)
+        public IQueryable<Resource> Query() => GetResources()
             .AsNoTracking()
             //.UseAsDataSource(ResourceMappers.Mapper.ConfigurationProvider)
             //.For<Resource>();
@@ -73,11 +67,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             .Select(ResourceMappers.Resource.Projection);
             //.ProjectTo<Resource>(ResourceMappers.Mapper.ConfigurationProvider);
         public async Task RemoveAsync(Guid id) {
-            Entities.Resource entity = await _context.Resources
-                .Include(p => p.Uris)
-                .Include(p => p.Scopes)
-                    .ThenInclude(p => p.Scope)
-                .SingleOrDefaultAsync(p => p.Id == id);
+            Entities.Resource entity = await GetResources().SingleOrDefaultAsync(p => p.Id == id);
            
             if (entity == null) {
                 _logger.LogInformation($"entity with id {id} was not found");
@@ -93,10 +83,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             }
         }
         public async Task UpdateAsync(Guid id, Resource item) {
-            Entities.Resource entity = await _context.Resources
-                .Include(p => p.Uris)
-                .Include(p => p.Scopes)
-                    .ThenInclude(p => p.Scope)
+            Entities.Resource entity = await GetResources()
                 .SingleOrDefaultAsync(p => p.Id == id);
             
             if (entity == null) {
@@ -117,6 +104,12 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
                 _logger.LogInformation($"exception updating {item} to database: {ex.Message}");
             }
         }
+
+        private IQueryable<Entities.Resource> GetResources() => _context.Resources
+                .Include(p => p.Uris)
+                .Include(p => p.Scopes)
+                    .ThenInclude(p => p.Scope);
+
     }
 }
 

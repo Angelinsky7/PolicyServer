@@ -24,25 +24,91 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             _logger = logger;
         }
 
-        public Task<Guid> CreateAsync(Policy item) {
-            throw new NotImplementedException();
+        public async Task<Guid> CreateAsync(Policy item) {
+            Entities.Policy entity = item.ToEntity();
+
+            //_context.MarkEntitesAsDetached<Entities.Scope>();
+
+            _context.Policies.Add(entity);
+
+            //_context.MarkEntitesAsUnchanged<Entities.Scope>();
+
+            try {
+                await _context.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException ex) {
+                _logger.LogInformation($"exception adding {entity} to database: {ex.Message}");
+            }
+
+            return entity.Id;
         }
 
-        public Task<Policy> GetAsync(Guid id) {
-            throw new NotImplementedException();
+        public async Task<Policy> GetAsync(Guid id) {
+            Entities.Policy entity = await GetPolicies()
+                .AsNoTracking()
+                .SingleOrDefaultAsync(p => p.Id == id);
+
+            if (entity == null) {
+                _logger.LogInformation($"entity with id {id} was not found");
+                //throw new EntityNotFoundException(nameof(Trail), id);
+                return null;
+            }
+
+            return entity.ToModel();
         }
 
         public IQueryable<Policy> Query() {
-            throw new NotImplementedException();
+            //var result = GetPolicies().Select(PolicyMappers.Policy.Projection);
+
+            //TODO(demarco): should not be a in memroy thing....
+            List<Policy> result = new List<Policy>();
+            foreach (var item in GetPolicies().AsNoTracking()) {
+                result.Add(item.ToModel());
+            }
+            return result.AsQueryable();
+
         }
 
-        public Task RemoveAsync(Guid id) {
-            throw new NotImplementedException();
+        public async Task RemoveAsync(Guid id) {
+            Entities.Policy entity = await GetPolicies().SingleOrDefaultAsync(p => p.Id == id);
+
+            if (entity == null) {
+                _logger.LogInformation($"entity with id {id} was not found");
+                //throw new EntityNotFoundException(nameof(Trail), id);
+            }
+
+            _context.Policies.Remove(entity);
+
+            try {
+                await _context.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException ex) {
+                _logger.LogInformation($"exception removing {entity} to database: {ex.Message}");
+            }
         }
 
-        public Task UpdateAsync(Guid id, Policy item) {
-            throw new NotImplementedException();
+        public async Task UpdateAsync(Guid id, Policy item) {
+            Entities.Policy entity = await GetPolicies()
+                .SingleOrDefaultAsync(p => p.Id == id);
+
+            if (entity == null) {
+                _logger.LogInformation($"entity with id {id} was not found");
+                //throw new EntityNotFoundException(nameof(Trail), id);
+            }
+
+            //_context.MarkEntitesAsUnchanged<Entities.Scope>();
+
+            item.UpdateEntity(entity);
+            entity.Updated = DateTime.UtcNow;
+
+            //await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.Scope>();
+
+            try {
+                await _context.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException ex) {
+                _logger.LogInformation($"exception updating {item} to database: {ex.Message}");
+            }
         }
+
+        private IQueryable<Entities.Policy> GetPolicies() => _context.Policies;
 
         //public async Task<Models.Policy> GetAsync(Int32 policyId) {
         //    Entities.Policy policy = await _context.Policies
