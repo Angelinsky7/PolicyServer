@@ -9,7 +9,7 @@
 	</button>
 	<!-- Template of button -->
 
-	<div x-cloak x-show="show" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg z-10"
+	<div x-cloak x-show="show" class="origin-top-right absolute right-0 @(Model.SameWidthAsButton ? "left-0" : "") mt-2 w-48 rounded-md shadow-lg z-10"
 		 x-transition:enter="transition ease-out duration-100"
 		 x-transition:enter-start="transform opacity-0 scale-95"
 		 x-transition:enter-end="transform opacity-100 scale-100"

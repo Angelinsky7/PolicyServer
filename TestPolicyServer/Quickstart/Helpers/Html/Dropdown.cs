@@ -10,11 +10,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace TestPolicyServer.Quickstart {
     public static class DropdownHelpers {
 
-        public static async Task<IHtmlContent> DropdownAsync(this IHtmlHelper helper, Func<dynamic, IHtmlContent> templateButton, Func<Int32, IHtmlContent> templateContent, String buttonClass = "hover:bg-blue-600") {
+        public static async Task<IHtmlContent> DropdownAsync(this IHtmlHelper helper, Func<dynamic, IHtmlContent> templateButton, Func<Int32, IHtmlContent> templateContent, String buttonClass = "hover:bg-blue-600", Boolean sameWidthAsButton = false) {
             IHtmlContent content = await helper.PartialAsync("~/Views/Shared/Components/Dropdown/DefaultHelper.cshtml", new DropdownModel {
                 ButtonClass = buttonClass,
                 ButtonTemplate = templateButton(null).GetString(),
-                ContentTemplate = templateContent(1).GetString()
+                ContentTemplate = templateContent(1).GetString(),
+                SameWidthAsButton = sameWidthAsButton
             });
             return content;
         }

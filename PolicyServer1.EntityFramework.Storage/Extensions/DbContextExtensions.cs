@@ -70,6 +70,10 @@ namespace PolicyServer1.EntityFramework.Storage {
             IEnumerable<TEntity> existingEntities = await context.Set<TEntity>().AsNoTracking().ToListAsync();
             context.GetEntryFromChangeTrackerWithMulitpleTriesHack<TEntity>(existingEntities.Count()).ToList().ForEach(p => p.State = EntityState.Unchanged);
         }
+        public static async Task MarkEntitesAsDetachedWithHackAsync<TEntity>(this IPolicyDbContext context/*, Func<TEntity, TEntity, Boolean> comparer*/) where TEntity : class {
+            IEnumerable<TEntity> existingEntities = await context.Set<TEntity>().AsNoTracking().ToListAsync();
+            context.GetEntryFromChangeTrackerWithMulitpleTriesHack<TEntity>(existingEntities.Count()).ToList().ForEach(p => p.State = EntityState.Detached);
+        }
 
         /// <summary>Checks the existing entities of  a given type and mark as unchanged all the ones that already exist asynchronous.</summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>

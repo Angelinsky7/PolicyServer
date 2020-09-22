@@ -6,7 +6,12 @@ using PolicyServer1.Models;
 
 namespace TestPolicyServer.Quickstart {
     public class PoliciesViewModel : ListViewModel {
-        public IEnumerable<Policy> Policies{ get; set; }
+        public IEnumerable<Policy> Policies { get; set; }
+
+        public String GetMenuNameFromPolicy(Policy policy) {
+            return $"Edit{policy.GetType().Name}";
+        }
+
     }
 
 }

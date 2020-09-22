@@ -9,7 +9,7 @@
 		@await Html.DropdownAsync(
 			@<text>
 				<div class="flex flex-row items-center px-4 py-2 rounded-md bg-blue-800 text-white shadow-lg focus:outline-none focus:text-white focus:bg-gray-700 hover:bg-blue-600 transition duration-150 ease-in-out">
-					<span class="mr-8">Add Permission</span>
+					<span class="mr-8 w-32 text-left">Add Permission</span>
 					<span class="flex-auto"></span>
 					<svg class="h-4 w-4">
 						<use xlink:href="#cheveron-down"></use>
@@ -24,7 +24,8 @@
 					<span>Create resource Permission</span>
 				</a>
 			</text>,
-			null
+			null,
+			true
 		)
 	</header>
 

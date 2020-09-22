@@ -24,7 +24,85 @@ namespace TestPolicyServer.Quickstart.MVC {
         public PolicyController(IPolicyStore policyStore) => _policyStore = policyStore;
 
         public async Task<IActionResult> Index(ListViewModel viewModel) => View("Index", await BuildViewModelAsync(viewModel));
-         
+
+        #region RolePolicy
+
+        public async Task<IActionResult> CreateRolePolicyAsync() {
+            RolePolicy item = new RolePolicy();
+
+            ViewBag.Logics = await GetLogicsAsSelectListAsync(item.Logic);
+            //ViewBag.DecisionStrategies = await GetDecisionStrategyAsSelectListAsync(item.DecisionStrategy);
+
+            return View(item);
+        }
+
+        [HttpPost, ActionName("CreateRolePolicy")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateRolePolicyPostAsync([Bind("Id,Name,Description,Logic,Roles")] RolePolicy item) {
+            //if (id != movie.ID) {
+            //    return NotFound();
+            //}
+
+            if (ModelState.IsValid) {
+                try {
+                    Guid guid = await _policyStore.CreateAsync(item);
+                } catch (DbUpdateConcurrencyException) {
+                    //if (!(await ScopeExistsAsync(guid))) {
+                    //    return NotFound();
+                    //} else {
+                    throw;
+                    //}
+                }
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Logics = await GetLogicsAsSelectListAsync(item.Logic);
+            //ViewBag.RolePolicys = await GetRolePolicysAsSelectListAsync(item.RolePolicy);
+            //ViewBag.DecisionStrategies = await GetDecisionStrategyAsSelectListAsync(item.DecisionStrategy);
+
+            return View(item);
+        }
+
+        public async Task<IActionResult> EditRolePolicyAsync(Guid id) {
+            if (id == null) { return NotFound(); }
+            if (!(await _policyStore.GetAsync(id) is RolePolicy item)) { return NotFound(); }
+
+            ViewBag.Logics = await GetLogicsAsSelectListAsync(item.Logic);
+            //ViewBag.RolePolicys = await GetRolePolicysAsSelectListAsync(item.RolePolicy);
+            //ViewBag.DecisionStrategies = await GetDecisionStrategyAsSelectListAsync(item.DecisionStrategy);
+
+            return View(item);
+        }
+
+        [HttpPost, ActionName("EditRolePolicy")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditRolePolicyPostAsync(Guid id, [Bind("Id,Name,Description,Logic,Roles")] RolePolicy item) {
+            if (id != item.Id) { return NotFound(); }
+
+            //item.RolePolicy = item?.RolePolicy?.Id != null ? await _resourceStore.GetAsync(item.RolePolicy.Id) : null;
+
+            if (ModelState.IsValid) {
+                try {
+                    await _policyStore.UpdateAsync(id, item);
+                } catch (DbUpdateConcurrencyException) {
+                    if (!(await PolicyExistsAsync(id))) {
+                        return NotFound();
+                    } else {
+                        throw;
+                    }
+                }
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Logics = await GetLogicsAsSelectListAsync(item.Logic);
+            //ViewBag.RolePolicys = await GetRolePolicysAsSelectListAsync(item.RolePolicy);
+            //ViewBag.DecisionStrategies = await GetDecisionStrategyAsSelectListAsync(item.DecisionStrategy);
+
+            return View(item);
+        }
+
+        #endregion
+
         #region TimePolicy
 
         public async Task<IActionResult> CreateTimePolicyAsync() {

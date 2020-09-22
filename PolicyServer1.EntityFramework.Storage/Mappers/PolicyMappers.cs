@@ -2,6 +2,7 @@
 
 using AutoMapper;
 using PolicyServer1.EntityFramework.Storage.Entities;
+using PolicyServer1.EntityFramework.Storage.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,17 +35,41 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
             Entities.Policy entityUpdate = model.ToEntity();
             if (entity.Id != entityUpdate.Id) { throw new ArgumentOutOfRangeException(nameof(Entities.Policy.Id)); }
 
-            if (entity.Name != entityUpdate.Name) { entity.Name = entityUpdate.Name; }
-            if (entity.Description != entityUpdate.Description) { entity.Description = entityUpdate.Description; }
-            if (entity.Logic != entityUpdate.Logic) { entity.Logic = entityUpdate.Logic; }
+            ObjectExtensions.UpdateIfDifferent(entity.Name, entityUpdate.Name, p => entity.Name = p);
+            ObjectExtensions.UpdateIfDifferent(entity.Description, entityUpdate.Description, p => entity.Description = p);
+            ObjectExtensions.UpdateIfDifferent(entity.Logic, entityUpdate.Logic, p => entity.Logic = p);
+
+            //if (entity.Name != entityUpdate.Name) { entity.Name = entityUpdate.Name; }
+            //if (entity.Description != entityUpdate.Description) { entity.Description = entityUpdate.Description; }
+            //if (entity.Logic != entityUpdate.Logic) { entity.Logic = entityUpdate.Logic; }
 
             if (entity is RolePolicy rolePolicy) {
- 
+                foreach (Entities.MmRolePolicyRole role in rolePolicy.Roles.Where(p => !(entityUpdate as Entities.RolePolicy).Roles.Any(a => a.RoleId == p.RoleId && a.RolePolicyId == p.RolePolicyId)).ToList()) {
+                    rolePolicy.Roles.Remove(role);
+                }
+                foreach (Entities.MmRolePolicyRole role in (entityUpdate as Entities.RolePolicy).Roles.Where(p => !rolePolicy.Roles.Any(a => a.RoleId == p.RoleId && a.RolePolicyId == p.RolePolicyId)).ToList()) {
+                    rolePolicy.Roles.Add(role);
+                }
             } else if (entity is TimePolicy timePolicy) {
-                timePolicy.NotBefore = (entityUpdate as TimePolicy).NotBefore;
-                timePolicy.NotOnOrAfter = (entityUpdate as TimePolicy).NotOnOrAfter;
+                if (timePolicy.NotBefore != (entityUpdate as TimePolicy).NotBefore) { timePolicy.NotBefore = (entityUpdate as TimePolicy).NotBefore; }
+                if (timePolicy.NotOnOrAfter != (entityUpdate as TimePolicy).NotOnOrAfter) { timePolicy.NotOnOrAfter = (entityUpdate as TimePolicy).NotOnOrAfter; }
+
+                UpdateTimePolicyRange(timePolicy.DayOfMonth, (entityUpdate as TimePolicy).DayOfMonth, p => timePolicy.DayOfMonth = p);
+                UpdateTimePolicyRange(timePolicy.Month, (entityUpdate as TimePolicy).Month, p => timePolicy.Month = p);
             }
 
+        }
+
+        private static void UpdateTimePolicyRange(Entities.TimePolicyRange src, Entities.TimePolicyRange target, Action<Entities.TimePolicyRange> updateAction) {
+
+            //TODO(demarco): i've got an issue because i don't manage the id...
+            // now the question is: do i got get the correct value from the db or do i manage the id (or i find a better solution that this crap)
+            if (src?.Id == null || target?.Id == null) {
+                updateAction(target);
+            } else {
+                if (src.From != target.From) { src.From = target.From; src.Updated = DateTime.UtcNow; }
+                if (src.To != target.To) { src.To = target.To; src.Updated = DateTime.UtcNow; }
+            }
         }
 
         internal class Policy {

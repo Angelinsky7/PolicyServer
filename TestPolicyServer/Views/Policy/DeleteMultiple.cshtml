@@ -1,4 +1,4 @@
-﻿@model PolicyServer1.Models.Permission[]
+﻿@model PolicyServer1.Models.Policy[]
 
 @{
 	ViewData["Title"] = "DeleteMultiple";
@@ -8,18 +8,18 @@
 <h2 class="text-2xl font-bold">Delete</h2>
 
 
-<h3>Are you sure you want to delete all those permissions ?</h3>
+<h3>Are you sure you want to delete all those policies ?</h3>
 <div class="mt-2">
 	@if (String.IsNullOrEmpty(ViewData["Layout"] as String)) {
-		<h4 class="font-semibold">Permissions</h4>
+		<h4 class="font-semibold">Policies</h4>
 		<hr />
-		@foreach (PolicyServer1.Models.Permission permission in Model) {
+		@foreach (PolicyServer1.Models.Policy policy in Model) {
 			<dl class="mt-2 flex flex-wrap">
 				<dt class="font-semibold" style="flex: 0 120px;">
-					@Html.DisplayNameFor(model => permission.Name)
+					@Html.DisplayNameFor(model => policy.Name)
 				</dt>
 				<dd style="flex: 0 calc(100% - 120px);">
-					@Html.DisplayFor(model => permission.Name)
+					@Html.DisplayFor(model => policy.Name)
 				</dd>
 			</dl>
 		}
@@ -29,8 +29,8 @@
 
 	<view-layout-modal class="mt-4 mr-4 justify-end" layout="@ViewData["Layout"]">
 		<form asp-action="DeleteMultiple" id="modalButton">
-			@foreach (PolicyServer1.Models.Permission permission in Model) {
-				<input type="hidden" id="guid" name="guid" value="@permission.Id" />
+			@foreach (PolicyServer1.Models.Policy policy in Model) {
+				<input type="hidden" id="guid" name="guid" value="@policy.Id" />
 			}
 			<a asp-action="Index" class="px-4 py-2 hover:text-white text-sm rounded-lg hover:bg-gray-800">Back to List</a>
 			<input type="submit" value="DeleteMultiple" class="ml-2 bg-red-500 rounded-lg text-white px-4 py-2 cursor-pointer hover:bg-red-600" />

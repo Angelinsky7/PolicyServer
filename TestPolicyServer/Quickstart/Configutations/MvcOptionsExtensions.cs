@@ -12,6 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection {
             options.ModelBinderProviders.Insert(0, new ResourceModelBinderProvider());
             options.ModelBinderProviders.Insert(0, new PolicyModelBinderProvider());
             options.ModelBinderProviders.Insert(0, new ScopeModelBinderProvider());
+            options.ModelBinderProviders.Insert(0, new RoleModelBinderProvider());
         }
 
     }

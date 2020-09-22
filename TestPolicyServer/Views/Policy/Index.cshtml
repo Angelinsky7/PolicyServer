@@ -9,7 +9,7 @@
 		@await Html.DropdownAsync(
 			@<text>
 				<div class="flex flex-row items-center px-4 py-2 rounded-md bg-blue-800 text-white shadow-lg focus:outline-none focus:text-white focus:bg-gray-700 hover:bg-blue-600 transition duration-150 ease-in-out">
-					<span class="mr-8">Add Policy</span>
+					<span class="mr-8 w-32 text-left">Add Policy</span>
 					<span class="flex-auto"></span>
 					<svg class="h-4 w-4">
 						<use xlink:href="#cheveron-down"></use>
@@ -17,14 +17,27 @@
 				</div>
 			</text>,
 			@<text>
+				<a asp-action="CreateRolePolicy" class="dropdown-menu-item" role="menuitem">
+					<span>Create a role policy</span>
+				</a>
 				<a asp-action="CreateTimePolicy" class="dropdown-menu-item" role="menuitem">
 					<span>Create a time policy</span>
 				</a>
-				<a asp-action="Create" class="dropdown-menu-item" role="menuitem">
-					<span>Create a policy</span>
+				<a asp-action="CreateClientPolicy" class="dropdown-menu-item" role="menuitem">
+					<span>Create a client policy</span>
+				</a>
+				<a asp-action="CreateUserPolicy" class="dropdown-menu-item" role="menuitem">
+					<span>Create a user policy</span>
+				</a>
+				<a asp-action="CreateGroupPolicy" class="dropdown-menu-item" role="menuitem">
+					<span>Create a group policy</span>
+				</a>
+				<a asp-action="CreateAggregatePolicy" class="dropdown-menu-item" role="menuitem">
+					<span>Create an aggregate policy</span>
 				</a>
 			</text>,
-			null
+			null,
+			true
 		)
 	</header>
 
@@ -104,7 +117,7 @@
 									</svg>
 								</text>,
 								@<text>
-									<a asp-action="@(policy is PolicyServer1.Models.TimePolicy ? "EditTimePolicy" : "???")" asp-route-id="@policy.Id"
+									<a asp-action="@(Model.GetMenuNameFromPolicy(policy))" asp-route-id="@policy.Id"
 										class="dropdown-menu-item w-48" role="menuitem">
 										<span>Edit</span>
 										<span class="flex-auto"></span>

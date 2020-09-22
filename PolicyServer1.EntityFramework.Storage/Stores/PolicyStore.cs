@@ -17,7 +17,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
         private readonly ILogger _logger;
 
         public PolicyStore(
-            IPolicyDbContext context, 
+            IPolicyDbContext context,
             ILogger<PolicyStore> logger
         ) {
             _context = context ?? throw new ArgumentNullException(nameof(context));
@@ -80,6 +80,7 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
 
             try {
                 await _context.SaveChangesAsync();
+                await RemoveAllOrpanedTimeRangeAsync();
             } catch (DbUpdateConcurrencyException ex) {
                 _logger.LogInformation($"exception removing {entity} to database: {ex.Message}");
             }
@@ -94,21 +95,47 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
                 //throw new EntityNotFoundException(nameof(Trail), id);
             }
 
-            //_context.MarkEntitesAsUnchanged<Entities.Scope>();
+            _context.MarkEntitesAsUnchanged<Entities.Role>();
 
             item.UpdateEntity(entity);
             entity.Updated = DateTime.UtcNow;
 
-            //await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.Scope>();
+            await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.Role>();
 
             try {
                 await _context.SaveChangesAsync();
+                await RemoveAllOrpanedTimeRangeAsync();
             } catch (DbUpdateConcurrencyException ex) {
                 _logger.LogInformation($"exception updating {item} to database: {ex.Message}");
             }
         }
 
-        private IQueryable<Entities.Policy> GetPolicies() => _context.Policies;
+        private async Task RemoveAllOrpanedTimeRangeAsync() {
+            try {
+                foreach (var item in _context.Set<Entities.TimePolicyRange>().ToList()) {
+                    try {
+                        _context.Set<Entities.TimePolicyRange>().Remove(item);
+                        await _context.SaveChangesAsync();
+                    } catch { }
+                }
+            } catch (DbUpdateConcurrencyException ex) {
+                _logger.LogInformation($"exception when removing all time range orphan from database: {ex.Message}");
+            }
+        }
+
+        private IQueryable<Entities.Policy> GetPolicies() => _context.Policies
+            .Include(p => (p as Entities.RolePolicy).Roles)
+                .ThenInclude(p => p.Role)
+            .Include(p => (p as Entities.TimePolicy).DayOfMonth)
+            .Include(p => (p as Entities.TimePolicy).Month)
+            .Include(p => (p as Entities.TimePolicy).Year)
+            .Include(p => (p as Entities.TimePolicy).Hour)
+            .Include(p => (p as Entities.TimePolicy).Minute)
+            .Include(p => (p as Entities.ClientPolicy).Clients)
+            .Include(p => (p as Entities.UserPolicy).Users)
+            .Include(p => (p as Entities.GroupPolicy).Groups)
+            .Include(p => (p as Entities.AggregatedPolicy).Policies)
+                .ThenInclude(p => p.Policy);
 
         //public async Task<Models.Policy> GetAsync(Int32 policyId) {
         //    Entities.Policy policy = await _context.Policies

@@ -124,7 +124,14 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
                 //throw new EntityNotFoundException(nameof(Trail), id);
             }
 
+            _context.MarkEntitesAsUnchanged<Entities.TimePolicyRange>();
+            _context.MarkEntitesAsUnchanged<Entities.RolePolicy>();
+            _context.MarkEntitesAsUnchanged<Entities.MmRolePolicyRole>();
+            _context.MarkEntitesAsUnchanged<Entities.TimePolicy>();
             _context.MarkEntitesAsUnchanged<Entities.Policy>();
+            _context.MarkEntitesAsUnchanged<Entities.AggregatedPolicy>();
+            _context.MarkEntitesAsUnchanged<Entities.MmAggregatedPolicyPolicy>();
+            _context.MarkEntitesAsUnchanged<Entities.Role>();
             _context.MarkEntitesAsUnchanged<Entities.Resource>();
             _context.MarkEntitesAsUnchanged<Entities.Scope>();
             _context.MarkEntitesAsUnchanged<Entities.MmResourceScope>();
@@ -132,7 +139,16 @@ namespace PolicyServer1.EntityFramework.Storage.Stores {
             item.UpdateEntity(entity);
             entity.Updated = DateTime.UtcNow;
 
+            await _context.MarkEntitesAsDetachedWithHackAsync<Entities.TimePolicyRange>();
+            await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.RolePolicy>();
+            await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.MmRolePolicyRole>();
+            //TODO(demarco): i've got an issue because i don't manage the id...
+            await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.TimePolicy>();
+
+            await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.AggregatedPolicy>();
+            await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.MmAggregatedPolicyPolicy>();
             await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.Policy>();
+            await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.Role>();
             await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.Resource>();
             await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.Scope>();
             await _context.MarkEntitesAsUnchangedWithHackAsync<Entities.MmResourceScope>();
