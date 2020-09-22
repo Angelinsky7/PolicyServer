@@ -43,7 +43,6 @@ namespace TestPolicyServer.Quickstart.MVC {
 
             return View(item);
         }
-
         public async Task<IActionResult> CreateScope() {
             ScopePermission item = new ScopePermission();
 

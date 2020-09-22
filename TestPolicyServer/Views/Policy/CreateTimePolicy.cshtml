@@ -1,0 +1,31 @@
+﻿@model PolicyServer1.Models.TimePolicy
+
+@{
+	ViewData["Title"] = "Edit";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<vc:flash-message-error />
+<h2 class="text-xl font-semibold text-gray-800">Add a Time policy</h2>
+
+<hr />
+<div>
+	<div class="m-5">
+		<form asp-action="CreateTimePolicy">
+			<div asp-validation-summary="ModelOnly" class="mt-2 text-sm text-red-800"></div>
+			<input type="hidden" asp-for="Id" />
+
+			<div class="mb-5">
+				<partial name="_FormTimePolicy" />
+			</div>
+			<div class="flex justify-end">
+				<a asp-action="Index" class="px-4 py-2 hover:text-white text-sm rounded-lg hover:bg-gray-800">Back to List</a>
+				<input type="submit" value="Save" class="ml-2 px-4 py-2 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-800" />
+			</div>
+		</form>
+	</div> 
+</div>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

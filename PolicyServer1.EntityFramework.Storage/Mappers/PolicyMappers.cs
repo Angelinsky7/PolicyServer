@@ -31,6 +31,19 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
         public static Models.Policy ToModel(this Entities.Policy entity) => Policy.ToModel(entity);
         public static Entities.Policy ToEntity(this Models.Policy model) => Policy.ToEntity(model);
         public static void UpdateEntity(this Models.Policy model, Entities.Policy entity) {
+            Entities.Policy entityUpdate = model.ToEntity();
+            if (entity.Id != entityUpdate.Id) { throw new ArgumentOutOfRangeException(nameof(Entities.Policy.Id)); }
+
+            if (entity.Name != entityUpdate.Name) { entity.Name = entityUpdate.Name; }
+            if (entity.Description != entityUpdate.Description) { entity.Description = entityUpdate.Description; }
+            if (entity.Logic != entityUpdate.Logic) { entity.Logic = entityUpdate.Logic; }
+
+            if (entity is RolePolicy rolePolicy) {
+ 
+            } else if (entity is TimePolicy timePolicy) {
+                timePolicy.NotBefore = (entityUpdate as TimePolicy).NotBefore;
+                timePolicy.NotOnOrAfter = (entityUpdate as TimePolicy).NotOnOrAfter;
+            }
 
         }
 

@@ -152,7 +152,7 @@ namespace TestPolicyServer {
                 app.UseBrowserLink();
             }
 
-            app.UsePathBase("/policy");
+            app.UsePathBase("/policy-server");
 
             //app.Use((context, next) => {
             //    Console.WriteLine("Headers: " + String.Join(", ", context.Request.Headers));
