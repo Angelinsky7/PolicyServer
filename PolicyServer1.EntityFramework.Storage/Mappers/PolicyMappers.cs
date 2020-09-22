@@ -80,11 +80,53 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
                 Policies = (entity as AggregatedPolicy).Policies.AsQueryable().Select(MmAggregatedPolicyPolicy.Projection).ToList()
             } : null;
             internal static Expression<Func<Models.Policy, Entities.Policy>> Transform => model => (model as Models.RolePolicy) != null ? new Entities.RolePolicy {
+                Id = model.Id,
+                Name = model.Name,
+                Description = model.Description,
+                Logic = model.Logic,
+                Roles = (model as Models.RolePolicy).Roles.AsQueryable().Select(MmRolePolicyRole.Transform).ToList()
             } : (model as Models.TimePolicy) != null ? (Entities.Policy)new Entities.TimePolicy {
+                Id = model.Id,
+                Name = model.Name,
+                Description = model.Description,
+                Logic = model.Logic,
+                NotBefore = (model as Models.TimePolicy).NotBefore,
+                NotOnOrAfter = (model as Models.TimePolicy).NotOnOrAfter,
+                DayOfMonth = (model as Models.TimePolicy).DayOfMonth != null ? TimePolicyRange.ToEntity((model as Models.TimePolicy).DayOfMonth) : null,
+                Month = (model as Models.TimePolicy).Month != null ? TimePolicyRange.ToEntity((model as Models.TimePolicy).Month) : null,
+                Year = (model as Models.TimePolicy).Year != null ? TimePolicyRange.ToEntity((model as Models.TimePolicy).Year) : null,
+                Hour = (model as Models.TimePolicy).Hour != null ? TimePolicyRange.ToEntity((model as Models.TimePolicy).Hour) : null,
+                Minute = (model as Models.TimePolicy).Minute != null ? TimePolicyRange.ToEntity((model as Models.TimePolicy).Minute) : null
             } : (model as Models.ClientPolicy) != null ? (Entities.Policy)new Entities.ClientPolicy {
+                Id = model.Id,
+                Name = model.Name,
+                Description = model.Description,
+                Logic = model.Logic,
+                Clients = (model as Models.ClientPolicy).Clients.Select(p => new ClientPolicyClient {
+                    Client = p
+                }).ToList()
             } : (model as Models.UserPolicy) != null ? (Entities.Policy)new Entities.UserPolicy {
+                Id = model.Id,
+                Name = model.Name,
+                Description = model.Description,
+                Logic = model.Logic,
+                Users = (model as Models.UserPolicy).Users.Select(p => new UserPolicyUser {
+                    User = p
+                }).ToList()
             } : (model as Models.GroupPolicy) != null ? (Entities.Policy)new Entities.GroupPolicy {
+                Id = model.Id,
+                Name = model.Name,
+                Description = model.Description,
+                Logic = model.Logic,
+                Groups = (model as Models.GroupPolicy).Groups.Select(p => new GroupPolicyGroup {
+                    Group = p
+                }).ToList()
             } : (model as Models.AggregatedPolicy) != null ? (Entities.Policy)new Entities.AggregatedPolicy {
+                Id = model.Id,
+                Name = model.Name,
+                Description = model.Description,
+                Logic = model.Logic,
+                Policies = (model as Models.AggregatedPolicy).Policies.AsQueryable().Select(MmAggregatedPolicyPolicy.Transform).ToList()
             } : null;
             internal static Entities.Policy ToEntity(Models.Policy entity) => Transform.Compile().Invoke(entity);
             internal static Models.Policy ToModel(Entities.Policy entity) => Projection.Compile().Invoke(entity);
@@ -92,36 +134,19 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
         internal class MmRolePolicyRole {
             internal static Expression<Func<Entities.MmRolePolicyRole, Models.Role>> Projection => entity => RoleMappers.Role.ToModel(entity.Role);
+            internal static Expression<Func<Models.Role, Entities.MmRolePolicyRole>> Transform => model => new Entities.MmRolePolicyRole {
+                RoleId = model.Id,
+                Role = RoleMappers.Role.ToEntity(model)
+            };
         }
 
         internal class MmAggregatedPolicyPolicy {
             internal static Expression<Func<Entities.MmAggregatedPolicyPolicy, Models.Policy>> Projection => entity => PolicyMappers.Policy.ToModel(entity.Policy);
+            internal static Expression<Func<Models.Policy, Entities.MmAggregatedPolicyPolicy>> Transform => model => new Entities.MmAggregatedPolicyPolicy {
+                PolicyId = model.Id,
+                Policy = PolicyMappers.Policy.ToEntity(model)
+            };
         }
-
-        //internal class TimePolicy {
-        //    internal static Expression<Func<Models.TimePolicy, Entities.TimePolicy>> Transform => entity => new Entities.TimePolicy {
-        //        Id = entity.Id,
-        //        NotBefore = entity.NotBefore,
-        //        NotOnOrAfter = entity.NotOnOrAfter,
-        //        DayOfMonth = TimePolicyRange.ToEntity(entity.DayOfMonth),
-        //        Month = TimePolicyRange.ToEntity(entity.Month),
-        //        Year = TimePolicyRange.ToEntity(entity.Year),
-        //        Hour = TimePolicyRange.ToEntity(entity.Hour),
-        //        Minute = TimePolicyRange.ToEntity(entity.Minute)
-        //    };
-        //    internal static Expression<Func<Entities.TimePolicy, Models.TimePolicy>> Projection => entity => new Models.TimePolicy {
-        //        Id = entity.Id,
-        //        NotBefore = entity.NotBefore,
-        //        NotOnOrAfter = entity.NotOnOrAfter,
-        //        DayOfMonth = TimePolicyRange.ToModel(entity.DayOfMonth),
-        //        Month = TimePolicyRange.ToModel(entity.Month),
-        //        Year = TimePolicyRange.ToModel(entity.Year),
-        //        Hour = TimePolicyRange.ToModel(entity.Hour),
-        //        Minute = TimePolicyRange.ToModel(entity.Minute)
-        //    };
-        //    internal static Entities.TimePolicy ToEntity(Models.TimePolicy entity) => Transform.Compile().Invoke(entity);
-        //    internal static Models.TimePolicy ToModel(Entities.TimePolicy entity) => Projection.Compile().Invoke(entity);
-        //}
 
         internal class TimePolicyRange {
             internal static Expression<Func<Models.TimePolicyRange, Entities.TimePolicyRange>> Transform => entity => new Entities.TimePolicyRange {
@@ -138,210 +163,209 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
 
     }
 
-    public class PolicyMapperProfile : Profile {
-        public PolicyMapperProfile() {
+    //public class PolicyMapperProfile : Profile {
+    //    public PolicyMapperProfile() {
 
-            #region Policy
+    //        #region Policy
 
-            CreateMap<Models.Policy, Entities.Policy>()
-                .Include<Models.RolePolicy, Entities.RolePolicy>()
-                .Include<Models.TimePolicy, Entities.TimePolicy>()
-                .Include<Models.ClientPolicy, Entities.ClientPolicy>()
-                .Include<Models.UserPolicy, Entities.UserPolicy>()
-                .Include<Models.GroupPolicy, Entities.GroupPolicy>()
-                .Include<Models.AggregatedPolicy, Entities.AggregatedPolicy>()
+    //        CreateMap<Models.Policy, Entities.Policy>()
+    //            .Include<Models.RolePolicy, Entities.RolePolicy>()
+    //            .Include<Models.TimePolicy, Entities.TimePolicy>()
+    //            .Include<Models.ClientPolicy, Entities.ClientPolicy>()
+    //            .Include<Models.UserPolicy, Entities.UserPolicy>()
+    //            .Include<Models.GroupPolicy, Entities.GroupPolicy>()
+    //            .Include<Models.AggregatedPolicy, Entities.AggregatedPolicy>()
 
-                .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(p => p.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(p => p.Logic, opt => opt.MapFrom(src => src.Logic))
-                .PreserveReferences();
+    //            .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id))
+    //            .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Name))
+    //            .ForMember(p => p.Description, opt => opt.MapFrom(src => src.Description))
+    //            .ForMember(p => p.Logic, opt => opt.MapFrom(src => src.Logic))
+    //            .PreserveReferences();
 
-            CreateMap<Entities.Policy, Models.Policy>()
-                .Include<Entities.RolePolicy, Models.RolePolicy>()
-                .Include<Entities.TimePolicy, Models.TimePolicy>()
-                .Include<Entities.ClientPolicy, Models.ClientPolicy>()
-                .Include<Entities.UserPolicy, Models.UserPolicy>()
-                .Include<Entities.GroupPolicy, Models.GroupPolicy>()
-                .Include<Entities.AggregatedPolicy, Models.AggregatedPolicy>()
+    //        CreateMap<Entities.Policy, Models.Policy>()
+    //            .Include<Entities.RolePolicy, Models.RolePolicy>()
+    //            .Include<Entities.TimePolicy, Models.TimePolicy>()
+    //            .Include<Entities.ClientPolicy, Models.ClientPolicy>()
+    //            .Include<Entities.UserPolicy, Models.UserPolicy>()
+    //            .Include<Entities.GroupPolicy, Models.GroupPolicy>()
+    //            .Include<Entities.AggregatedPolicy, Models.AggregatedPolicy>()
 
-                .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(p => p.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(p => p.Logic, opt => opt.MapFrom(src => src.Logic))
-                .PreserveReferences();
+    //            .ForMember(p => p.Id, opt => opt.MapFrom(src => src.Id))
+    //            .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Name))
+    //            .ForMember(p => p.Description, opt => opt.MapFrom(src => src.Description))
+    //            .ForMember(p => p.Logic, opt => opt.MapFrom(src => src.Logic))
+    //            .PreserveReferences();
 
-            #endregion
+    //        #endregion
 
-            #region RolePolicy
+    //        #region RolePolicy
 
-            CreateMap<Models.RolePolicy, Entities.RolePolicy>()
-                .ForMember(p => p.Roles, opt => opt.MapFrom(src => src.Roles))
-                .AfterMap((model, entity) => {
-                    foreach (Entities.MmRolePolicyRole item in entity.Roles) { item.RolePolicy = entity; item.RolePolicyId = entity.Id; }
-                })
-                .PreserveReferences();
+    //        CreateMap<Models.RolePolicy, Entities.RolePolicy>()
+    //            .ForMember(p => p.Roles, opt => opt.MapFrom(src => src.Roles))
+    //            .AfterMap((model, entity) => {
+    //                foreach (Entities.MmRolePolicyRole item in entity.Roles) { item.RolePolicy = entity; item.RolePolicyId = entity.Id; }
+    //            })
+    //            .PreserveReferences();
 
-            CreateMap<Entities.RolePolicy, Models.RolePolicy>()
-                .ForMember(p => p.Roles, opt => opt.MapFrom(src => src.Roles))
-                .PreserveReferences();
+    //        CreateMap<Entities.RolePolicy, Models.RolePolicy>()
+    //            .ForMember(p => p.Roles, opt => opt.MapFrom(src => src.Roles))
+    //            .PreserveReferences();
 
-            #endregion
+    //        #endregion
 
-            #region Role
+    //        #region Role
 
-            CreateMap<Models.Role, Entities.MmRolePolicyRole>()
-                .ForMember(p => p.RoleId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(p => p.Role, opt => opt.MapFrom(src => src));
+    //        CreateMap<Models.Role, Entities.MmRolePolicyRole>()
+    //            .ForMember(p => p.RoleId, opt => opt.MapFrom(src => src.Id))
+    //            .ForMember(p => p.Role, opt => opt.MapFrom(src => src));
 
-            CreateMap<Entities.MmRolePolicyRole, Models.Role>()
-                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Role>(p.Role));
+    //        CreateMap<Entities.MmRolePolicyRole, Models.Role>()
+    //            .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Role>(p.Role));
 
-            #endregion
+    //        #endregion
 
-            #region TimePolicy
+    //        #region TimePolicy
 
-            CreateMap<Models.TimePolicy, Entities.TimePolicy>()
-                .ForMember(p => p.NotBefore, opt => opt.MapFrom(src => src.NotBefore))
-                .ForMember(p => p.NotOnOrAfter, opt => opt.MapFrom(src => src.NotOnOrAfter))
-                .ForMember(p => p.DayOfMonth, opt => opt.MapFrom(src => src.DayOfMonth))
-                .ForMember(p => p.Month, opt => opt.MapFrom(src => src.Month))
-                .ForMember(p => p.Year, opt => opt.MapFrom(src => src.Year))
-                .ForMember(p => p.Hour, opt => opt.MapFrom(src => src.Hour))
-                .ForMember(p => p.Minute, opt => opt.MapFrom(src => src.Minute))
-                .PreserveReferences();
+    //        CreateMap<Models.TimePolicy, Entities.TimePolicy>()
+    //            .ForMember(p => p.NotBefore, opt => opt.MapFrom(src => src.NotBefore))
+    //            .ForMember(p => p.NotOnOrAfter, opt => opt.MapFrom(src => src.NotOnOrAfter))
+    //            .ForMember(p => p.DayOfMonth, opt => opt.MapFrom(src => src.DayOfMonth))
+    //            .ForMember(p => p.Month, opt => opt.MapFrom(src => src.Month))
+    //            .ForMember(p => p.Year, opt => opt.MapFrom(src => src.Year))
+    //            .ForMember(p => p.Hour, opt => opt.MapFrom(src => src.Hour))
+    //            .ForMember(p => p.Minute, opt => opt.MapFrom(src => src.Minute))
+    //            .PreserveReferences();
 
-            CreateMap<Entities.TimePolicy, Models.TimePolicy>()
-                .ForMember(p => p.NotBefore, opt => opt.MapFrom(src => src.NotBefore))
-                .ForMember(p => p.NotOnOrAfter, opt => opt.MapFrom(src => src.NotOnOrAfter))
-                .ForMember(p => p.DayOfMonth, opt => opt.MapFrom(src => src.DayOfMonth))
-                .ForMember(p => p.Month, opt => opt.MapFrom(src => src.Month))
-                .ForMember(p => p.Year, opt => opt.MapFrom(src => src.Year))
-                .ForMember(p => p.Hour, opt => opt.MapFrom(src => src.Hour))
-                .ForMember(p => p.Minute, opt => opt.MapFrom(src => src.Minute))
-                .PreserveReferences();
+    //        CreateMap<Entities.TimePolicy, Models.TimePolicy>()
+    //            .ForMember(p => p.NotBefore, opt => opt.MapFrom(src => src.NotBefore))
+    //            .ForMember(p => p.NotOnOrAfter, opt => opt.MapFrom(src => src.NotOnOrAfter))
+    //            .ForMember(p => p.DayOfMonth, opt => opt.MapFrom(src => src.DayOfMonth))
+    //            .ForMember(p => p.Month, opt => opt.MapFrom(src => src.Month))
+    //            .ForMember(p => p.Year, opt => opt.MapFrom(src => src.Year))
+    //            .ForMember(p => p.Hour, opt => opt.MapFrom(src => src.Hour))
+    //            .ForMember(p => p.Minute, opt => opt.MapFrom(src => src.Minute))
+    //            .PreserveReferences();
 
-            #endregion
+    //        #endregion
 
-            #region TimePolicyRange
+    //        #region TimePolicyRange
 
-            CreateMap<Models.TimePolicyRange, Entities.TimePolicyRange>()
-                .ForMember(p => p.From, opt => opt.MapFrom(src => src.From))
-                .ForMember(p => p.To, opt => opt.MapFrom(src => src.To))
-                .PreserveReferences();
+    //        CreateMap<Models.TimePolicyRange, Entities.TimePolicyRange>()
+    //            .ForMember(p => p.From, opt => opt.MapFrom(src => src.From))
+    //            .ForMember(p => p.To, opt => opt.MapFrom(src => src.To))
+    //            .PreserveReferences();
 
-            CreateMap<Entities.TimePolicyRange, Models.TimePolicyRange>()
-                .ConstructUsing(p => new Models.TimePolicyRange {
-                    From = p.From,
-                    To = p.To
-                })
-                .PreserveReferences();
+    //        CreateMap<Entities.TimePolicyRange, Models.TimePolicyRange>()
+    //            .ConstructUsing(p => new Models.TimePolicyRange {
+    //                From = p.From,
+    //                To = p.To
+    //            })
+    //            .PreserveReferences();
 
-            #endregion
+    //        #endregion
 
-            #region ClientPolicy
+    //        #region ClientPolicy
 
-            CreateMap<Models.ClientPolicy, Entities.ClientPolicy>()
-                .ForMember(p => p.Clients, opt => opt.MapFrom(src => src.Clients))
-                .AfterMap((model, entity) => {
-                    foreach (var item in entity.Clients) { item.ClientPolicy = entity; item.ClientPolicyId = entity.Id; }
-                })
-                .PreserveReferences();
+    //        CreateMap<Models.ClientPolicy, Entities.ClientPolicy>()
+    //            .ForMember(p => p.Clients, opt => opt.MapFrom(src => src.Clients))
+    //            .AfterMap((model, entity) => {
+    //                foreach (var item in entity.Clients) { item.ClientPolicy = entity; item.ClientPolicyId = entity.Id; }
+    //            })
+    //            .PreserveReferences();
 
-            CreateMap<Entities.ClientPolicy, Models.ClientPolicy>()
-                .ForMember(p => p.Clients, opt => opt.MapFrom(src => src.Clients));
+    //        CreateMap<Entities.ClientPolicy, Models.ClientPolicy>()
+    //            .ForMember(p => p.Clients, opt => opt.MapFrom(src => src.Clients));
 
-            #endregion
+    //        #endregion
 
-            #region ClientPolicyClient
+    //        #region ClientPolicyClient
 
-            CreateMap<String, Entities.ClientPolicyClient>()
-                .ForMember(p => p.Client, opt => opt.MapFrom(src => src))
-                .PreserveReferences();
+    //        CreateMap<String, Entities.ClientPolicyClient>()
+    //            .ForMember(p => p.Client, opt => opt.MapFrom(src => src))
+    //            .PreserveReferences();
 
-            CreateMap<Entities.ClientPolicyClient, String>()
-                .ConstructUsing(p => p.Client);
+    //        CreateMap<Entities.ClientPolicyClient, String>()
+    //            .ConstructUsing(p => p.Client);
 
-            #endregion
+    //        #endregion
 
-            #region UserPolicy
+    //        #region UserPolicy
 
-            CreateMap<Models.UserPolicy, Entities.UserPolicy>()
-                .ForMember(p => p.Users, opt => opt.MapFrom(src => src.Users))
-                .AfterMap((model, entity) => {
-                    foreach (var item in entity.Users) { item.UserPolicy = entity; item.UserPolicyId = entity.Id; }
-                })
-                .PreserveReferences();
+    //        CreateMap<Models.UserPolicy, Entities.UserPolicy>()
+    //            .ForMember(p => p.Users, opt => opt.MapFrom(src => src.Users))
+    //            .AfterMap((model, entity) => {
+    //                foreach (var item in entity.Users) { item.UserPolicy = entity; item.UserPolicyId = entity.Id; }
+    //            })
+    //            .PreserveReferences();
 
-            CreateMap<Entities.UserPolicy, Models.UserPolicy>()
-                .ForMember(p => p.Users, opt => opt.MapFrom(src => src.Users));
+    //        CreateMap<Entities.UserPolicy, Models.UserPolicy>()
+    //            .ForMember(p => p.Users, opt => opt.MapFrom(src => src.Users));
 
-            #endregion
+    //        #endregion
 
-            #region UserPolicyUser
+    //        #region UserPolicyUser
 
-            CreateMap<String, Entities.UserPolicyUser>()
-                .ForMember(p => p.User, opt => opt.MapFrom(src => src))
-                .PreserveReferences();
+    //        CreateMap<String, Entities.UserPolicyUser>()
+    //            .ForMember(p => p.User, opt => opt.MapFrom(src => src))
+    //            .PreserveReferences();
 
-            CreateMap<Entities.UserPolicyUser, String>()
-                .ConstructUsing(p => p.User);
+    //        CreateMap<Entities.UserPolicyUser, String>()
+    //            .ConstructUsing(p => p.User);
 
-            #endregion
+    //        #endregion
 
-            #region GroupPolicy
+    //        #region GroupPolicy
 
-            CreateMap<Models.GroupPolicy, Entities.GroupPolicy>()
-                .ForMember(p => p.Groups, opt => opt.MapFrom(src => src.Groups))
-                .AfterMap((model, entity) => {
-                    foreach (var item in entity.Groups) { item.GroupPolicy = entity; item.GroupPolicyId = entity.Id; }
-                })
-                .PreserveReferences();
+    //        CreateMap<Models.GroupPolicy, Entities.GroupPolicy>()
+    //            .ForMember(p => p.Groups, opt => opt.MapFrom(src => src.Groups))
+    //            .AfterMap((model, entity) => {
+    //                foreach (var item in entity.Groups) { item.GroupPolicy = entity; item.GroupPolicyId = entity.Id; }
+    //            })
+    //            .PreserveReferences();
 
-            CreateMap<Entities.GroupPolicy, Models.GroupPolicy>()
-                .ForMember(p => p.Groups, opt => opt.MapFrom(src => src.Groups));
+    //        CreateMap<Entities.GroupPolicy, Models.GroupPolicy>()
+    //            .ForMember(p => p.Groups, opt => opt.MapFrom(src => src.Groups));
 
-            #endregion
+    //        #endregion
 
-            #region GroupPolicyGroup
+    //        #region GroupPolicyGroup
 
-            CreateMap<String, Entities.GroupPolicyGroup>()
-                .ForMember(p => p.Group, opt => opt.MapFrom(src => src))
-                .PreserveReferences();
+    //        CreateMap<String, Entities.GroupPolicyGroup>()
+    //            .ForMember(p => p.Group, opt => opt.MapFrom(src => src))
+    //            .PreserveReferences();
 
-            CreateMap<Entities.GroupPolicyGroup, String>()
-                .ConstructUsing(p => p.Group);
+    //        CreateMap<Entities.GroupPolicyGroup, String>()
+    //            .ConstructUsing(p => p.Group);
 
-            #endregion
+    //        #endregion
 
-            #region AggregatedPolicy
+    //        #region AggregatedPolicy
 
-            CreateMap<Models.AggregatedPolicy, Entities.AggregatedPolicy>()
-                .ForMember(p => p.DecisionStrategy, opt => opt.MapFrom(src => src.DecisionStrategy))
-                .ForMember(p => p.Policies, opt => opt.MapFrom(src => src.Policies))
-                .AfterMap((model, entity) => {
-                    foreach (var item in entity.Policies) { item.AggregatedPolicy = entity; item.AggregatedPolicyId = entity.Id; }
-                })
-                .PreserveReferences();
+    //        CreateMap<Models.AggregatedPolicy, Entities.AggregatedPolicy>()
+    //            .ForMember(p => p.DecisionStrategy, opt => opt.MapFrom(src => src.DecisionStrategy))
+    //            .ForMember(p => p.Policies, opt => opt.MapFrom(src => src.Policies))
+    //            .AfterMap((model, entity) => {
+    //                foreach (var item in entity.Policies) { item.AggregatedPolicy = entity; item.AggregatedPolicyId = entity.Id; }
+    //            })
+    //            .PreserveReferences();
 
-            CreateMap<Entities.AggregatedPolicy, Models.AggregatedPolicy>()
-                .ForMember(p => p.DecisionStrategy, opt => opt.MapFrom(src => src.DecisionStrategy))
-                .ForMember(p => p.Policies, opt => opt.MapFrom(src => src.Policies));
+    //        CreateMap<Entities.AggregatedPolicy, Models.AggregatedPolicy>()
+    //            .ForMember(p => p.DecisionStrategy, opt => opt.MapFrom(src => src.DecisionStrategy))
+    //            .ForMember(p => p.Policies, opt => opt.MapFrom(src => src.Policies));
 
-            #endregion
+    //        #endregion
 
-            #region Policy
+    //        #region Policy
 
-            CreateMap<Models.Policy, Entities.MmAggregatedPolicyPolicy>()
-                .ForMember(p => p.PolicyId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(p => p.Policy, opt => opt.MapFrom(src => src));
+    //        CreateMap<Models.Policy, Entities.MmAggregatedPolicyPolicy>()
+    //            .ForMember(p => p.PolicyId, opt => opt.MapFrom(src => src.Id))
+    //            .ForMember(p => p.Policy, opt => opt.MapFrom(src => src));
 
-            CreateMap<Entities.MmAggregatedPolicyPolicy, Models.Policy>()
-                .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Policy>(p.Policy));
+    //        CreateMap<Entities.MmAggregatedPolicyPolicy, Models.Policy>()
+    //            .ConstructUsing((p, ctx) => ctx.Mapper.Map<Models.Policy>(p.Policy));
 
-            #endregion
+    //        #endregion
 
-        }
-    }
+    //    }
 
 }

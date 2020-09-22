@@ -26,7 +26,7 @@ namespace PolicyServer1.Models {
 
         [Url(ErrorMessage = "{0} must be an url")]
         public String IconUri { get; set; }
-
+         
         //public Boolean UserManageAccessEnabled { get; set; }
         //public Dictionary<String, Object> Attributes { get; set; }
 

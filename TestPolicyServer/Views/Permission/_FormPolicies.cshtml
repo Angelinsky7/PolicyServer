@@ -36,10 +36,11 @@
 		<div class="hidden">
 			<template x-for="(scope, index) in scopes" :key="index">
 				<div>
-					<input type="hidden" x-bind:id="`Policies[${index}].Id`" x-bind:name="`Policies[${index}].Id`" x-bind:value="scope.id" />
+					@*<input type="hidden" x-bind:id="`Policies[${index}].Id`" x-bind:name="`Policies[${index}].Id`" x-bind:value="scope.id" />
 					<input type="hidden" x-bind:id="`Policies[${index}].Name`" x-bind:name="`Policies[${index}].Name`" x-bind:value="scope.name" />
 					<input type="hidden" x-bind:id="`Policies[${index}].DisplayName`" x-bind:name="`Policies[${index}].DisplayName`" x-bind:value="scope.displayName" />
-					<input type="hidden" x-bind:id="`Policies[${index}].IconUri`" x-bind:name="`Policies[${index}].IconUri`" x-bind:value="scope.iconUri" />
+					<input type="hidden" x-bind:id="`Policies[${index}].IconUri`" x-bind:name="`Policies[${index}].IconUri`" x-bind:value="scope.iconUri" />*@
+					<input type="hidden" x-bind:id="`Policies[${index}]`" x-bind:name="`Policies[${index}]`" x-bind:value="scope.id" />
 				</div>
 			</template>
 		</div>

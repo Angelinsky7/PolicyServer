@@ -46,7 +46,7 @@ namespace TestPolicyServer {
             //    .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
 
             services.AddControllersWithViews(opt => {
-                opt.ModelBinderProviders.Insert(0, new ResourceModelBinderProvider());
+                opt.AddPolicyServerModelBinders();
             }).AddRazorRuntimeCompilation();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();

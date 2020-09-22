@@ -34,7 +34,7 @@ namespace PolicyServer1.EntityFramework.Storage.Mappers {
             return entity;
         }
         public static void UpdateEntity(this Models.Permission model, Entities.Permission entity) {
-            Entities.Permission entityUpdate = Permission.ToEntity(model);
+            Entities.Permission entityUpdate = model.ToEntity();
             if (entity.Id != entityUpdate.Id) { throw new ArgumentOutOfRangeException(nameof(Entities.Permission.Id)); }
             if (entity.Name != entityUpdate.Name) { entity.Name = entityUpdate.Name; }
             if (entity.Description != entityUpdate.Description) { entity.Description = entityUpdate.Description; }
